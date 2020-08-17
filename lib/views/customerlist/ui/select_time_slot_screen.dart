@@ -10,7 +10,7 @@ import 'package:shoptoken/views/home/ui/home_screen.dart';
 import 'package:shoptoken/widgets/button.dart';
 import 'package:shoptoken/widgets/text_style.dart';
 
-import 'book_ticket_result.dart';
+import 'customerList_result.dart';
 
 class SelectTimeSlotScreen extends StatefulWidget {
   SelectTimeSlotScreen({Key key, this.title}) : super(key: key);
@@ -95,7 +95,7 @@ class _SelectTimeSlotState extends State<SelectTimeSlotScreen> {
                             ),
                             Container(
                                 margin: EdgeInsets.symmetric(horizontal: 10.0),
-                                child: BookTicketResult(
+                                child: CustomerListResult(
                                   slotsList: slotsList,
                                 )),
                             Container(

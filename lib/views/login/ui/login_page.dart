@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoptoken/utils/apppreferences.dart';
 
 import 'package:shoptoken/views/category/ui/category_screen.dart';
 import 'package:shoptoken/views/login/bloc/login.dart';
@@ -152,16 +153,16 @@ class _LoginPageState extends State<LoginPage> {
     final loginButon = getBaseButton(
         text: 'Login',
         onPressed: () {
-          // _loginButtonClick();
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CategoryScreen()));
+          _loginButtonClick();
+          // Navigator.push(context,
+          // MaterialPageRoute(builder: (context) => CategoryScreen()));
 
           // Navigator.of(context).pushReplacementNamed('/categoryscreen');
         });
     final locationButon = getBaseButton(
         text: 'Location Buton',
         onPressed: () {
-          // _loginButtonClick();
+          Apppreferences().addUserLogin();
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => UserLocation()));
 
@@ -171,6 +172,7 @@ class _LoginPageState extends State<LoginPage> {
       listener: (BuildContext context, LoginState state) {
         if (state is LoginSuccess) {
           print(state.result.token);
+          Apppreferences().addUserLogin();
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => CategoryScreen()));
         }

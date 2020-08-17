@@ -31,10 +31,8 @@ class _UserLocationState extends State<UserLocation> {
   @override
   void initState() {
     super.initState();
-
+    checkGps();
     setCustomMapPin();
-    _initLastKnownLocation();
-    _initCurrentLocation();
   }
 
   @override
@@ -42,11 +40,22 @@ class _UserLocationState extends State<UserLocation> {
     super.didUpdateWidget(oldWidget);
 
     setState(() {
+      print('===========didUpdateWidget==============================');
       _lastKnownPosition = null;
       _currentPosition = null;
     });
 
     _initLastKnownLocation().then((_) => _initCurrentLocation());
+  }
+
+  Future checkGps() async {
+    var location = Location();
+    if (!await location.serviceEnabled()) {
+      location.requestService();
+    } else {
+      _initLastKnownLocation();
+      _initCurrentLocation();
+    }
   }
 
   void setCustomMapPin() async {

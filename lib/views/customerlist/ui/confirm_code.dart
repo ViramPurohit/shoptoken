@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shoptoken/views/home/ui/home_screen.dart';
 import 'package:shoptoken/widgets/text_style.dart';
 
-class BookConfirmScreen extends StatelessWidget {
+class ConfirmCodeScreen extends StatelessWidget {
   static const String routeName = '/BookConfirmScreen';
 
   @override

@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoptoken/repositories/api_client.dart';
 import 'package:shoptoken/repositories/api_repository.dart';
+import 'package:shoptoken/routes/pageroutes.dart';
+import 'package:shoptoken/utils/apppreferences.dart';
 import 'package:shoptoken/views/booktickets/bloc/bookticket.dart';
+import 'package:shoptoken/views/booktickets/ui/book_confirm.dart';
 
 import 'package:shoptoken/views/category/bloc/category_bloc.dart';
+import 'package:shoptoken/views/home/ui/home_screen.dart';
 
 import 'package:shoptoken/views/login/bloc/login.dart';
 import 'package:shoptoken/views/stores/bloc/neareststore_bloc.dart';
+import 'package:shoptoken/views/userlocation/ui/user_location.dart';
 
 import 'views/login/ui/login_page.dart';
 
@@ -17,7 +22,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  APIRepository apirepository;
+  final APIRepository apirepository;
 
   MyApp({Key key, @required this.apirepository}) : super(key: key);
 
@@ -44,15 +49,37 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: LoginPage(title: 'Customer Login'),
-          // routes: <String, WidgetBuilder>{
-          //   //app routes
-          //   '/loginscreen': (BuildContext context) => new LoginPage(),
-          //   '/categoryscreen': (BuildContext context) => new CategoryScreen(),
-          //   '/storesscreen': (BuildContext context) => new StoresScreen(),
-          //   '/bookconfirmscreen': (BuildContext context) =>
-          //       new BookConfirmScreen(),
-          // }
-        ));
+          home: FutureBuilder<bool>(
+              future: Apppreferences().isUserLogin(),
+              initialData: false,
+              builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                if (snapshot.hasData) {
+                  print('======= snapshot.data======== ${snapshot.data}');
+                  if (snapshot.data == true) {
+                    return HomeScreen();
+                  } else {
+                    return LoginPage(title: 'Customer Login');
+                  }
+                } else {
+                  return new CircularProgressIndicator();
+                }
+              }),
+          routes: {PageRoutes.home: (context) => BookConfirmScreen()},
+        )
+
+        //   Apppreferences().isUserLogin()
+        //       ? UserLocation()
+        //       : LoginPage(title: 'Customer Login'),
+        // )
+        );
+
+    // bool isLoggedIn = Apppreferences().isUserLogin();
+    // if (isLoggedIn) {
+    //   // Authenticated! Navigate to home screen.
+    //   return UserLocation();
+    // } else {
+    //   // Unauthorized! Navigate to login screen.
+    //   return LoginPage(title: 'Customer Login');
+    // }
   }
 }
