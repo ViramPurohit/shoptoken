@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:shoptoken/views/home/ui/home_screen.dart';
 import 'package:shoptoken/widgets/text_style.dart';
 
 class BookConfirmScreen extends StatelessWidget {
-  static const String routeName = '/BookConfirmScreen';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Ticket Booked'),
-        ),
-        drawer: HomeScreen(),
         body: Container(
             margin: const EdgeInsets.all(10.0),
             child: Center(

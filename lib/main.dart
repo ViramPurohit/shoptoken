@@ -14,13 +14,17 @@ import 'package:shoptoken/views/login/bloc/login.dart';
 import 'package:shoptoken/views/stores/bloc/neareststore_bloc.dart';
 import 'package:shoptoken/views/userlocation/ui/user_location.dart';
 
+import 'views/booktickets/ui/user_booking.dart';
 import 'views/login/ui/login_page.dart';
+import 'views/stores/ui/users_fav_store.dart';
+import 'views/userprofile/ui/user_profile.dart';
 
 void main() {
   final APIRepository _apirepository = APIRepository(ShopApiClient());
   runApp(MyApp(apirepository: _apirepository));
 }
 
+// https://api.flutter.dev/flutter/widgets/Navigator-class.html
 class MyApp extends StatelessWidget {
   final APIRepository apirepository;
 
@@ -64,22 +68,11 @@ class MyApp extends StatelessWidget {
                   return new CircularProgressIndicator();
                 }
               }),
-          routes: {PageRoutes.home: (context) => BookConfirmScreen()},
-        )
-
-        //   Apppreferences().isUserLogin()
-        //       ? UserLocation()
-        //       : LoginPage(title: 'Customer Login'),
-        // )
-        );
-
-    // bool isLoggedIn = Apppreferences().isUserLogin();
-    // if (isLoggedIn) {
-    //   // Authenticated! Navigate to home screen.
-    //   return UserLocation();
-    // } else {
-    //   // Unauthorized! Navigate to login screen.
-    //   return LoginPage(title: 'Customer Login');
-    // }
+          routes: {
+            PageRoutes.mybookings: (context) => UserBooking(),
+            PageRoutes.userfavstores: (context) => UserFavStores(),
+            PageRoutes.userProfile: (context) => UserProfile(),
+          },
+        ));
   }
 }

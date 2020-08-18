@@ -1,5 +1,5 @@
-import 'package:shoptoken/views/booktickets/ui/book_confirm.dart';
-
 class PageRoutes {
-  static const String home = BookConfirmScreen.routeName;
+  static const String mybookings = '/UserBooking';
+  static const String userfavstores = '/UserFavStores';
+  static const String userProfile = '/UserProfile';
 }
