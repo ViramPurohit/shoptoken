@@ -53,8 +53,8 @@ class _UserLocationState extends State<UserLocation> {
     if (!await location.serviceEnabled()) {
       location.requestService();
     } else {
-      _initLastKnownLocation();
       _initCurrentLocation();
+      _initLastKnownLocation();
     }
   }
 
@@ -85,6 +85,9 @@ class _UserLocationState extends State<UserLocation> {
 
     setState(() {
       _lastKnownPosition = position;
+      pinPosition =
+          LatLng(_lastKnownPosition.latitude, _lastKnownPosition.longitude);
+      addMarker();
       getAddressFromLalLong(
           _lastKnownPosition.latitude, _lastKnownPosition.longitude);
     });
@@ -100,6 +103,9 @@ class _UserLocationState extends State<UserLocation> {
         if (mounted) {
           setState(() {
             _currentPosition = position;
+            addMarker();
+            pinPosition =
+                LatLng(_currentPosition.latitude, _currentPosition.longitude);
             getAddressFromLalLong(
                 _currentPosition.latitude, _currentPosition.longitude);
             print(_currentPosition.longitude);
@@ -121,7 +127,7 @@ class _UserLocationState extends State<UserLocation> {
   void addMarker() {
     _markers.clear();
     _markers.add(Marker(
-        markerId: MarkerId('marker_2'),
+        markerId: MarkerId('marker_1'),
         draggable: true,
         position: pinPosition,
         infoWindow: InfoWindow(title: 'Title'),
@@ -138,17 +144,30 @@ class _UserLocationState extends State<UserLocation> {
         await geo.Geolocator().placemarkFromCoordinates(latitude, longitude);
 
     setState(() {
+      pinPosition = LatLng(latitude, longitude);
       animateCamera(latitude, longitude);
 
-      pinPosition = LatLng(latitude, longitude);
+      // this is all you need
+      geo.Placemark placeMark = placemark[0];
 
-      _useraddress = placemark[0].name +
+      String name = placeMark.name;
+      String subLocality = placeMark.subLocality;
+      String locality = placeMark.locality;
+      String administrativeArea = placeMark.administrativeArea;
+      String postalCode = placeMark.postalCode;
+      String country = placeMark.country;
+
+      _useraddress = name +
           ' ,' +
-          placemark[0].subAdministrativeArea +
+          subLocality +
           '  ' +
-          placemark[0].administrativeArea +
+          locality +
           ' ,' +
-          placemark[0].country;
+          administrativeArea +
+          '  ' +
+          postalCode +
+          '  ' +
+          country;
     });
   }
 

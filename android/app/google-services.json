@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "382541024998",
+    "firebase_url": "https://najmpublic.firebaseio.com",
+    "project_id": "najmpublic",
+    "storage_bucket": "najmpublic.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:382541024998:android:4937aba92d758674413527",
+        "android_client_info": {
+          "package_name": "com.clarion.firebasedatabase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "382541024998-n6j2lcc644n0lepfmble2s9n7i4ggila.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArrkUK8YOu5DpG-MD2pjTl55zbA4_WW6A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "382541024998-n6j2lcc644n0lepfmble2s9n7i4ggila.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "382541024998-6dk5al39pt4nsa31ekabborf38hkc77i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.shoptoken"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:382541024998:android:b20779d14be2a264413527",
+        "android_client_info": {
+          "package_name": "com.example.shoptoken"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "382541024998-n6j2lcc644n0lepfmble2s9n7i4ggila.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArrkUK8YOu5DpG-MD2pjTl55zbA4_WW6A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "382541024998-n6j2lcc644n0lepfmble2s9n7i4ggila.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "382541024998-6dk5al39pt4nsa31ekabborf38hkc77i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.shoptoken"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
