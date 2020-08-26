@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Util {
   // ignore: unused_element
   static Future<bool> _phoneNumberValidator(String value) async {
@@ -15,5 +17,12 @@ class Util {
       return "Name is Required";
     }
     return null;
+  }
+
+  static void showSnackbar(BuildContext context, String message) {
+    final snackBar = SnackBar(content: Text(message));
+
+// Find the Scaffold in the widget tree and use it to show a SnackBar.
+    Scaffold.of(context).showSnackBar(snackBar);
   }
 }

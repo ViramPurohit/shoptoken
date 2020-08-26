@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoptoken/service/firebasenotifications.dart';
 import 'package:shoptoken/utils/apppreferences.dart';
+import 'package:shoptoken/utils/util_page.dart';
 
 import 'package:shoptoken/views/category/ui/category_screen.dart';
 import 'package:shoptoken/views/login/bloc/login.dart';
@@ -24,10 +26,13 @@ class _LoginPageState extends State<LoginPage> {
   // For CircularProgressIndicator.
   bool visible = false;
 
+  BuildContext scaffoldContext;
+
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 14.0);
 
   GlobalKey<FormState> _formKey = new GlobalKey();
   bool _validate = false;
+  String locationLabel = 'Location';
   String name, mobile, location;
 
   LoginBloc _loginBloc;
@@ -35,6 +40,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+    new NotificationHandler().initializeFcmNotification();
     _loginBloc = BlocProvider.of<LoginBloc>(context);
   }
 
@@ -84,12 +90,10 @@ class _LoginPageState extends State<LoginPage> {
       return null;
     }
 
-    String _validateLocation(String value) {
-      if (value.length == 0) {
-        return "Please enter location details";
-      }
-      return null;
-    }
+    // String _validateLocation(String value) {
+
+    //   return null;
+    // }
 
     final nameField = TextFormField(
       obscureText: false,
@@ -133,41 +137,57 @@ class _LoginPageState extends State<LoginPage> {
       ],
     );
 
-    final locationField = TextFormField(
-      obscureText: false,
-      style: style,
-      validator: _validateLocation,
-      onSaved: (String val) {
-        location = val;
-      },
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-        labelText: "Location",
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.blue, width: 2.0),
-          borderRadius: BorderRadius.circular(5.0),
+    _navigateToUserLocation(BuildContext context) async {
+      final userLocationDetails = await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => UserLocation()),
+      );
+      // UserLocationDetails details = new UserLocationDetails
+      location = userLocationDetails.address;
+      print('==userLocationDetails=== $location');
+      locationLabel = location;
+      setState(() {});
+
+      // After the Selection Screen returns a result, hide any previous snackbars
+    }
+
+    final locationField = InkWell(
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        padding: const EdgeInsets.fromLTRB(14.0, 14.0, 14.0, 14.0),
+        decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.blue,
+              width: 2,
+            ),
+            borderRadius: new BorderRadius.all(Radius.circular(5.0))),
+        child: Row(
+          children: <Widget>[
+            Flexible(child: new Text(locationLabel, style: style)),
+          ],
         ),
       ),
+      onTap: () {
+        Apppreferences().addUserLogin();
+        _navigateToUserLocation(context);
+      },
     );
+
     final loginButon = getBaseButton(
         text: 'Login',
         onPressed: () {
-          _loginButtonClick();
+          if (location == null || location.isEmpty) {
+            Util.showSnackbar(scaffoldContext, 'Please enter location details');
+          } else {
+            _loginButtonClick();
+          }
+
           // Navigator.push(context,
           // MaterialPageRoute(builder: (context) => CategoryScreen()));
 
           // Navigator.of(context).pushReplacementNamed('/categoryscreen');
         });
-    final locationButon = getBaseButton(
-        text: 'Location Buton',
-        onPressed: () {
-          Apppreferences().addUserLogin();
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => UserLocation()));
 
-          // Navigator.of(context).pushReplacementNamed('/categoryscreen');
-        });
     return BlocListener<LoginBloc, LoginState>(
       listener: (BuildContext context, LoginState state) {
         if (state is LoginSuccess) {
@@ -192,56 +212,55 @@ class _LoginPageState extends State<LoginPage> {
             );
           }
           return Scaffold(
-            body: Center(
-              child: ScrollConfiguration(
-                behavior: new ScrollBehavior()
-                  ..buildViewportChrome(context, null, AxisDirection.up),
-                child: SingleChildScrollView(
-                  child: Container(
-                    color: Colors.white,
-                    child: Form(
-                      key: _formKey,
-                      autovalidate: _validate,
-                      child: Padding(
-                        padding: const EdgeInsets.all(36.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            SizedBox(
-                              height: 155.0,
-                              child: Image.asset(
-                                "assets/team.png",
-                                fit: BoxFit.contain,
+            body: new Builder(builder: (BuildContext context) {
+              scaffoldContext = context;
+              return new Center(
+                child: ScrollConfiguration(
+                  behavior: new ScrollBehavior()
+                    ..buildViewportChrome(context, null, AxisDirection.up),
+                  child: SingleChildScrollView(
+                    child: Container(
+                      color: Colors.white,
+                      child: Form(
+                        key: _formKey,
+                        autovalidate: _validate,
+                        child: Padding(
+                          padding: const EdgeInsets.all(36.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              SizedBox(
+                                height: 155.0,
+                                child: Image.asset(
+                                  "assets/team.png",
+                                  fit: BoxFit.contain,
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 25.0),
-                            nameField,
-                            SizedBox(height: 25.0),
-                            mobileField,
-                            SizedBox(
-                              height: 25.0,
-                            ),
-                            locationField,
-                            SizedBox(
-                              height: 25.0,
-                            ),
-                            loginButon,
-                            SizedBox(
-                              height: 15.0,
-                            ),
-                            locationButon,
-                            SizedBox(
-                              height: 15.0,
-                            )
-                          ],
+                              SizedBox(height: 25.0),
+                              nameField,
+                              SizedBox(height: 25.0),
+                              mobileField,
+                              SizedBox(
+                                height: 25.0,
+                              ),
+                              locationField,
+                              SizedBox(
+                                height: 25.0,
+                              ),
+                              loginButon,
+                              SizedBox(
+                                height: 15.0,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ),
+              );
+            }),
           );
         },
       ),

@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart' as geo;
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:shoptoken/models/uselocationdetail.dart';
 import 'package:shoptoken/widgets/text_style.dart';
 
 class UserLocation extends StatefulWidget {
@@ -24,7 +25,7 @@ class _UserLocationState extends State<UserLocation> {
   geo.Position _lastKnownPosition;
   geo.Position _currentPosition;
 
-  Map<String, double> userLocation;
+  // Map<String, double> userLocation;
 
   String _useraddress = 'Select your location..';
 
@@ -184,6 +185,12 @@ class _UserLocationState extends State<UserLocation> {
     zoomlevel = position.zoom;
   }
 
+  UserLocationDetails _userdetails() {
+    UserLocationDetails details = new UserLocationDetails(
+        _useraddress, pinPosition.latitude, pinPosition.longitude);
+    return details;
+  }
+
   @override
   Widget build(BuildContext context) {
     CameraPosition _myLocation = CameraPosition(
@@ -195,6 +202,19 @@ class _UserLocationState extends State<UserLocation> {
         home: Scaffold(
       appBar: AppBar(
         title: Text('User location'),
+        actions: [
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context, _userdetails());
+                },
+                child: Icon(
+                  Icons.done,
+                  size: 26.0,
+                ),
+              ))
+        ],
       ),
       body: FutureBuilder<geo.GeolocationStatus>(
           future: geo.Geolocator().checkGeolocationPermissionStatus(),
