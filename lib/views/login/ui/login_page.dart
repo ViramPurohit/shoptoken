@@ -147,8 +147,6 @@ class _LoginPageState extends State<LoginPage> {
       print('==userLocationDetails=== $location');
       locationLabel = location;
       setState(() {});
-
-      // After the Selection Screen returns a result, hide any previous snackbars
     }
 
     final locationField = InkWell(
