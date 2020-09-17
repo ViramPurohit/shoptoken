@@ -7,12 +7,17 @@ import 'package:http/http.dart' as http;
 import 'package:shoptoken/models/registeuser.dart';
 
 class ShopApiClient {
-  String _baseUrl = 'https://reqres.in/api';
+  String _baseUrl = 'https://inline.pythonanywhere.com';
 
-  Future<RegisterUser> registerUser() async {
-    var url = '$_baseUrl/register';
+  static const Map<String, String> _json_header = {
+    'Content-Type': 'application/json; charset=UTF-8'
+  };
 
-    final response = await http.get(url);
+  Future<RegisterUser> registerUser(Map<String, dynamic> requestMap) async {
+    var url = '$_baseUrl/register/customer';
+
+    final response = await http.post(url,
+        headers: _json_header, body: json.encode(requestMap));
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
@@ -27,7 +32,7 @@ class ShopApiClient {
   }
 
   Future<CategoryResponse> getCategoryList() async {
-    var url = '$_baseUrl/users/?page=2';
+    var url = '$_baseUrl/getcategorymaster';
 
     final response = await http.get(url);
 

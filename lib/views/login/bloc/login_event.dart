@@ -6,13 +6,15 @@ abstract class LoginEvent extends Equatable {
 }
 
 class LoginButtonPressed extends LoginEvent {
-  final String name;
+  final Map<String, dynamic> requestMap;
 
-  LoginButtonPressed({@required this.name});
+  LoginButtonPressed({@required this.requestMap});
+
+  // get name => null;
 
   @override
-  String toString() => "On Login click { User name : $name }";
+  String toString() => "On Login click { User name : $requestMap}";
 
   @override
-  List<Object> get props => [name];
+  List<Object> get props => [requestMap];
 }

@@ -1,4 +1,8 @@
+import 'dart:io' show Platform;
+
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 
 class Util {
   // ignore: unused_element
@@ -24,5 +28,24 @@ class Util {
 
 // Find the Scaffold in the widget tree and use it to show a SnackBar.
     Scaffold.of(context).showSnackBar(snackBar);
+  }
+
+  Future<String> getDeviceOS() async {
+    if (Platform.isAndroid) {
+      var androidInfo = await DeviceInfoPlugin().androidInfo;
+      return androidInfo.version.sdkInt.toString();
+    } else if (Platform.isIOS) {
+      var iosInfo = await DeviceInfoPlugin().iosInfo;
+      return iosInfo.systemVersion;
+    }
+  }
+
+  Future<String> getAppVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+    // String appName = packageInfo.appName;
+    // String packageName = packageInfo.packageName;
+    return packageInfo.version;
+    // String buildNumber = packageInfo.buildNumber;
   }
 }

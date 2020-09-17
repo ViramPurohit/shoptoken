@@ -1,18 +1,36 @@
 class RegisterUser {
+  String address;
+  String fullName;
   int id;
-  String token;
+  int isError;
+  String message;
+  String mobileNo;
 
-  RegisterUser({this.id, this.token});
+  RegisterUser(
+      {this.address,
+      this.fullName,
+      this.id,
+      this.isError,
+      this.message,
+      this.mobileNo});
 
   RegisterUser.fromJson(Map<String, dynamic> json) {
+    address = json['address'];
+    fullName = json['full_name'];
     id = json['id'];
-    token = json['token'];
+    isError = json['isError'];
+    message = json['message'];
+    mobileNo = json['mobile_no'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['address'] = this.address;
+    data['full_name'] = this.fullName;
     data['id'] = this.id;
-    data['token'] = this.token;
+    data['isError'] = this.isError;
+    data['message'] = this.message;
+    data['mobile_no'] = this.mobileNo;
     return data;
   }
 }

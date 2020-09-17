@@ -12,4 +12,15 @@ class Apppreferences {
     bool boolValue = prefs.getBool('isLogin');
     return boolValue;
   }
+
+  addAppToken(String fcmToken) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('token', fcmToken);
+  }
+
+  Future<String> getAppToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String _appToken = prefs.getString('token');
+    return _appToken;
+  }
 }

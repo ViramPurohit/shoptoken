@@ -64,8 +64,7 @@ class MyApp extends StatelessWidget {
                 if (snapshot.hasData) {
                   print('======= snapshot.data======== ${snapshot.data}');
                   if (snapshot.data == true) {
-                    // return HomeScreen();
-                    return LoginPage(title: 'Customer Login');
+                    return HomeScreen();
                   } else {
                     return LoginPage(title: 'Customer Login');
                   }

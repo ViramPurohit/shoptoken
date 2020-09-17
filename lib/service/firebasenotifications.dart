@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:shoptoken/utils/apppreferences.dart';
 
 Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
   if (message.containsKey('data')) {
@@ -85,6 +86,7 @@ class NotificationHandler {
   _saveDeviceToken() async {
     String fcmToken = await _fcm.getToken();
     print("FCM_TOKEN: $fcmToken");
+    Apppreferences().addAppToken(fcmToken);
   }
 
   Future onSelectNotification(String payload) async {

@@ -22,7 +22,7 @@ class CategoryList extends StatelessWidget {
               ? Text('Coming soon...')
               : Expanded(
                   child: _SongsSearchResults(
-                    categoryList: state.result.data,
+                    categoryList: state.result,
                   ),
                 );
         } else {

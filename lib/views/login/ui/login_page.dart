@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shoptoken/service/firebasenotifications.dart';
 import 'package:shoptoken/utils/apppreferences.dart';
 import 'package:shoptoken/utils/util_page.dart';
@@ -33,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
   GlobalKey<FormState> _formKey = new GlobalKey();
   bool _validate = false;
   String locationLabel = 'Location';
-  String name, mobile, location;
+  String fullname, mobile, location;
 
   LoginBloc _loginBloc;
 
@@ -49,16 +50,25 @@ class _LoginPageState extends State<LoginPage> {
     /*
       On Click events
     */
-    void callLoginAPI() {
-      _loginBloc.add(LoginButtonPressed(name: name));
+    Future<void> callLoginAPI() async {
+      var requestMap = new Map<String, dynamic>();
+      requestMap['mobile_no'] = mobile;
+      requestMap['full_name'] = fullname;
+      requestMap['address'] = location;
+
+      requestMap['push_token'] = await Apppreferences().getAppToken();
+      requestMap['app_os'] = await Util().getDeviceOS();
+      requestMap['app_version'] = await Util().getAppVersion();
+
+      print("requestMap $requestMap");
+      _loginBloc.add(LoginButtonPressed(requestMap: requestMap));
     }
 
     void _loginButtonClick() {
       if (_formKey.currentState.validate()) {
         // No any error in validation
         _formKey.currentState.save();
-        print("Name $name");
-        print("Name $mobile");
+
         visible = true;
         callLoginAPI();
       } else {
@@ -110,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
       validator: _validateName,
       onSaved: (String val) {
-        name = val;
+        fullname = val;
       },
     );
 
@@ -166,7 +176,6 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       onTap: () {
-        Apppreferences().addUserLogin();
         _navigateToUserLocation(context);
       },
     );
@@ -189,7 +198,6 @@ class _LoginPageState extends State<LoginPage> {
     return BlocListener<LoginBloc, LoginState>(
       listener: (BuildContext context, LoginState state) {
         if (state is LoginSuccess) {
-          print(state.result.token);
           Apppreferences().addUserLogin();
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => CategoryScreen()));
@@ -204,6 +212,12 @@ class _LoginPageState extends State<LoginPage> {
                 child: Center(child: CircularProgressIndicator()));
           }
           if (state is LoginFailure) {
+            return SnackBar(
+              content: Text(state.error),
+              backgroundColor: Theme.of(context).errorColor,
+            );
+          }
+          if (state is LoginErrorMsg) {
             return SnackBar(
               content: Text(state.error),
               backgroundColor: Theme.of(context).errorColor,

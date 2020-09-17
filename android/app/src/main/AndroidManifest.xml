@@ -13,6 +13,7 @@
     <application
         android:name="com.example.shoptoken.App"
         android:label="shoptoken"
+     
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

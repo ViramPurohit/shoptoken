@@ -16,11 +16,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     if (event is LoginButtonPressed) {
       yield LoginInProgress();
-
+      print("LoginInProgress====");
       try {
-        final result = await apirepository.registerUser(name: event.name);
-        yield LoginSuccess(result);
+        final result =
+            await apirepository.registerUser(requestMap: event.requestMap);
+        print("result====$result");
+        if (result.isError == 0) {
+          yield LoginSuccess(result);
+        } else {
+          yield LoginErrorMsg(error: result.message);
+        }
       } catch (error) {
+        print("Error====");
+        print(error);
         yield LoginFailure(error: error.toString());
       }
     }

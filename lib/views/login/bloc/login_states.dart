@@ -26,11 +26,23 @@ class LoginFailure extends LoginState {
   String toString() => 'LoginFailure { error: $error }';
 }
 
+class LoginErrorMsg extends LoginState {
+  final String error;
+
+  const LoginErrorMsg({@required this.error});
+
+  @override
+  List<Object> get props => [error];
+
+  @override
+  String toString() => 'LoginFailure { error: $error }';
+}
+
 class LoginSuccess extends LoginState {
   final RegisterUser result;
 
   LoginSuccess(this.result);
 
   @override
-  String toString() => 'Login StateSuccess { songs: ${result.token} }';
+  String toString() => 'Login StateSuccess { Id: ${result.id} }';
 }
