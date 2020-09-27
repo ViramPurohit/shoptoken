@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shoptoken/models/getallslots.dart';
 
 class CustomerListResult extends StatelessWidget {
-  final List<BookSlots> slotsList;
+  final List<SlotData> slotsList;
 
   const CustomerListResult({Key key, @required this.slotsList})
       : super(key: key);
@@ -22,13 +22,13 @@ class CustomerListResult extends StatelessWidget {
 }
 
 class _BookTicketResultItem extends StatelessWidget {
-  final BookSlots slots;
+  final SlotData slots;
 
   const _BookTicketResultItem({Key key, this.slots}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return slots.pantoneValue != null
+    return slots != null
         ? _getTimeSlotLayout(context)
         : Text('No Time available');
   }
@@ -40,7 +40,7 @@ class _BookTicketResultItem extends StatelessWidget {
             border: Border.all(color: Colors.lightBlue, width: 2)),
         child: ListTile(
           leading: Icon(Icons.timer),
-          title: Text(slots.pantoneValue),
+          title: Text(slots.startTime),
           onTap: () {},
         ));
   }

@@ -18,11 +18,11 @@ class CategoryList extends StatelessWidget {
           return Text(state.error);
         }
         if (state is CategorySuccess) {
-          return state.result.data.isEmpty
+          return state.result.categorylistresult.data.isEmpty
               ? Text('Coming soon...')
               : Expanded(
-                  child: _SongsSearchResults(
-                    categoryList: state.result,
+                  child: _CategoryResults(
+                    categoryList: state.result.categorylistresult.data,
                   ),
                 );
         } else {
@@ -35,19 +35,19 @@ class CategoryList extends StatelessWidget {
   }
 }
 
-class _SongsSearchResults extends StatefulWidget {
+class _CategoryResults extends StatefulWidget {
   final List<CategoryData> categoryList;
 
-  const _SongsSearchResults({Key key, @required this.categoryList})
+  const _CategoryResults({Key key, @required this.categoryList})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return new __SongsSearchState();
+    return new _CategoryResultsState();
   }
 }
 
-class __SongsSearchState extends State<_SongsSearchResults> {
+class _CategoryResultsState extends State<_CategoryResults> {
   List<CategoryData> selectedList;
 
   @override
@@ -80,7 +80,7 @@ class __SongsSearchState extends State<_SongsSearchResults> {
                   });
                   print("index $index : on Click isSelected $value");
                 },
-                key: Key(widget.categoryList[index].email.toString()));
+                key: Key(widget.categoryList[index].englishName.toString()));
           }),
     );
   }
@@ -104,16 +104,16 @@ class _GridItemState extends State<GridItem> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.category.firstName != null
+    return widget.category.englishName != null
         ? _getCategotyLayout()
         : Center(child: Text('Coming soon...'));
   }
 
   ImageProvider getImage() {
-    if (widget.category.avatar == null) {
-      return new NetworkImage(widget.category.avatar);
+    if (widget.category.categoryurl == null) {
+      return new NetworkImage(widget.category.categoryurl);
     } else {
-      return new NetworkImage(widget.category.avatar);
+      return new NetworkImage(widget.category.categoryurl);
     }
   }
 
@@ -137,19 +137,19 @@ class _GridItemState extends State<GridItem> {
                   alignment: Alignment.topCenter,
                   padding: EdgeInsets.all(3.0),
                   child: new Text(
-                    widget.category.firstName,
+                    widget.category.englishName,
                     textAlign: TextAlign.left,
                   ),
                 ),
-                Container(
-                  alignment: Alignment.topCenter,
-                  padding: EdgeInsets.all(3.0),
-                  child: new Text(
-                      widget.category.firstName +
-                          ' ' +
-                          widget.category.lastName,
-                      textAlign: TextAlign.start),
-                ),
+                // Container(
+                //   alignment: Alignment.topCenter,
+                //   padding: EdgeInsets.all(3.0),
+                //   child: new Text(
+                //       widget.category.firstName +
+                //           ' ' +
+                //           widget.category.lastName,
+                //       textAlign: TextAlign.start),
+                // ),
                 isSelected
                     ? Align(
                         alignment: Alignment.bottomRight,

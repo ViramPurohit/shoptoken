@@ -21,7 +21,7 @@ class SelectTimeSlotScreen extends StatefulWidget {
 }
 
 class _SelectTimeSlotState extends State<SelectTimeSlotScreen> {
-  List<BookSlots> slotsList;
+  List<SlotData> slotsList;
 
   BookTicketBloc _bookTicketBloc;
 
@@ -30,7 +30,7 @@ class _SelectTimeSlotState extends State<SelectTimeSlotScreen> {
     super.initState();
     _bookTicketBloc = BlocProvider.of<BookTicketBloc>(context);
 
-    slotsList = new List<BookSlots>();
+    slotsList = new List<SlotData>();
   }
 
   @override
@@ -39,7 +39,7 @@ class _SelectTimeSlotState extends State<SelectTimeSlotScreen> {
       listener: (BuildContext context, BookTicketState state) {
         if (state is SlotListSuccess) {
           print(state.result);
-          slotsList = state.result.data;
+          slotsList = state.result.nearshopresult.data;
         }
         if (state is BookTicketSuccess) {
           print(state.result);

@@ -19,7 +19,7 @@ class NearestStoreBloc extends Bloc<NearestStoreEvent, NearestStoreState> {
     if (event is FetchNearestStoreEventList) {
       yield NearestStoreInProgress();
       try {
-        final result = await apireporsitory.categoryList();
+        final result = await apireporsitory.getNearShop();
         print("response --- $result");
         yield NearestStoreSuccess(result);
       } catch (error) {

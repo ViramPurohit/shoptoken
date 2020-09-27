@@ -1,95 +1,67 @@
 class GetAllSlotsResponse {
-  int page;
-  int perPage;
-  int total;
-  int totalPages;
-  List<BookSlots> data;
-  Ad ad;
+  Nearshopresult nearshopresult;
 
-  GetAllSlotsResponse(
-      {this.page,
-      this.perPage,
-      this.total,
-      this.totalPages,
-      this.data,
-      this.ad});
+  GetAllSlotsResponse({this.nearshopresult});
 
   GetAllSlotsResponse.fromJson(Map<String, dynamic> json) {
-    page = json['page'];
-    perPage = json['per_page'];
-    total = json['total'];
-    totalPages = json['total_pages'];
-    if (json['data'] != null) {
-      data = new List<BookSlots>();
-      json['data'].forEach((v) {
-        data.add(new BookSlots.fromJson(v));
-      });
-    }
-    ad = json['ad'] != null ? new Ad.fromJson(json['ad']) : null;
+    nearshopresult = json['nearshopresult'] != null
+        ? new Nearshopresult.fromJson(json['nearshopresult'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['page'] = this.page;
-    data['per_page'] = this.perPage;
-    data['total'] = this.total;
-    data['total_pages'] = this.totalPages;
+    if (this.nearshopresult != null) {
+      data['nearshopresult'] = this.nearshopresult.toJson();
+    }
+    return data;
+  }
+}
+
+class Nearshopresult {
+  List<SlotData> data;
+  int isError;
+  String message;
+
+  Nearshopresult({this.data, this.isError, this.message});
+
+  Nearshopresult.fromJson(Map<String, dynamic> json) {
+    if (json['data'] != null) {
+      data = new List<SlotData>();
+      json['data'].forEach((v) {
+        data.add(new SlotData.fromJson(v));
+      });
+    }
+    isError = json['isError'];
+    message = json['message'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
       data['data'] = this.data.map((v) => v.toJson()).toList();
     }
-    if (this.ad != null) {
-      data['ad'] = this.ad.toJson();
-    }
+    data['isError'] = this.isError;
+    data['message'] = this.message;
     return data;
   }
 }
 
-class BookSlots {
-  int id;
-  String name;
-  int year;
-  String color;
-  String pantoneValue;
+class SlotData {
+  String endTime;
+  String startTime;
 
-  BookSlots({this.id, this.name, this.year, this.color, this.pantoneValue});
+  SlotData({this.endTime, this.startTime});
 
-  BookSlots.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    year = json['year'];
-    color = json['color'];
-    pantoneValue = json['pantone_value'];
+  SlotData.fromJson(Map<String, dynamic> json) {
+    endTime = json['EndTime'];
+    startTime = json['StartTime'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['year'] = this.year;
-    data['color'] = this.color;
-    data['pantone_value'] = this.pantoneValue;
-    return data;
-  }
-}
-
-class Ad {
-  String company;
-  String url;
-  String text;
-
-  Ad({this.company, this.url, this.text});
-
-  Ad.fromJson(Map<String, dynamic> json) {
-    company = json['company'];
-    url = json['url'];
-    text = json['text'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['company'] = this.company;
-    data['url'] = this.url;
-    data['text'] = this.text;
+    data['EndTime'] = this.endTime;
+    data['StartTime'] = this.startTime;
     return data;
   }
 }

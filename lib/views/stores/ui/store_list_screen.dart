@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoptoken/models/categories.dart';
+import 'package:shoptoken/models/nearshop.dart';
 import 'package:shoptoken/views/booktickets/ui/book_ticket_screen.dart';
 import 'package:shoptoken/views/stores/bloc/neareststore_bloc.dart';
 import 'package:shoptoken/views/stores/bloc/neareststore_state.dart';
@@ -19,13 +20,13 @@ class StoreList extends StatelessWidget {
           return Text(state.error);
         }
         if (state is NearestStoreSuccess) {
-          return state.result.data.isEmpty
-              ? Text('No shop added with your area...')
-              : Expanded(
-                  child: _SongsSearchResults(
-                    categoryList: state.result.data,
+          return state.result.nearshopresult.isError == 0
+              ? Expanded(
+                  child: _NearestStoreResults(
+                    nearshopList: state.result.nearshopresult.data,
                   ),
-                );
+                )
+              : Text('No shop added with your area...');
         } else {
           return Padding(
               padding: EdgeInsets.only(top: 16.0),
@@ -36,25 +37,25 @@ class StoreList extends StatelessWidget {
   }
 }
 
-class _SongsSearchResults extends StatefulWidget {
-  final List<CategoryData> categoryList;
+class _NearestStoreResults extends StatefulWidget {
+  final List<NearshopData> nearshopList;
 
-  const _SongsSearchResults({Key key, @required this.categoryList})
+  const _NearestStoreResults({Key key, @required this.nearshopList})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return new __SongsSearchState();
+    return new _NearestStoreState();
   }
 }
 
-class __SongsSearchState extends State<_SongsSearchResults> {
-  List<CategoryData> bookedList;
+class _NearestStoreState extends State<_NearestStoreResults> {
+  List<NearshopData> shopList;
 
   @override
   void initState() {
     super.initState();
-    bookedList = new List<CategoryData>();
+    shopList = new List<NearshopData>();
   }
 
   @override
@@ -67,31 +68,31 @@ class __SongsSearchState extends State<_SongsSearchResults> {
             childAspectRatio: MediaQuery.of(context).size.width /
                 (MediaQuery.of(context).size.height / 4),
           ),
-          itemCount: widget.categoryList.length,
+          itemCount: widget.nearshopList.length,
           itemBuilder: (BuildContext context, int index) {
             return GridItem(
-                category: widget.categoryList[index],
+                nearShop: widget.nearshopList[index],
                 isBooked: (bool value) {
                   setState(() {
                     if (value) {
-                      bookedList.add(widget.categoryList[index]);
+                      shopList.add(widget.nearshopList[index]);
                     } else {
-                      bookedList.remove(widget.categoryList[index]);
+                      shopList.remove(widget.nearshopList[index]);
                     }
                   });
                 },
-                key: Key(widget.categoryList[index].email.toString()));
+                key: Key(widget.nearshopList[index].id.toString()));
           }),
     );
   }
 }
 
 class GridItem extends StatefulWidget {
-  final CategoryData category;
+  final NearshopData nearShop;
   final Key key;
   final ValueChanged<bool> isBooked;
 
-  const GridItem({this.key, this.category, this.isBooked});
+  const GridItem({this.key, this.nearShop, this.isBooked});
 
   @override
   State<StatefulWidget> createState() {
@@ -105,16 +106,16 @@ class _GridItemState extends State<GridItem> {
   @override
   Widget build(BuildContext context) {
     print("On pageview firstName --  $widget.category.firstName");
-    return widget.category.firstName != null
+    return widget.nearShop.shopName != null
         ? _getCategotyLayout()
         : Center(child: Text('No Store available'));
   }
 
   ImageProvider getImage() {
-    if (widget.category.avatar == null) {
-      return new NetworkImage(widget.category.avatar);
+    if (widget.nearShop.url == null) {
+      return new NetworkImage(widget.nearShop.url);
     } else {
-      return new NetworkImage(widget.category.avatar);
+      return new NetworkImage(widget.nearShop.url);
     }
   }
 
@@ -151,8 +152,7 @@ class _GridItemState extends State<GridItem> {
                                 padding: EdgeInsets.all(4.0),
                                 child: Align(
                                   alignment: Alignment.centerLeft,
-                                  child: new Text(
-                                      'Purohit General store Purohit General',
+                                  child: new Text(widget.nearShop.shopName,
                                       textAlign: TextAlign.start,
                                       style: getTextStyle().copyWith(
                                           fontWeight: FontWeight.bold)),
@@ -163,7 +163,7 @@ class _GridItemState extends State<GridItem> {
                                 padding: EdgeInsets.all(4.0),
                                 child: Align(
                                     alignment: Alignment.centerLeft,
-                                    child: new Text('Odhav,Ahmedabad'))),
+                                    child: new Text(widget.nearShop.address))),
                           ),
                           Expanded(
                             child: Padding(
@@ -171,7 +171,7 @@ class _GridItemState extends State<GridItem> {
                                 child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: new Text(
-                                      'Open from 10am to 5pm',
+                                      'Open from ${widget.nearShop.startAt} To ${widget.nearShop.endAt}',
                                       style: getTextStyle().copyWith(
                                           fontWeight: FontWeight.bold),
                                     ))),

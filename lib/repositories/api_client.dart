@@ -4,6 +4,7 @@ import 'package:shoptoken/models/bookslots.dart';
 import 'package:shoptoken/models/getallslots.dart';
 import 'package:shoptoken/models/categories.dart';
 import 'package:http/http.dart' as http;
+import 'package:shoptoken/models/nearshop.dart';
 import 'package:shoptoken/models/registeuser.dart';
 
 class ShopApiClient {
@@ -49,8 +50,8 @@ class ShopApiClient {
     }
   }
 
-  Future<GetAllSlotsResponse> getBookSlotList() async {
-    var url = '$_baseUrl/unknown';
+  Future<NearShopResponse> getNearShop() async {
+    var url = '$_baseUrl/getnearshop';
 
     final response = await http.get(url);
 
@@ -58,6 +59,25 @@ class ShopApiClient {
       // If the server did return a 200 OK response,
       // then parse the JSON.
       print(response.body);
+      return NearShopResponse.fromJson(json.decode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
+    }
+  }
+
+  Future<GetAllSlotsResponse> getBookSlotList(
+      Map<String, dynamic> requestMap) async {
+    var url = '$_baseUrl/getslotmaster';
+
+    final response = await http.post(url,
+        headers: _json_header, body: json.encode(requestMap));
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      // print(response.body);
       return GetAllSlotsResponse.fromJson(json.decode(response.body));
     } else {
       // If the server did not return a 200 OK response,

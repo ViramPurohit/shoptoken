@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:shoptoken/models/categories.dart';
+import 'package:shoptoken/models/nearshop.dart';
 
 abstract class NearestStoreState extends Equatable {
   const NearestStoreState();
@@ -25,7 +26,7 @@ class NearestStoreFailure extends NearestStoreState {
 }
 
 class NearestStoreSuccess extends NearestStoreState {
-  final CategoryResponse result;
+  final NearShopResponse result;
 
   NearestStoreSuccess(this.result);
 

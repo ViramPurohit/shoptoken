@@ -16,6 +16,7 @@ import 'package:shoptoken/views/home/ui/home_screen.dart';
 
 import 'package:shoptoken/views/login/bloc/login.dart';
 import 'package:shoptoken/views/stores/bloc/neareststore_bloc.dart';
+import 'package:shoptoken/views/stores/ui/storelist.dart';
 import 'package:shoptoken/views/userlocation/ui/user_location.dart';
 
 import 'views/booktickets/ui/user_booking.dart';
@@ -64,7 +65,7 @@ class MyApp extends StatelessWidget {
                 if (snapshot.hasData) {
                   print('======= snapshot.data======== ${snapshot.data}');
                   if (snapshot.data == true) {
-                    return HomeScreen();
+                    return StoresScreen();
                   } else {
                     return LoginPage(title: 'Customer Login');
                   }
