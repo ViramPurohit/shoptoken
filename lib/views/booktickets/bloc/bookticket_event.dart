@@ -6,11 +6,17 @@ abstract class BookTicketEvent extends Equatable {
 }
 
 class BookButtonEvent extends BookTicketEvent {
-  @override
-  List<Object> get props => [];
+  final Map<String, dynamic> requestMap;
+
+  BookButtonEvent({@required this.requestMap});
+
+  // get name => null;
 
   @override
-  String toString() => "Collect category List";
+  String toString() => "BookButtonEvent { User name : $requestMap}";
+
+  @override
+  List<Object> get props => [requestMap];
 }
 
 class SelectDayButtonEvent extends BookTicketEvent {
@@ -21,7 +27,7 @@ class SelectDayButtonEvent extends BookTicketEvent {
   // get name => null;
 
   @override
-  String toString() => "On Login click { User name : $requestMap}";
+  String toString() => "SelectDayButtonEvent { User name : $requestMap}";
 
   @override
   List<Object> get props => [requestMap];

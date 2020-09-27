@@ -4,10 +4,10 @@ import 'package:shoptoken/views/booktickets/ui/select_time_slot_screen.dart';
 import 'datepicker_screen.dart';
 
 class BookTicketScreen extends StatefulWidget {
-  final int shopid;
+  final int retailerid;
 
   //requiring the list of todos
-  BookTicketScreen({Key key, @required this.shopid}) : super(key: key);
+  BookTicketScreen({Key key, @required this.retailerid}) : super(key: key);
 
   @override
   _BookTicketScreen createState() => new _BookTicketScreen();
@@ -24,7 +24,10 @@ class _BookTicketScreen extends State<BookTicketScreen> {
           child: SingleChildScrollView(
               child: Container(
                   child: Column(
-        children: <Widget>[DateSlotPicker(), SelectTimeSlotScreen()],
+        children: <Widget>[
+          DateSlotPicker(retailerid: widget.retailerid),
+          SelectTimeSlotScreen()
+        ],
       )))),
     );
   }

@@ -28,7 +28,8 @@ class BookTicketBloc extends Bloc<BookTicketEvent, BookTicketState> {
     if (event is BookButtonEvent) {
       yield BookTicketInProgress();
       try {
-        final result = await apireporsitory.bookSlot();
+        final result =
+            await apireporsitory.bookSlot(requestMap: event.requestMap);
         print("response --- $result");
         yield BookTicketSuccess(result);
       } catch (error) {

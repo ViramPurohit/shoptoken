@@ -86,15 +86,16 @@ class ShopApiClient {
     }
   }
 
-  Future<BookSlotsResponse> bookSlot() async {
-    var url = '$_baseUrl/unknown/2';
+  Future<BookSlotsResponse> bookSlot(Map<String, dynamic> requestMap) async {
+    var url = '$_baseUrl/bookslot';
 
-    final response = await http.get(url);
+    final response = await http.post(url,
+        headers: _json_header, body: json.encode(requestMap));
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      print(response.body);
+      // print(response.body);
       return BookSlotsResponse.fromJson(json.decode(response.body));
     } else {
       // If the server did not return a 200 OK response,

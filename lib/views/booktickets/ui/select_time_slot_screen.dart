@@ -119,6 +119,18 @@ class _SelectTimeSlotState extends State<SelectTimeSlotScreen> {
   }
 
   void bookTicket() {
+    // //  var requestMap = new Map<String, dynamic>();
+    //   requestMap['retailer_id'] = widget.retailerid;
+    //   requestMap['booking_date'] = "$selectedYear-$selectedMonth-$selectedDay";
+
+    var requestMap = new Map<String, dynamic>();
+    requestMap['retailer_id'] = "widget.retailerid";
+    requestMap['customer_id'] = "";
+    requestMap['booking_date'] = "";
+    requestMap['token_number'] = "";
+    requestMap['book_start_time'] = "";
+    requestMap['book_end_time'] = "";
+
     _bookTicketBloc.add(BookButtonEvent());
   }
 }

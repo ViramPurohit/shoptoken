@@ -5,8 +5,10 @@ import 'package:shoptoken/views/booktickets/bloc/bookticket_event.dart';
 import 'package:shoptoken/widgets/text_style.dart';
 
 class DateSlotPicker extends StatefulWidget {
-  DateSlotPicker({Key key, this.title}) : super(key: key);
-  final String title;
+  DateSlotPicker({Key key, @required this.retailerid}) : super(key: key);
+
+  final int retailerid;
+
   @override
   _DateSlotPickerState createState() => new _DateSlotPickerState();
 }
@@ -33,8 +35,10 @@ class _DateSlotPickerState extends State<DateSlotPicker> {
       selectedDay = order.day;
       selectedMonth = order.month;
       selectedYear = order.year;
-
-      _bookTicketBloc.add(SelectDayButtonEvent());
+      var requestMap = new Map<String, dynamic>();
+      requestMap['retailer_id'] = widget.retailerid;
+      requestMap['booking_date'] = "$selectedYear-$selectedMonth-$selectedDay";
+      _bookTicketBloc.add(SelectDayButtonEvent(requestMap: requestMap));
     });
   }
 

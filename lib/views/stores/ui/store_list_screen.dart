@@ -120,12 +120,11 @@ class _GridItemState extends State<GridItem> {
   }
 
   void navigateToDatePicker() {
-    var shopid = 101;
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => BookTicketScreen(
-                  shopid: shopid,
+                  retailerid: widget.nearShop.id,
                 )));
   }
 
