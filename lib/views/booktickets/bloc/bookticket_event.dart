@@ -32,3 +32,17 @@ class SelectDayButtonEvent extends BookTicketEvent {
   @override
   List<Object> get props => [requestMap];
 }
+
+class SelectDateEvent extends BookTicketEvent {
+  final String bookDate;
+
+  SelectDateEvent({@required this.bookDate});
+
+  // get name => null;
+
+  @override
+  String toString() => "SelectDayButtonEvent { User name : $bookDate}";
+
+  @override
+  List<Object> get props => [bookDate];
+}

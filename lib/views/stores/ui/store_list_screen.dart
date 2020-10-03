@@ -136,47 +136,50 @@ class _GridItemState extends State<GridItem> {
           highlightColor: Colors.blue.withAlpha(30),
           splashColor: Colors.white.withAlpha(20),
           child: new Row(children: <Widget>[
-            Card(
-              elevation: 2.0,
-              child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.50,
-                  height: 200.0,
-                  child: Padding(
-                      padding: EdgeInsets.all(4.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Expanded(
-                            child: Padding(
-                                padding: EdgeInsets.all(4.0),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: new Text(widget.nearShop.shopName,
-                                      textAlign: TextAlign.start,
-                                      style: getTextStyle().copyWith(
-                                          fontWeight: FontWeight.bold)),
-                                )),
-                          ),
-                          Expanded(
-                            child: Padding(
-                                padding: EdgeInsets.all(4.0),
-                                child: Align(
+            Flexible(
+              child: Card(
+                elevation: 2.0,
+                child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.50,
+                    height: 200.0,
+                    child: Padding(
+                        padding: EdgeInsets.all(4.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Expanded(
+                              child: Padding(
+                                  padding: EdgeInsets.all(4.0),
+                                  child: Align(
                                     alignment: Alignment.centerLeft,
-                                    child: new Text(widget.nearShop.address))),
-                          ),
-                          Expanded(
-                            child: Padding(
-                                padding: EdgeInsets.all(4.0),
-                                child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: new Text(
-                                      'Open from ${widget.nearShop.startAt} To ${widget.nearShop.endAt}',
-                                      style: getTextStyle().copyWith(
-                                          fontWeight: FontWeight.bold),
-                                    ))),
-                          )
-                        ],
-                      ))),
+                                    child: new Text(widget.nearShop.shopName,
+                                        textAlign: TextAlign.start,
+                                        style: getTextStyle().copyWith(
+                                            fontWeight: FontWeight.bold)),
+                                  )),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                  padding: EdgeInsets.all(4.0),
+                                  child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child:
+                                          new Text(widget.nearShop.address))),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                  padding: EdgeInsets.all(4.0),
+                                  child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: new Text(
+                                        'Open from ${widget.nearShop.startAt} To ${widget.nearShop.endAt}',
+                                        style: getTextStyle().copyWith(
+                                            fontWeight: FontWeight.bold),
+                                      ))),
+                            )
+                          ],
+                        ))),
+              ),
             ),
             Card(
               elevation: 2.0,
@@ -196,13 +199,13 @@ class _GridItemState extends State<GridItem> {
                     Padding(
                         padding: EdgeInsets.all(4.0),
                         child: getColorButton(
-                          text: isBooked ? 'Booked' : 'Book',
+                          text: 'Book',
                           colors:
                               isBooked ? Color(0xFF1B5E20) : Color(0xff01A0C7),
                           onPressed: () {
                             setState(() {
-                              isBooked = !isBooked;
-                              widget.isBooked(isBooked);
+                              // isBooked = !isBooked;
+                              // widget.isBooked(isBooked);
                               navigateToDatePicker();
                             });
                           },

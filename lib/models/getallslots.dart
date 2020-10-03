@@ -1,31 +1,31 @@
 class GetAllSlotsResponse {
-  Nearshopresult nearshopresult;
+  SlotListresult nearshopresult;
 
   GetAllSlotsResponse({this.nearshopresult});
 
   GetAllSlotsResponse.fromJson(Map<String, dynamic> json) {
-    nearshopresult = json['nearshopresult'] != null
-        ? new Nearshopresult.fromJson(json['nearshopresult'])
+    nearshopresult = json['slotlistresult'] != null
+        ? new SlotListresult.fromJson(json['slotlistresult'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.nearshopresult != null) {
-      data['nearshopresult'] = this.nearshopresult.toJson();
+      data['slotlistresult'] = this.nearshopresult.toJson();
     }
     return data;
   }
 }
 
-class Nearshopresult {
+class SlotListresult {
   List<SlotData> data;
   int isError;
   String message;
 
-  Nearshopresult({this.data, this.isError, this.message});
+  SlotListresult({this.data, this.isError, this.message});
 
-  Nearshopresult.fromJson(Map<String, dynamic> json) {
+  SlotListresult.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
       data = new List<SlotData>();
       json['data'].forEach((v) {

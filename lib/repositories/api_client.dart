@@ -67,7 +67,7 @@ class ShopApiClient {
     }
   }
 
-  Future<GetAllSlotsResponse> getBookSlotList(
+  Future<GetAllSlotsResponse> geSlotList(
       Map<String, dynamic> requestMap) async {
     var url = '$_baseUrl/getslotmaster';
 
@@ -77,12 +77,12 @@ class ShopApiClient {
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      // print(response.body);
+      print(response.body);
       return GetAllSlotsResponse.fromJson(json.decode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load album');
+      throw Exception('Failed to load api');
     }
   }
 
@@ -95,7 +95,7 @@ class ShopApiClient {
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      // print(response.body);
+      print(response.body);
       return BookSlotsResponse.fromJson(json.decode(response.body));
     } else {
       // If the server did not return a 200 OK response,

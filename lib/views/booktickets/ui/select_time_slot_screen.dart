@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoptoken/models/getallslots.dart';
+import 'package:shoptoken/utils/apppreferences.dart';
 import 'package:shoptoken/utils/dialog.dart';
+import 'package:shoptoken/utils/util_page.dart';
 import 'package:shoptoken/views/booktickets/bloc/bookticket_bloc.dart';
 import 'package:shoptoken/views/booktickets/bloc/bookticket_event.dart';
 import 'package:shoptoken/views/booktickets/bloc/bookticket_state.dart';
@@ -13,8 +15,8 @@ import 'package:shoptoken/widgets/text_style.dart';
 import 'book_ticket_result.dart';
 
 class SelectTimeSlotScreen extends StatefulWidget {
-  SelectTimeSlotScreen({Key key, this.title}) : super(key: key);
-  final String title;
+  SelectTimeSlotScreen({Key key, this.retailerid}) : super(key: key);
+  final int retailerid;
 
   @override
   _SelectTimeSlotState createState() => new _SelectTimeSlotState();
@@ -24,6 +26,11 @@ class _SelectTimeSlotState extends State<SelectTimeSlotScreen> {
   List<SlotData> slotsList;
 
   BookTicketBloc _bookTicketBloc;
+
+  String _bookstarttime;
+  String _bookendtime;
+
+  String bookDate;
 
   @override
   void initState() {
@@ -41,6 +48,10 @@ class _SelectTimeSlotState extends State<SelectTimeSlotScreen> {
           print(state.result);
           slotsList = state.result.nearshopresult.data;
         }
+        if (state is SelectDateSuccess) {
+          print(state.bookDate);
+          bookDate = state.bookDate;
+        }
         if (state is BookTicketSuccess) {
           print(state.result);
           // Dialogs().dismissLoaderDialog(context);
@@ -48,7 +59,8 @@ class _SelectTimeSlotState extends State<SelectTimeSlotScreen> {
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => BookConfirmScreen()),
+                  builder: (BuildContext context) =>
+                      BookConfirmScreen(bookSlotsResponse: state.result)),
               (Route<dynamic> route) => route is HomeScreen);
         }
       },
@@ -97,6 +109,7 @@ class _SelectTimeSlotState extends State<SelectTimeSlotScreen> {
                                 margin: EdgeInsets.symmetric(horizontal: 10.0),
                                 child: BookTicketResult(
                                   slotsList: slotsList,
+                                  callback: callback,
                                 )),
                             Container(
                               padding: EdgeInsets.all(20.0),
@@ -118,19 +131,24 @@ class _SelectTimeSlotState extends State<SelectTimeSlotScreen> {
     );
   }
 
-  void bookTicket() {
-    // //  var requestMap = new Map<String, dynamic>();
-    //   requestMap['retailer_id'] = widget.retailerid;
-    //   requestMap['booking_date'] = "$selectedYear-$selectedMonth-$selectedDay";
+  callback(bookStartTime, bookEndTime) {
+    setState(() {
+      print('Booking date $bookStartTime   $bookEndTime');
+      _bookstarttime = bookStartTime;
+      _bookendtime = bookEndTime;
+    });
+  }
 
+  Future<void> bookTicket() async {
     var requestMap = new Map<String, dynamic>();
-    requestMap['retailer_id'] = "widget.retailerid";
-    requestMap['customer_id'] = "";
-    requestMap['booking_date'] = "";
-    requestMap['token_number'] = "";
-    requestMap['book_start_time'] = "";
-    requestMap['book_end_time'] = "";
+    requestMap['retailer_id'] = widget.retailerid;
+    requestMap['customer_id'] = await Apppreferences().getUserId();
+    requestMap['booking_date'] = bookDate;
+    requestMap['book_start_time'] = _bookstarttime;
+    requestMap['book_end_time'] = _bookendtime;
+    requestMap['app_os'] = await Util().getDeviceOS();
+    requestMap['app_version'] = await Util().getAppVersion();
 
-    _bookTicketBloc.add(BookButtonEvent());
+    _bookTicketBloc.add(BookButtonEvent(requestMap: requestMap));
   }
 }

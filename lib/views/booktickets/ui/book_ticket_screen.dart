@@ -26,7 +26,7 @@ class _BookTicketScreen extends State<BookTicketScreen> {
                   child: Column(
         children: <Widget>[
           DateSlotPicker(retailerid: widget.retailerid),
-          SelectTimeSlotScreen()
+          SelectTimeSlotScreen(retailerid: widget.retailerid)
         ],
       )))),
     );

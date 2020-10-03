@@ -58,3 +58,12 @@ class BookTicketSuccess extends BookTicketState {
   @override
   String toString() => 'BookTicket StateSuccess ';
 }
+
+class SelectDateSuccess extends BookTicketState {
+  final String bookDate;
+
+  SelectDateSuccess(this.bookDate);
+
+  @override
+  String toString() => 'BookTicket StateSuccess ';
+}

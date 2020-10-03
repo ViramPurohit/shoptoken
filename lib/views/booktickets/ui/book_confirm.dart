@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:shoptoken/models/bookslots.dart';
 import 'package:shoptoken/widgets/text_style.dart';
 
 class BookConfirmScreen extends StatelessWidget {
+  final BookSlotsResponse bookSlotsResponse;
+
+  //requiring the list of todos
+  BookConfirmScreen({Key key, @required this.bookSlotsResponse})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,7 +21,7 @@ class BookConfirmScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(10.0),
                     child: new Text(
-                      'Your ticket is booked for 10am to 5pm on 23/04/2020',
+                      bookSlotsResponse.bookingresult.message,
                       style:
                           getTextStyle().copyWith(fontWeight: FontWeight.bold),
                     ),
@@ -23,6 +30,14 @@ class BookConfirmScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(10.0),
                     child: Text(
                       "TICKET NUMBER",
+                      style: getTextStyle()
+                          .copyWith(fontWeight: FontWeight.bold, fontSize: 25),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      bookSlotsResponse.bookingresult.ticketNumber.toString(),
                       style: getTextStyle()
                           .copyWith(fontWeight: FontWeight.bold, fontSize: 25),
                     ),
@@ -38,7 +53,7 @@ class BookConfirmScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(10.0),
                     child: new Text(
-                      '0202',
+                      bookSlotsResponse.bookingresult.confirmCode.toString(),
                       style: getTextStyle()
                           .copyWith(fontWeight: FontWeight.bold, fontSize: 20),
                     ),

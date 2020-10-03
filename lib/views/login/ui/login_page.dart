@@ -198,7 +198,7 @@ class _LoginPageState extends State<LoginPage> {
     return BlocListener<LoginBloc, LoginState>(
       listener: (BuildContext context, LoginState state) {
         if (state is LoginSuccess) {
-          Apppreferences().addUserLogin();
+          Apppreferences().addUserLogin(state.result);
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => CategoryScreen()));
         }

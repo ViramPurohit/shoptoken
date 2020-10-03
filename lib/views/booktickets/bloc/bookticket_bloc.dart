@@ -14,12 +14,17 @@ class BookTicketBloc extends Bloc<BookTicketEvent, BookTicketState> {
   @override
   Stream<BookTicketState> mapEventToState(BookTicketEvent event) async* {
     print("event --- $event");
+    if (event is SelectDateEvent) {
+      yield SelectDateSuccess(event.bookDate);
+    }
+
     if (event is SelectDayButtonEvent) {
       yield SlotListInProgress();
+
       try {
         final result =
-            await apireporsitory.getBookSlotList(requestMap: event.requestMap);
-        print("response --- $result");
+            await apireporsitory.geSlotList(requestMap: event.requestMap);
+
         yield SlotListSuccess(result);
       } catch (error) {
         yield SlotListFailure(error: error.toString());

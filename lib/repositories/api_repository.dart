@@ -30,9 +30,9 @@ class APIRepository {
     return await shopApiClient.getNearShop();
   }
 
-  Future<GetAllSlotsResponse> getBookSlotList(
+  Future<GetAllSlotsResponse> geSlotList(
       {Map<String, dynamic> requestMap}) async {
-    return await shopApiClient.getBookSlotList(requestMap);
+    return await shopApiClient.geSlotList(requestMap);
   }
 
   Future<BookSlotsResponse> bookSlot({Map<String, dynamic> requestMap}) async {

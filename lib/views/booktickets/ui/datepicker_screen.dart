@@ -27,6 +27,8 @@ class _DateSlotPickerState extends State<DateSlotPicker> {
     selectedDay = pickedDate.day;
     selectedMonth = pickedDate.month;
     selectedYear = pickedDate.year;
+    var bookDate = "$selectedYear-$selectedMonth-$selectedDay";
+    _bookTicketBloc.add(SelectDateEvent(bookDate: bookDate));
   }
 
   void callDatePicker() async {
@@ -35,9 +37,11 @@ class _DateSlotPickerState extends State<DateSlotPicker> {
       selectedDay = order.day;
       selectedMonth = order.month;
       selectedYear = order.year;
+      var bookDate = "$selectedYear-$selectedMonth-$selectedDay";
+      _bookTicketBloc.add(SelectDateEvent(bookDate: bookDate));
       var requestMap = new Map<String, dynamic>();
       requestMap['retailer_id'] = widget.retailerid;
-      requestMap['booking_date'] = "$selectedYear-$selectedMonth-$selectedDay";
+      requestMap['booking_date'] = bookDate;
       _bookTicketBloc.add(SelectDayButtonEvent(requestMap: requestMap));
     });
   }
@@ -48,7 +52,7 @@ class _DateSlotPickerState extends State<DateSlotPicker> {
     return showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2018),
+      firstDate: DateTime.now().subtract(Duration(days: 0)),
       lastDate: DateTime(2030),
       builder: (BuildContext context, Widget child) {
         return Theme(

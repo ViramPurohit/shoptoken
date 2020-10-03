@@ -1,33 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:shoptoken/models/getallslots.dart';
 
-class BookTicketResult extends StatelessWidget {
+class BookTicketResult extends StatefulWidget {
   final List<SlotData> slotsList;
+  final Function(String, String) callback;
+  const BookTicketResult(
+      {Key key, @required this.slotsList, @required this.callback})
+      : super(key: key);
 
-  const BookTicketResult({Key key, @required this.slotsList}) : super(key: key);
+  @override
+  State<StatefulWidget> createState() => new BookTicketResultState();
+}
 
+class BookTicketResultState extends State<BookTicketResult> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
         shrinkWrap: true,
         primary: false,
-        itemCount: slotsList.length,
+        itemCount: widget.slotsList.length,
         itemBuilder: (BuildContext context, int index) {
           return _BookTicketResultItem(
-            slots: slotsList[index],
+            slots: widget.slotsList[index],
+            callback: widget.callback,
           );
         });
   }
 }
 
-class _BookTicketResultItem extends StatelessWidget {
-  final SlotData slots;
+class _BookTicketResultItem extends StatefulWidget {
+  final Function(String, String) callback;
 
-  const _BookTicketResultItem({Key key, this.slots}) : super(key: key);
+  final SlotData slots;
+  const _BookTicketResultItem({Key key, this.slots, @required this.callback})
+      : super(key: key);
 
   @override
+  State<StatefulWidget> createState() => _BookTicketResultItemState();
+}
+
+class _BookTicketResultItemState extends State<_BookTicketResultItem> {
+  @override
   Widget build(BuildContext context) {
-    return slots != null
+    return widget.slots != null
         ? _getTimeSlotLayout(context)
         : Text('No Time available');
   }
@@ -39,8 +54,10 @@ class _BookTicketResultItem extends StatelessWidget {
             border: Border.all(color: Colors.lightBlue, width: 2)),
         child: ListTile(
           leading: Icon(Icons.timer),
-          title: Text("${slots.startTime} to ${slots.endTime}"),
-          onTap: () {},
+          title: Text("${widget.slots.startTime} to ${widget.slots.endTime}"),
+          onTap: () {
+            widget.callback(widget.slots.startTime, widget.slots.endTime);
+          },
         ));
   }
 }
