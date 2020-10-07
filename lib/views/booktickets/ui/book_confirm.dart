@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shoptoken/models/bookslots.dart';
-import 'package:shoptoken/widgets/text_style.dart';
+import 'package:Retailer/models/bookslots.dart';
+import 'package:Retailer/widgets/text_style.dart';
 
 class BookConfirmScreen extends StatelessWidget {
   final BookSlotsResponse bookSlotsResponse;

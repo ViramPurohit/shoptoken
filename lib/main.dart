@@ -3,21 +3,21 @@ import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoptoken/repositories/api_client.dart';
-import 'package:shoptoken/repositories/api_repository.dart';
-import 'package:shoptoken/routes/pageroutes.dart';
-import 'package:shoptoken/service/firebasenotifications.dart';
-import 'package:shoptoken/utils/apppreferences.dart';
-import 'package:shoptoken/views/booktickets/bloc/bookticket.dart';
-import 'package:shoptoken/views/booktickets/ui/book_confirm.dart';
+import 'package:Retailer/repositories/api_client.dart';
+import 'package:Retailer/repositories/api_repository.dart';
+import 'package:Retailer/routes/pageroutes.dart';
+import 'package:Retailer/service/firebasenotifications.dart';
+import 'package:Retailer/utils/apppreferences.dart';
+import 'package:Retailer/views/booktickets/bloc/bookticket.dart';
+import 'package:Retailer/views/booktickets/ui/book_confirm.dart';
 
-import 'package:shoptoken/views/category/bloc/category_bloc.dart';
-import 'package:shoptoken/views/home/ui/home_screen.dart';
+import 'package:Retailer/views/category/bloc/category_bloc.dart';
+import 'package:Retailer/views/home/ui/home_screen.dart';
 
-import 'package:shoptoken/views/login/bloc/login.dart';
-import 'package:shoptoken/views/stores/bloc/neareststore_bloc.dart';
-import 'package:shoptoken/views/stores/ui/storelist.dart';
-import 'package:shoptoken/views/userlocation/ui/user_location.dart';
+import 'package:Retailer/views/login/bloc/login.dart';
+import 'package:Retailer/views/stores/bloc/neareststore_bloc.dart';
+import 'package:Retailer/views/stores/ui/storelist.dart';
+import 'package:Retailer/views/userlocation/ui/user_location.dart';
 
 import 'views/booktickets/ui/user_booking.dart';
 import 'views/login/ui/login_page.dart';

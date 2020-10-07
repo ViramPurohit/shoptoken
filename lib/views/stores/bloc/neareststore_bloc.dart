@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoptoken/repositories/api_repository.dart';
+import 'package:Retailer/repositories/api_repository.dart';
 
 import 'neareststore_event.dart';
 import 'neareststore_state.dart';

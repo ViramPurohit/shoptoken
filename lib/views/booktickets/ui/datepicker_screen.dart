@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoptoken/views/booktickets/bloc/bookticket_bloc.dart';
-import 'package:shoptoken/views/booktickets/bloc/bookticket_event.dart';
-import 'package:shoptoken/widgets/text_style.dart';
+import 'package:Retailer/views/booktickets/bloc/bookticket_bloc.dart';
+import 'package:Retailer/views/booktickets/bloc/bookticket_event.dart';
+import 'package:Retailer/widgets/text_style.dart';
 
 class DateSlotPicker extends StatefulWidget {
   DateSlotPicker({Key key, @required this.retailerid}) : super(key: key);

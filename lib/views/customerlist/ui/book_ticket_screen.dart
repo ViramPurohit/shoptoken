@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shoptoken/views/booktickets/ui/select_time_slot_screen.dart';
+import 'package:Retailer/views/booktickets/ui/select_time_slot_screen.dart';
 
 class BookTicketScreen extends StatefulWidget {
   final int shopid;

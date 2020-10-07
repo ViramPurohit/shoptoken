@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shoptoken/routes/pageroutes.dart';
-import 'package:shoptoken/views/booktickets/ui/book_confirm.dart';
+import 'package:Retailer/routes/pageroutes.dart';
+import 'package:Retailer/views/booktickets/ui/book_confirm.dart';
 
 class HomeScreen extends StatefulWidget {
   final VoidCallback onHeaderClick;

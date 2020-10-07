@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shoptoken/views/booktickets/ui/select_time_slot_screen.dart';
+import 'package:Retailer/views/booktickets/ui/select_time_slot_screen.dart';
 
 import 'datepicker_screen.dart';
 

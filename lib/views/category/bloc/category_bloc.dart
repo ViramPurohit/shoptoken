@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoptoken/repositories/api_repository.dart';
+import 'package:Retailer/repositories/api_repository.dart';
 
-import 'package:shoptoken/views/category/bloc/category_event.dart';
-import 'package:shoptoken/views/category/bloc/category_state.dart';
+import 'package:Retailer/views/category/bloc/category_event.dart';
+import 'package:Retailer/views/category/bloc/category_state.dart';
 
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   final APIRepository apireporsitory;

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:shoptoken/models/categories.dart';
+import 'package:Retailer/models/categories.dart';
 
 abstract class CategoryState extends Equatable {
   const CategoryState();

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoptoken/models/getallslots.dart';
-import 'package:shoptoken/utils/apppreferences.dart';
-import 'package:shoptoken/utils/dialog.dart';
-import 'package:shoptoken/utils/util_page.dart';
-import 'package:shoptoken/views/booktickets/bloc/bookticket_bloc.dart';
-import 'package:shoptoken/views/booktickets/bloc/bookticket_event.dart';
-import 'package:shoptoken/views/booktickets/bloc/bookticket_state.dart';
-import 'package:shoptoken/views/booktickets/ui/book_confirm.dart';
-import 'package:shoptoken/views/home/ui/home_screen.dart';
-import 'package:shoptoken/widgets/button.dart';
-import 'package:shoptoken/widgets/text_style.dart';
+import 'package:Retailer/models/getallslots.dart';
+import 'package:Retailer/utils/apppreferences.dart';
+import 'package:Retailer/utils/dialog.dart';
+import 'package:Retailer/utils/util_page.dart';
+import 'package:Retailer/views/booktickets/bloc/bookticket_bloc.dart';
+import 'package:Retailer/views/booktickets/bloc/bookticket_event.dart';
+import 'package:Retailer/views/booktickets/bloc/bookticket_state.dart';
+import 'package:Retailer/views/booktickets/ui/book_confirm.dart';
+import 'package:Retailer/views/home/ui/home_screen.dart';
+import 'package:Retailer/widgets/button.dart';
+import 'package:Retailer/widgets/text_style.dart';
 
 import 'book_ticket_result.dart';
 

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoptoken/models/categories.dart';
-import 'package:shoptoken/models/nearshop.dart';
-import 'package:shoptoken/views/booktickets/ui/book_ticket_screen.dart';
-import 'package:shoptoken/views/stores/bloc/neareststore_bloc.dart';
-import 'package:shoptoken/views/stores/bloc/neareststore_state.dart';
+import 'package:Retailer/models/categories.dart';
+import 'package:Retailer/models/nearshop.dart';
+import 'package:Retailer/views/booktickets/ui/book_ticket_screen.dart';
+import 'package:Retailer/views/stores/bloc/neareststore_bloc.dart';
+import 'package:Retailer/views/stores/bloc/neareststore_state.dart';
 
-import 'package:shoptoken/widgets/button.dart';
-import 'package:shoptoken/widgets/text_style.dart';
+import 'package:Retailer/widgets/button.dart';
+import 'package:Retailer/widgets/text_style.dart';
 
 class StoreList extends StatelessWidget {
   StoreList();

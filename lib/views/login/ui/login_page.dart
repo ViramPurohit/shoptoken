@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shoptoken/service/firebasenotifications.dart';
-import 'package:shoptoken/utils/apppreferences.dart';
-import 'package:shoptoken/utils/util_page.dart';
+import 'package:Retailer/service/firebasenotifications.dart';
+import 'package:Retailer/utils/apppreferences.dart';
+import 'package:Retailer/utils/util_page.dart';
 
-import 'package:shoptoken/views/category/ui/category_screen.dart';
-import 'package:shoptoken/views/login/bloc/login.dart';
-import 'package:shoptoken/views/userlocation/ui/user_location.dart';
+import 'package:Retailer/views/category/ui/category_screen.dart';
+import 'package:Retailer/views/login/bloc/login.dart';
+import 'package:Retailer/views/userlocation/ui/user_location.dart';
 
-import 'package:shoptoken/widgets/button.dart';
+import 'package:Retailer/widgets/button.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);

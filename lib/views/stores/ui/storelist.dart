@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:shoptoken/views/stores/bloc/neareststore_bloc.dart';
-import 'package:shoptoken/views/stores/bloc/neareststore_event.dart';
+import 'package:Retailer/views/stores/bloc/neareststore_bloc.dart';
+import 'package:Retailer/views/stores/bloc/neareststore_event.dart';
 
-import 'package:shoptoken/views/stores/ui/store_list_screen.dart';
+import 'package:Retailer/views/stores/ui/store_list_screen.dart';
 
 class StoresScreen extends StatefulWidget {
   StoresScreen();

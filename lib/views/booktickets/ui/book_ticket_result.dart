@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shoptoken/models/getallslots.dart';
+import 'package:Retailer/models/getallslots.dart';
 
 class BookTicketResult extends StatefulWidget {
   final List<SlotData> slotsList;

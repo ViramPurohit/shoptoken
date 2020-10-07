@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoptoken/repositories/api_repository.dart';
-import 'package:shoptoken/views/booktickets/bloc/bookticket.dart';
+import 'package:Retailer/repositories/api_repository.dart';
+import 'package:Retailer/views/booktickets/bloc/bookticket.dart';
 
 class BookTicketBloc extends Bloc<BookTicketEvent, BookTicketState> {
   final APIRepository apireporsitory;

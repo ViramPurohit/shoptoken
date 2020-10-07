@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shoptoken/views/home/ui/home_screen.dart';
-import 'package:shoptoken/widgets/text_style.dart';
+import 'package:Retailer/views/home/ui/home_screen.dart';
+import 'package:Retailer/widgets/text_style.dart';
 
 class ConfirmCodeScreen extends StatelessWidget {
   static const String routeName = '/BookConfirmScreen';

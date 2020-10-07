@@ -1,5 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shoptoken/models/registeuser.dart';
+import 'package:Retailer/models/registeuser.dart';
 
 class Apppreferences {
   addUserLogin(RegisterUser result) async {

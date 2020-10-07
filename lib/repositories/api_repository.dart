@@ -1,8 +1,8 @@
-import 'package:shoptoken/models/bookslots.dart';
-import 'package:shoptoken/models/getallslots.dart';
-import 'package:shoptoken/models/categories.dart';
-import 'package:shoptoken/models/nearshop.dart';
-import 'package:shoptoken/models/registeuser.dart';
+import 'package:Retailer/models/bookslots.dart';
+import 'package:Retailer/models/getallslots.dart';
+import 'package:Retailer/models/categories.dart';
+import 'package:Retailer/models/nearshop.dart';
+import 'package:Retailer/models/registeuser.dart';
 
 import 'api_client.dart';
 

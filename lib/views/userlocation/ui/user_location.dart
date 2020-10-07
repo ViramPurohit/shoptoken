@@ -5,8 +5,8 @@ import 'package:geolocator/geolocator.dart' as geo;
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:shoptoken/models/uselocationdetail.dart';
-import 'package:shoptoken/widgets/text_style.dart';
+import 'package:Retailer/models/uselocationdetail.dart';
+import 'package:Retailer/widgets/text_style.dart';
 
 class UserLocation extends StatefulWidget {
   @override

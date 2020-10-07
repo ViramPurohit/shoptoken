@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:shoptoken/models/categories.dart';
-import 'package:shoptoken/models/nearshop.dart';
+import 'package:Retailer/models/categories.dart';
+import 'package:Retailer/models/nearshop.dart';
 
 abstract class NearestStoreState extends Equatable {
   const NearestStoreState();

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shoptoken/widgets/text_style.dart';
+import 'package:Retailer/widgets/text_style.dart';
 
 Material getBaseButton({String text, VoidCallback onPressed}) {
   return Material(

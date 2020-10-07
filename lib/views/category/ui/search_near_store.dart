@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shoptoken/views/stores/ui/storelist.dart';
-import 'package:shoptoken/widgets/button.dart';
+import 'package:Retailer/views/stores/ui/storelist.dart';
+import 'package:Retailer/widgets/button.dart';
 
 class SearchNearStore extends StatelessWidget {
   @override

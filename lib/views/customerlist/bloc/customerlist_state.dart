@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:shoptoken/models/bookslots.dart';
-import 'package:shoptoken/models/getallslots.dart';
+import 'package:Retailer/models/bookslots.dart';
+import 'package:Retailer/models/getallslots.dart';
 
 abstract class CustomerListState extends Equatable {
   const CustomerListState();

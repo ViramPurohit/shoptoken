@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoptoken/repositories/api_repository.dart';
-import 'package:shoptoken/views/login/bloc/login_event.dart';
-import 'package:shoptoken/views/login/bloc/login_states.dart';
+import 'package:Retailer/repositories/api_repository.dart';
+import 'package:Retailer/views/login/bloc/login_event.dart';
+import 'package:Retailer/views/login/bloc/login_states.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final APIRepository apirepository;

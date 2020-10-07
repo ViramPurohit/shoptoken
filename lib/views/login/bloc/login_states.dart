@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:shoptoken/models/categories.dart';
-import 'package:shoptoken/models/registeuser.dart';
+import 'package:Retailer/models/categories.dart';
+import 'package:Retailer/models/registeuser.dart';
 
 abstract class LoginState extends Equatable {
   const LoginState();

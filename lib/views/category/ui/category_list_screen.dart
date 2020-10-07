@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoptoken/models/categories.dart';
-import 'package:shoptoken/views/category/bloc/category_bloc.dart';
-import 'package:shoptoken/views/category/bloc/category_state.dart';
+import 'package:Retailer/models/categories.dart';
+import 'package:Retailer/views/category/bloc/category_bloc.dart';
+import 'package:Retailer/views/category/bloc/category_state.dart';
 
 class CategoryList extends StatelessWidget {
   CategoryList({Key key, this.firstName}) : super(key: key);
