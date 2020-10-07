@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:Retailer/views/booktickets/ui/select_time_slot_screen.dart';
 
-class BookTicketScreen extends StatefulWidget {
-  final int shopid;
+import 'customerList_result.dart';
 
-  //requiring the list of todos
-  BookTicketScreen({Key key, @required this.shopid}) : super(key: key);
+class CustomerScreen extends StatefulWidget {
+  CustomerScreen({Key key}) : super(key: key);
 
   @override
-  _BookTicketScreen createState() => new _BookTicketScreen();
+  _CustomerScreenState createState() => new _CustomerScreenState();
 }
 
-class _BookTicketScreen extends State<BookTicketScreen> {
+class _CustomerScreenState extends State<CustomerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Book Ticket'),
+        title: Text('Customer List'),
       ),
       body: Container(
           child: SingleChildScrollView(
               child: Container(
                   child: Column(
-        children: <Widget>[SelectTimeSlotScreen()],
+        children: <Widget>[CustomerListResult()],
       )))),
     );
   }

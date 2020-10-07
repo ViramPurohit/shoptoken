@@ -38,6 +38,13 @@
             {
               "client_id": "605210016023-hr6b8sgqq3mm0l48frelpnjcie9c285k.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "605210016023-83rv2v4vbkbil2rm66rq5e7fflitbhc5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.viram.retailertoken"
+              }
             }
           ]
         }
@@ -45,9 +52,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:605210016023:android:d563238c7ba63172409f52",
+        "mobilesdk_app_id": "1:605210016023:android:b4dac2dd9c105ec7409f52",
         "android_client_info": {
-          "package_name": "com.viram.retailetoken"
+          "package_name": "com.viram.retailertoken"
         }
       },
       "oauth_client": [
@@ -67,6 +74,13 @@
             {
               "client_id": "605210016023-hr6b8sgqq3mm0l48frelpnjcie9c285k.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "605210016023-83rv2v4vbkbil2rm66rq5e7fflitbhc5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.viram.retailertoken"
+              }
             }
           ]
         }

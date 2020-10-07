@@ -28,7 +28,7 @@ class CategoryScreenState extends State<CategoryScreen> {
     // _categoryBloc.add(event)
     return Scaffold(
       appBar: AppBar(
-        title: Text('Select Categories'),
+        title: Text('Select store type'),
       ),
       body: Column(
         children: <Widget>[CategoryList(), SearchNearStore()],

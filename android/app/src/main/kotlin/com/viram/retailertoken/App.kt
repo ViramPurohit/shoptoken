@@ -1,9 +1,9 @@
-package com.viram.retailetoken
+package com.viram.retailertoken
 
  import io.flutter.app.FlutterApplication;
  import io.flutter.plugin.common.PluginRegistry;
  import io.flutter.plugin.common.PluginRegistry.PluginRegistrantCallback;
- import com.viram.retailetoken.FirebaseCloudMessagingPluginRegistrant;
+ import com.viram.retailertoken.FirebaseCloudMessagingPluginRegistrant;
  import io.flutter.plugins.firebasemessaging.FlutterFirebaseMessagingService;
 
 class App : FlutterApplication(), PluginRegistrantCallback {

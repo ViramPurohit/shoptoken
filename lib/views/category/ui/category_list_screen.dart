@@ -141,15 +141,6 @@ class _GridItemState extends State<GridItem> {
                     textAlign: TextAlign.left,
                   ),
                 ),
-                // Container(
-                //   alignment: Alignment.topCenter,
-                //   padding: EdgeInsets.all(3.0),
-                //   child: new Text(
-                //       widget.category.firstName +
-                //           ' ' +
-                //           widget.category.lastName,
-                //       textAlign: TextAlign.start),
-                // ),
                 isSelected
                     ? Align(
                         alignment: Alignment.bottomRight,

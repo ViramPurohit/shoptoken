@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 
-abstract class CustomerListEvent extends Equatable {
-  const CustomerListEvent();
+abstract class CustomerEvent extends Equatable {
+  const CustomerEvent();
 }
 
-class BookedCustomerListEvent extends CustomerListEvent {
+class CustomerListEvent extends CustomerEvent {
   @override
   List<Object> get props => [];
 
@@ -12,7 +12,7 @@ class BookedCustomerListEvent extends CustomerListEvent {
   String toString() => "Collect category List";
 }
 
-class EnterCodeButtonEvent extends CustomerListEvent {
+class EnterCodeButtonEvent extends CustomerEvent {
   @override
   List<Object> get props => [];
 

@@ -1,4 +1,4 @@
-package com.viram.retailetoken
+package com.viram.retailertoken
 
 import io.flutter.plugin.common.PluginRegistry
 import io.flutter.plugins.firebasemessaging.FirebaseMessagingPlugin

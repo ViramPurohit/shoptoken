@@ -1,3 +1,4 @@
+import 'package:Retailer/widgets/textinputdialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +35,8 @@ class _LoginPageState extends State<LoginPage> {
   GlobalKey<FormState> _formKey = new GlobalKey();
   bool _validate = false;
   String locationLabel = 'Location';
-  String fullname, mobile, location;
+  String uploadlicenceLabel = 'Upload shop licence or doc';
+  String fullname, mobile, location, storename;
 
   LoginBloc _loginBloc;
 
@@ -99,11 +101,6 @@ class _LoginPageState extends State<LoginPage> {
       }
       return null;
     }
-
-    // String _validateLocation(String value) {
-
-    //   return null;
-    // }
 
     final nameField = TextFormField(
       obscureText: false,
@@ -180,19 +177,64 @@ class _LoginPageState extends State<LoginPage> {
       },
     );
 
+    final shopNameField = TextFormField(
+      obscureText: false,
+      style: style,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
+        labelText: "Enter store Name",
+        fillColor: Colors.white,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.blue, width: 2.0),
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+      ),
+      validator: _validateName,
+      onSaved: (String val) {
+        storename = val;
+      },
+    );
+    final uploadlicenceField = InkWell(
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        padding: const EdgeInsets.fromLTRB(14.0, 14.0, 14.0, 14.0),
+        decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.blue,
+              width: 2,
+            ),
+            borderRadius: new BorderRadius.all(Radius.circular(5.0))),
+        child: Row(
+          children: <Widget>[
+            Flexible(child: new Text(locationLabel, style: style)),
+          ],
+        ),
+      ),
+      onTap: () {
+        _navigateToUserLocation(context);
+      },
+    );
+
     final loginButon = getBaseButton(
         text: 'Login',
-        onPressed: () {
-          if (location == null || location.isEmpty) {
-            Util.showSnackbar(scaffoldContext, 'Please enter location details');
-          } else {
-            _loginButtonClick();
-          }
+        onPressed: () async {
+          // if (location == null || location.isEmpty) {
+          //   Util.showSnackbar(scaffoldContext, 'Please enter location details');
+          // } else {
+          //   _loginButtonClick();
+          // }
 
-          // Navigator.push(context,
-          // MaterialPageRoute(builder: (context) => CategoryScreen()));
-
-          // Navigator.of(context).pushReplacementNamed('/categoryscreen');
+          final result = await displayInputDialog(
+            context: context,
+            text: 'Enter Confimation Code',
+            onPressed: () {
+              setState(() {
+                print('Result---- On finish');
+              });
+            },
+          );
+          print('Result---- $result');
         });
 
     return BlocListener<LoginBloc, LoginState>(
@@ -237,7 +279,7 @@ class _LoginPageState extends State<LoginPage> {
                         key: _formKey,
                         autovalidate: _validate,
                         child: Padding(
-                          padding: const EdgeInsets.all(36.0),
+                          padding: const EdgeInsets.all(10.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -245,25 +287,51 @@ class _LoginPageState extends State<LoginPage> {
                               SizedBox(
                                 height: 155.0,
                                 child: Image.asset(
-                                  "assets/team.png",
+                                  "assets/shop.png",
                                   fit: BoxFit.contain,
                                 ),
                               ),
-                              SizedBox(height: 25.0),
-                              nameField,
-                              SizedBox(height: 25.0),
-                              mobileField,
-                              SizedBox(
-                                height: 25.0,
+                              // SizedBox(height: 5.0),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: nameField,
                               ),
-                              locationField,
-                              SizedBox(
-                                height: 25.0,
+                              // SizedBox(height: 5.0),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: mobileField,
                               ),
-                              loginButon,
-                              SizedBox(
-                                height: 15.0,
+                              // SizedBox(
+                              //   height: 5.0,
+                              // ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: locationField,
                               ),
+                              // SizedBox(
+                              //   height: 5.0,
+                              // ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: shopNameField,
+                              ),
+                              // SizedBox(
+                              //   height: 5.0,
+                              // ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: uploadlicenceField,
+                              ),
+                              // SizedBox(
+                              //   height: 5.0,
+                              // ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: loginButon,
+                              ),
+                              // SizedBox(
+                              //   height: 5.0,
+                              // ),
                             ],
                           ),
                         ),
