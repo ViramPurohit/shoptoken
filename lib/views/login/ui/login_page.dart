@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:Retailer/views/photo/takephoto.dart';
 import 'package:Retailer/widgets/textinputdialog.dart';
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,9 +38,9 @@ class _LoginPageState extends State<LoginPage> {
 
   GlobalKey<FormState> _formKey = new GlobalKey();
   bool _validate = false;
-  String locationLabel = 'Location';
+  String locationLabel = 'Shop Location';
   String uploadlicenceLabel = 'Upload shop licence or doc';
-  String fullname, mobile, location, storename;
+  String fullname, mobile, location, storelicencePath;
 
   LoginBloc _loginBloc;
 
@@ -122,27 +126,25 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     final mobileField = TextFormField(
-      obscureText: false,
-      style: style,
-      validator: _validateMobile,
-      onSaved: (String val) {
-        mobile = val;
-      },
-      maxLength: 10,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-        labelText: "Enter Mobile no",
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.blue, width: 2.0),
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-      ),
-      keyboardType: TextInputType.number,
-      inputFormatters: <TextInputFormatter>[
-        WhitelistingTextInputFormatter.digitsOnly
-      ],
-    );
+        obscureText: false,
+        style: style,
+        validator: _validateMobile,
+        onSaved: (String val) {
+          mobile = val;
+        },
+        keyboardType: TextInputType.number,
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        maxLength: 4,
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
+          labelText: "Enter Mobile no",
+          counterText: "",
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.blue, width: 2.0),
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+        ));
 
     _navigateToUserLocation(BuildContext context) async {
       final userLocationDetails = await Navigator.push(
@@ -153,6 +155,29 @@ class _LoginPageState extends State<LoginPage> {
       location = userLocationDetails.address;
       print('==userLocationDetails=== $location');
       locationLabel = location;
+      setState(() {});
+    }
+
+    _navigateToCamera(BuildContext context) async {
+      // Ensure that plugin services are initialized so that `availableCameras()`
+      // can be called before `runApp()`
+      WidgetsFlutterBinding.ensureInitialized();
+
+      // Obtain a list of the available cameras on the device.
+      final cameras = await availableCameras();
+
+      // Get a specific camera from the list of available cameras.
+      final firstCamera = cameras.first;
+
+      final storelicencePath = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => TakePictureScreen(camera: firstCamera)),
+      );
+
+      uploadlicenceLabel = File(storelicencePath).path.split('/').last;
+      print('==storename imagePath $storelicencePath');
+      print('==storename name $storelicencePath');
       setState(() {});
     }
 
@@ -182,7 +207,7 @@ class _LoginPageState extends State<LoginPage> {
       style: style,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-        labelText: "Enter store Name",
+        labelText: "Enter Shop Name",
         fillColor: Colors.white,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
         enabledBorder: OutlineInputBorder(
@@ -192,7 +217,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
       validator: _validateName,
       onSaved: (String val) {
-        storename = val;
+        fullname = val;
       },
     );
     final uploadlicenceField = InkWell(
@@ -207,34 +232,36 @@ class _LoginPageState extends State<LoginPage> {
             borderRadius: new BorderRadius.all(Radius.circular(5.0))),
         child: Row(
           children: <Widget>[
-            Flexible(child: new Text(locationLabel, style: style)),
+            Flexible(child: new Text(uploadlicenceLabel, style: style)),
           ],
         ),
       ),
       onTap: () {
-        _navigateToUserLocation(context);
+        _navigateToCamera(context);
       },
     );
 
     final loginButon = getBaseButton(
         text: 'Login',
         onPressed: () async {
-          // if (location == null || location.isEmpty) {
-          //   Util.showSnackbar(scaffoldContext, 'Please enter location details');
-          // } else {
-          //   _loginButtonClick();
-          // }
+          if (location == null || location.isEmpty) {
+            Util.showSnackbar(scaffoldContext, 'Please enter location details');
+          } else if (storelicencePath == null || storelicencePath.isEmpty) {
+            Util.showSnackbar(scaffoldContext, 'Please attach store details');
+          } else {
+            _loginButtonClick();
+          }
 
-          final result = await displayInputDialog(
-            context: context,
-            text: 'Enter Confimation Code',
-            onPressed: () {
-              setState(() {
-                print('Result---- On finish');
-              });
-            },
-          );
-          print('Result---- $result');
+          // final result = await displayInputDialog(
+          //   context: context,
+          //   text: 'Enter Confimation Code',
+          //   onPressed: () {
+          //     setState(() {
+          //       print('Result---- On finish');
+          //     });
+          //   },
+          // );
+          // print('Result---- $result');
         });
 
     return BlocListener<LoginBloc, LoginState>(

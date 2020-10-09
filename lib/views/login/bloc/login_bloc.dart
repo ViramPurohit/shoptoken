@@ -19,7 +19,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       print("LoginInProgress====");
       try {
         final result =
-            await apirepository.registerUser(requestMap: event.requestMap);
+            await apirepository.registerRetailer(requestMap: event.requestMap);
         print("result====$result");
         if (result.isError == 0) {
           yield LoginSuccess(result);

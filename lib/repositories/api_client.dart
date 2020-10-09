@@ -16,8 +16,8 @@ class ShopApiClient {
     'Content-Type': 'application/json; charset=UTF-8'
   };
 
-  Future<RegisterUser> registerUser(Map<String, dynamic> requestMap) async {
-    var url = '$_baseUrl/register/customer';
+  Future<RegisterUser> registerRetailer(Map<String, dynamic> requestMap) async {
+    var url = '$_baseUrl/register/retailer';
 
     final response = await http.post(url,
         headers: _json_header, body: json.encode(requestMap));

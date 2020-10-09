@@ -18,8 +18,8 @@ class APIRepository {
 
   APIRepository(this.shopApiClient);
 
-  Future<RegisterUser> registerUser({Map<String, dynamic> requestMap}) async {
-    return await shopApiClient.registerUser(requestMap);
+  Future<RegisterUser> registerRetailer({Map<String, dynamic> requestMap}) async {
+    return await shopApiClient.registerRetailer(requestMap);
   }
 
   Future<CategoryResponse> categoryList() async {
