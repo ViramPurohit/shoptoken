@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:Retailer/views/category/ui/category_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,7 +66,7 @@ class MyApp extends StatelessWidget {
                 if (snapshot.hasData) {
                   print('======= snapshot.data======== ${snapshot.data}');
                   if (snapshot.data == true) {
-                    return StoresScreen();
+                    return CategoryScreen();
                   } else {
                     return LoginPage(title: 'Customer Login');
                   }

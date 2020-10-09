@@ -50,24 +50,24 @@ class Categorylistresult {
 class CategoryData {
   String englishName;
   String hindiName;
-  String categoryurl;
   int id;
+  String url;
 
-  CategoryData({this.englishName, this.hindiName, this.id, this.categoryurl});
+  CategoryData({this.englishName, this.hindiName, this.id, this.url});
 
   CategoryData.fromJson(Map<String, dynamic> json) {
     englishName = json['english_name'];
     hindiName = json['hindi_name'];
-    categoryurl = json['category_url'];
     id = json['id'];
+    url = json['url'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['english_name'] = this.englishName;
     data['hindi_name'] = this.hindiName;
-    data['category_url'] = this.categoryurl;
     data['id'] = this.id;
+    data['url'] = this.url;
     return data;
   }
 }

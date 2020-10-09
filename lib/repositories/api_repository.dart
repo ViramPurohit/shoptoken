@@ -3,6 +3,7 @@ import 'package:Retailer/models/getallslots.dart';
 import 'package:Retailer/models/categories.dart';
 import 'package:Retailer/models/nearshop.dart';
 import 'package:Retailer/models/registeuser.dart';
+import 'package:Retailer/service/uploadphoto.dart';
 
 import 'api_client.dart';
 
@@ -18,12 +19,18 @@ class APIRepository {
 
   APIRepository(this.shopApiClient);
 
-  Future<RegisterUser> registerUser({Map<String, dynamic> requestMap}) async {
-    return await shopApiClient.registerUser(requestMap);
+  Future<RetailerregisterResponse> registerRetailer(
+      {Map<String, dynamic> requestMap}) async {
+    return await shopApiClient.registerRetailer(requestMap);
   }
 
   Future<CategoryResponse> categoryList() async {
     return await shopApiClient.getCategoryList();
+  }
+
+  Future<CategoryResponse> submitCategory(
+      {Map<String, dynamic> requestMap}) async {
+    return await shopApiClient.submitCategory(requestMap);
   }
 
   Future<NearShopResponse> getNearShop() async {
@@ -37,5 +44,10 @@ class APIRepository {
 
   Future<BookSlotsResponse> bookSlot({Map<String, dynamic> requestMap}) async {
     return await shopApiClient.bookSlot(requestMap);
+  }
+
+  Future<ShopCertificateResponse> uploadShopCerificate(
+      {retailerId, imagePath}) async {
+    return await shopApiClient.uploadShopCerificate(retailerId, imagePath);
   }
 }

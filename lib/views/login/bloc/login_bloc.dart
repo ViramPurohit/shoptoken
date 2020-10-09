@@ -19,17 +19,30 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       print("LoginInProgress====");
       try {
         final result =
-            await apirepository.registerUser(requestMap: event.requestMap);
+            await apirepository.registerRetailer(requestMap: event.requestMap);
         print("result====$result");
-        if (result.isError == 0) {
+        if (result.retailerregisterResult.isError == 0) {
           yield LoginSuccess(result);
         } else {
-          yield LoginErrorMsg(error: result.message);
+          yield LoginErrorMsg(error: result.retailerregisterResult.message);
         }
       } catch (error) {
         print("Error====");
         print(error);
         yield LoginFailure(error: error.toString());
+      }
+    } else if (event is UploadShopCertificate) {
+      print("UploadShop Progress====");
+      try {
+        final result = await apirepository.uploadShopCerificate(
+            retailerId: event.retailerId, imagePath: event.imagePath);
+        print("result====$result");
+        if (result.uploadshopCertificateResult.isError == 0) {
+          yield UploadCertificateSuccess(result);
+        } else {}
+      } catch (error) {
+        print("Error====");
+        print(error.toString());
       }
     }
   }

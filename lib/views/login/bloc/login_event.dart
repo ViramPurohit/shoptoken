@@ -18,3 +18,18 @@ class LoginButtonPressed extends LoginEvent {
   @override
   List<Object> get props => [requestMap];
 }
+
+class UploadShopCertificate extends LoginEvent {
+  final int retailerId;
+  final String imagePath;
+
+  UploadShopCertificate({@required this.retailerId, @required this.imagePath});
+
+  // get name => null;
+
+  @override
+  String toString() => "Retailer_id $retailerId}";
+
+  @override
+  List<Object> get props => [retailerId];
+}

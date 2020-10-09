@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:Retailer/models/categories.dart';
 import 'package:Retailer/models/registeuser.dart';
+import 'package:Retailer/service/uploadphoto.dart';
 
 abstract class LoginState extends Equatable {
   const LoginState();
@@ -39,10 +40,21 @@ class LoginErrorMsg extends LoginState {
 }
 
 class LoginSuccess extends LoginState {
-  final RegisterUser result;
+  final RetailerregisterResponse result;
 
   LoginSuccess(this.result);
 
   @override
-  String toString() => 'Login StateSuccess { Id: ${result.id} }';
+  String toString() =>
+      'Login StateSuccess { Id: ${result.retailerregisterResult.id} }';
+}
+
+class UploadCertificateSuccess extends LoginState {
+  final ShopCertificateResponse result;
+
+  UploadCertificateSuccess(this.result);
+
+  @override
+  String toString() =>
+      'Login StateSuccess { Id: ${result.uploadshopCertificateResult.message} }';
 }

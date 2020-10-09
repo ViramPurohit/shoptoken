@@ -2,11 +2,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:Retailer/models/registeuser.dart';
 
 class Apppreferences {
-  addUserLogin(RegisterUser result) async {
+  addUserLogin(RetailerregisterResponse result) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('isLogin', true);
-    prefs.setInt('userId', result.id);
-    prefs.setString('username', result.fullName);
+    prefs.setInt('userId', result.retailerregisterResult.id);
+    prefs.setString('shopname', result.retailerregisterResult.shopName);
   }
 
   Future<int> getUserId() async {
