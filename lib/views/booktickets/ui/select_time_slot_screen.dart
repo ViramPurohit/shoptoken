@@ -133,9 +133,9 @@ class _SelectTimeSlotState extends State<SelectTimeSlotScreen> {
 
   callback(bookStartTime, bookEndTime) {
     setState(() {
-      print('Booking date $bookStartTime   $bookEndTime');
       _bookstarttime = bookStartTime;
       _bookendtime = bookEndTime;
+      print('Booking date $_bookstarttime   $_bookendtime');
     });
   }
 

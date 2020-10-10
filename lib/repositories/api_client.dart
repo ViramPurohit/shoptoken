@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:shoptoken/models/bookslots.dart';
 import 'package:shoptoken/models/getallslots.dart';
 import 'package:shoptoken/models/categories.dart';
 import 'package:http/http.dart' as http;
 import 'package:shoptoken/models/nearshop.dart';
 import 'package:shoptoken/models/registeuser.dart';
+import 'package:shoptoken/service/uploadphoto.dart';
 
 class ShopApiClient {
   String _baseUrl = 'https://inline.pythonanywhere.com';

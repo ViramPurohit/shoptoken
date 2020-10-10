@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text('Ticket Booked'),
       ),
-      body: BookConfirmScreen(),
+      // body: BookConfirmScreen(),
       drawer: Drawer(child: HomeMenuList(
         onHeaderClick: () {
           Navigator.of(context).pop();

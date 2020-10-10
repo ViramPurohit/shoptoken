@@ -3,6 +3,7 @@ import 'package:shoptoken/models/getallslots.dart';
 import 'package:shoptoken/models/categories.dart';
 import 'package:shoptoken/models/nearshop.dart';
 import 'package:shoptoken/models/registeuser.dart';
+import 'package:shoptoken/service/uploadphoto.dart';
 
 import 'api_client.dart';
 
