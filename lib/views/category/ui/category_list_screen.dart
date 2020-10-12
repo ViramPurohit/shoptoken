@@ -1,6 +1,7 @@
 import 'package:Retailer/utils/apppreferences.dart';
 import 'package:Retailer/utils/dialog.dart';
 import 'package:Retailer/views/category/bloc/category_event.dart';
+import 'package:Retailer/views/stores/ui/storelist.dart';
 import 'package:Retailer/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,12 +42,25 @@ class CategoryListState extends State<CategoryList> {
           categoryList = state.result.categorylistresult.data;
         }
 
-        if (state is CategorySubmitSuccess) {}
+        if (state is CategorySubmitSuccess) {
+          Dialogs().dismissLoaderDialog(context);
+          print("=========CategorySubmitSuccess============");
+          print(state.result.categoryresult.message);
+
+          // Navigator.push(
+          //     context, MaterialPageRoute(builder: (context) => StoresScreen()));
+
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => StoresScreen()));
+        }
       },
       child: BlocBuilder<CategoryBloc, CategoryState>(
         // bloc: BlocProvider.of<BookTicketBloc>(context),
         builder: (BuildContext context, CategoryState state) {
           if (state is CategoryFailure) {
+            Dialogs().dismissLoaderDialog(context);
             return SnackBar(
               content: Text(state.error),
               backgroundColor: Theme.of(context).errorColor,

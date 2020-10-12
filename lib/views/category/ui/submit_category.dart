@@ -3,9 +3,7 @@ import 'package:Retailer/utils/apppreferences.dart';
 import 'package:Retailer/views/category/bloc/category_bloc.dart';
 import 'package:Retailer/views/category/bloc/category_event.dart';
 import 'package:Retailer/views/category/bloc/category_state.dart';
-import 'package:Retailer/views/category/ui/category_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:Retailer/views/stores/ui/storelist.dart';
 import 'package:Retailer/widgets/button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

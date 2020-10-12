@@ -1,3 +1,4 @@
+import 'package:Retailer/models/categorysubmit.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:Retailer/models/categories.dart';
@@ -43,7 +44,7 @@ class CategorySelectSuccess extends CategoryState {
 }
 
 class CategorySubmitSuccess extends CategoryState {
-  final CategoryResponse result;
+  final CategorySubmitResponse result;
 
   CategorySubmitSuccess(this.result);
 

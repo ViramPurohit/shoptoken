@@ -1,12 +1,10 @@
 import 'dart:io';
 
 import 'package:Retailer/views/photo/takephoto.dart';
-import 'package:Retailer/widgets/textinputdialog.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:Retailer/service/firebasenotifications.dart';
 import 'package:Retailer/utils/apppreferences.dart';
 import 'package:Retailer/utils/util_page.dart';

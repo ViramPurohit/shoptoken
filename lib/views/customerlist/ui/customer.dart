@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:Retailer/views/booktickets/ui/select_time_slot_screen.dart';
 
 import 'customerList_result.dart';
 
@@ -21,7 +20,11 @@ class _CustomerScreenState extends State<CustomerScreen> {
           child: SingleChildScrollView(
               child: Container(
                   child: Column(
-        children: <Widget>[CustomerListResult()],
+        children: <Widget>[
+          CustomerListResult(
+            slotsList: [],
+          )
+        ],
       )))),
     );
   }

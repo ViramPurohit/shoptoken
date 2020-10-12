@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:Retailer/models/categories.dart';
 import 'package:Retailer/models/registeuser.dart';
 import 'package:Retailer/service/uploadphoto.dart';
 

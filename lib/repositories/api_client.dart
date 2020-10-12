@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:Retailer/models/categorysubmit.dart';
 import 'package:Retailer/models/registeuser.dart';
 import 'package:Retailer/models/bookslots.dart';
 import 'package:Retailer/models/getallslots.dart';
@@ -54,7 +55,7 @@ class ShopApiClient {
     }
   }
 
-  Future<CategoryResponse> submitCategory(
+  Future<CategorySubmitResponse> submitCategory(
       Map<String, dynamic> requestMap) async {
     var url = '$_baseUrl/retailercategory';
 
@@ -65,7 +66,7 @@ class ShopApiClient {
       // If the server did return a 200 OK response,
       // then parse the JSON.
       print(response.body);
-      return CategoryResponse.fromJson(json.decode(response.body));
+      return CategorySubmitResponse.fromJson(json.decode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.

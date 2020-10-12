@@ -1,4 +1,5 @@
 import 'package:Retailer/models/bookslots.dart';
+import 'package:Retailer/models/categorysubmit.dart';
 import 'package:Retailer/models/getallslots.dart';
 import 'package:Retailer/models/categories.dart';
 import 'package:Retailer/models/nearshop.dart';
@@ -28,7 +29,7 @@ class APIRepository {
     return await shopApiClient.getCategoryList();
   }
 
-  Future<CategoryResponse> submitCategory(
+  Future<CategorySubmitResponse> submitCategory(
       {Map<String, dynamic> requestMap}) async {
     return await shopApiClient.submitCategory(requestMap);
   }

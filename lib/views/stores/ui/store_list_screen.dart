@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Retailer/models/categories.dart';
 import 'package:Retailer/models/nearshop.dart';
 import 'package:Retailer/views/booktickets/ui/book_ticket_screen.dart';
 import 'package:Retailer/views/stores/bloc/neareststore_bloc.dart';
@@ -124,7 +123,8 @@ class _GridItemState extends State<GridItem> {
         context,
         MaterialPageRoute(
             builder: (context) => BookTicketScreen(
-                  retailerid: widget.nearShop.id,
+                // retailerid: widget.nearShop.id,
+
                 )));
   }
 

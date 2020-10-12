@@ -4,10 +4,8 @@ import 'package:Retailer/views/booktickets/ui/select_time_slot_screen.dart';
 import 'datepicker_screen.dart';
 
 class BookTicketScreen extends StatefulWidget {
-  final int retailerid;
-
   //requiring the list of todos
-  BookTicketScreen({Key key, @required this.retailerid}) : super(key: key);
+  BookTicketScreen({Key key}) : super(key: key);
 
   @override
   _BookTicketScreen createState() => new _BookTicketScreen();
@@ -25,8 +23,8 @@ class _BookTicketScreen extends State<BookTicketScreen> {
               child: Container(
                   child: Column(
         children: <Widget>[
-          DateSlotPicker(retailerid: widget.retailerid),
-          SelectTimeSlotScreen(retailerid: widget.retailerid)
+          DateSlotPicker(retailerid: 1),
+          SelectTimeSlotScreen(retailerid: 1)
         ],
       )))),
     );
