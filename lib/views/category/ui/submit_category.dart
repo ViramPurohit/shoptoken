@@ -31,6 +31,7 @@ class SubmitStoreState extends State<SubmitStoreCategory> {
       categoryIds.write(category.id);
       categoryIds.write(",");
     }
+    print("categoryIds.toString()");
     print(categoryIds.toString());
     var finalIds =
         categoryIds.toString().substring(0, categoryIds.toString().length - 1);
