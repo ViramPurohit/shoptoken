@@ -149,7 +149,7 @@ class _SelectTimeSlotState extends State<SelectUserSlotScreen> {
                               padding: EdgeInsets.all(20.0),
                               child: getBaseButton(
                                   onPressed: () {
-                                    bookTicket();
+                                    saveRetailer();
                                   },
                                   text: 'Save'),
                             ),
@@ -165,19 +165,9 @@ class _SelectTimeSlotState extends State<SelectUserSlotScreen> {
     );
   }
 
-  callback(bookStartTime, bookEndTime) {
-    setState(() {
-      print('Booking date $bookStartTime   $bookEndTime');
-      _bookstarttime = bookStartTime;
-      _bookendtime = bookEndTime;
-    });
-  }
-
-  Future<void> bookTicket() async {
+  Future<void> saveRetailer() async {
     var requestMap = new Map<String, dynamic>();
     requestMap['retailer_id'] = widget.retailerid;
-    requestMap['customer_id'] = await Apppreferences().getUserId();
-    requestMap['booking_date'] = bookDate;
     requestMap['book_start_time'] = _bookstarttime;
     requestMap['book_end_time'] = _bookendtime;
     requestMap['app_os'] = await Util().getDeviceOS();
