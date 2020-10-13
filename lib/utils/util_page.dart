@@ -2,6 +2,7 @@ import 'dart:io' show Platform;
 
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
 
 class Util {
@@ -47,5 +48,12 @@ class Util {
     // String packageName = packageInfo.packageName;
     return packageInfo.version;
     // String buildNumber = packageInfo.buildNumber;
+  }
+
+  String formatTimeOfDay(TimeOfDay tod) {
+    final now = new DateTime.now();
+    final dt = DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
+    final format = DateFormat.jm(); //"6:00 AM"
+    return format.format(dt);
   }
 }
