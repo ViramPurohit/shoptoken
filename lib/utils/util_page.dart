@@ -56,4 +56,13 @@ class Util {
     final format = DateFormat.jm(); //"6:00 AM"
     return format.format(dt);
   }
+
+  void showToast(BuildContext context, String msg) {
+    final scaffold = Scaffold.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: new Text(msg),
+      ),
+    );
+  }
 }

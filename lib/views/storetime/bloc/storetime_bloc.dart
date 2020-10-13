@@ -15,17 +15,19 @@ class StoreTimeBloc extends Bloc<StoreTimeEvent, StoreTimeState> {
   @override
   Stream<StoreTimeState> mapEventToState(StoreTimeEvent event) async* {
     print("event --- $event");
-    if (event is SlotListEvent) {
+    if (event is RetailerUpdateEvent) {
       yield StoreTimeInProgress();
 
       try {
-        final result =
-            await apireporsitory.geSlotList(requestMap: event.requestMap);
+        final result = await apireporsitory.submitShopTimeSlot(
+            requestMap: event.requestMap);
 
-        yield SlotListSuccess(result);
+        yield RetailerUpdateSuccess(result);
       } catch (error) {
         yield StoreTimeFailure(error: error.toString());
       }
+    } else if (event is SelectTimeSlot) {
+      yield ShopTimeSlotSuccess(event.startTime, event.endTime);
     }
   }
 }

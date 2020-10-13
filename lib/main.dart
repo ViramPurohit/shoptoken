@@ -23,6 +23,7 @@ import 'package:Retailer/views/userlocation/ui/user_location.dart';
 import 'views/booktickets/ui/user_booking.dart';
 import 'views/login/ui/login_page.dart';
 import 'views/stores/ui/users_fav_store.dart';
+import 'views/storetime/bloc/storetime_bloc.dart';
 import 'views/userprofile/ui/user_profile.dart';
 
 void main() {
@@ -52,6 +53,9 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<BookTicketBloc>(
             create: (context) => BookTicketBloc(apireporsitory: apirepository),
+          ),
+          BlocProvider<StoreTimeBloc>(
+            create: (context) => StoreTimeBloc(apireporsitory: apirepository),
           )
         ],
         child: MaterialApp(

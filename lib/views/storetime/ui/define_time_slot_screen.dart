@@ -1,14 +1,8 @@
+import 'package:Retailer/utils/apppreferences.dart';
+import 'package:Retailer/views/storetime/bloc/storetime.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Retailer/models/getallslots.dart';
-import 'package:Retailer/utils/apppreferences.dart';
-import 'package:Retailer/utils/dialog.dart';
 import 'package:Retailer/utils/util_page.dart';
-import 'package:Retailer/views/booktickets/bloc/bookticket_bloc.dart';
-import 'package:Retailer/views/booktickets/bloc/bookticket_event.dart';
-import 'package:Retailer/views/booktickets/bloc/bookticket_state.dart';
-import 'package:Retailer/views/booktickets/ui/book_confirm.dart';
-import 'package:Retailer/views/home/ui/home_screen.dart';
 import 'package:Retailer/widgets/button.dart';
 import 'package:Retailer/widgets/text_style.dart';
 
@@ -21,23 +15,19 @@ class SelectUserSlotScreen extends StatefulWidget {
 }
 
 class _SelectTimeSlotState extends State<SelectUserSlotScreen> {
-  List<SlotData> slotsList;
-
-  BookTicketBloc _bookTicketBloc;
+  StoreTimeBloc _storeTimeBloc;
 
   String _bookstarttime;
   String _bookendtime;
 
   String bookDate;
 
-  int dropdownValue;
+  int timeSlotValue;
 
   @override
   void initState() {
     super.initState();
-    _bookTicketBloc = BlocProvider.of<BookTicketBloc>(context);
-
-    slotsList = new List<SlotData>();
+    _storeTimeBloc = BlocProvider.of<StoreTimeBloc>(context);
   }
 
   List<int> getSlotList() {
@@ -53,51 +43,32 @@ class _SelectTimeSlotState extends State<SelectUserSlotScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<BookTicketBloc, BookTicketState>(
-      listener: (BuildContext context, BookTicketState state) {
-        if (state is SlotListSuccess) {
+    return BlocListener<StoreTimeBloc, StoreTimeState>(
+      listener: (BuildContext context, StoreTimeState state) {
+        if (state is RetailerUpdateSuccess) {
           print(state.result);
-          slotsList = state.result.nearshopresult.data;
         }
-        if (state is SelectDateSuccess) {
-          print(state.bookDate);
-          bookDate = state.bookDate;
-        }
-        if (state is BookTicketSuccess) {
-          print(state.result);
-          // Dialogs().dismissLoaderDialog(context);
-
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      BookConfirmScreen(bookSlotsResponse: state.result)),
-              (Route<dynamic> route) => route is HomeScreen);
+        if (state is ShopTimeSlotSuccess) {
+          print(state.startTime);
+          _bookstarttime = state.startTime;
+          _bookendtime = state.endTime;
         }
       },
-      child: BlocBuilder<BookTicketBloc, BookTicketState>(
+      child: BlocBuilder<StoreTimeBloc, StoreTimeState>(
         // bloc: BlocProvider.of<BookTicketBloc>(context),
-        builder: (BuildContext context, BookTicketState state) {
-          if (state is SlotListInProgress) {
+        builder: (BuildContext context, StoreTimeState state) {
+          if (state is StoreTimeInProgress) {
             return Padding(
                 padding: EdgeInsets.only(top: 16.0),
                 child: Center(child: CircularProgressIndicator()));
           }
-          if (state is SlotListFailure) {
+          if (state is StoreTimeFailure) {
             return SnackBar(
               content: Text(state.error),
               backgroundColor: Theme.of(context).errorColor,
             );
           }
-          if (state is BookTicketInProgress) {
-            Dialogs().showLoaderDialog(context);
-          }
-          if (state is BookTicketFailure) {
-            return SnackBar(
-              content: Text(state.error),
-              backgroundColor: Theme.of(context).errorColor,
-            );
-          }
+
           return Container(
             child: Center(
               child: Padding(
@@ -118,7 +89,7 @@ class _SelectTimeSlotState extends State<SelectUserSlotScreen> {
                                   style: getTextLargeStyle()),
                             ),
                             DropdownButton<int>(
-                              value: dropdownValue,
+                              value: timeSlotValue,
                               hint: Center(
                                 child: Text('Select Time Slot value',
                                     textAlign: TextAlign.center),
@@ -131,7 +102,7 @@ class _SelectTimeSlotState extends State<SelectUserSlotScreen> {
                               ),
                               onChanged: (int newValue) {
                                 setState(() {
-                                  dropdownValue = newValue;
+                                  timeSlotValue = newValue;
                                 });
                               },
                               items: getSlotList()
@@ -167,12 +138,13 @@ class _SelectTimeSlotState extends State<SelectUserSlotScreen> {
 
   Future<void> saveRetailer() async {
     var requestMap = new Map<String, dynamic>();
-    requestMap['retailer_id'] = widget.retailerid;
-    requestMap['book_start_time'] = _bookstarttime;
-    requestMap['book_end_time'] = _bookendtime;
+    requestMap['retailer_id'] = await Apppreferences().getUserId();
+    requestMap['start_at'] = _bookstarttime;
+    requestMap['end_at'] = _bookendtime;
+    requestMap['slotvalue'] = timeSlotValue;
     requestMap['app_os'] = await Util().getDeviceOS();
     requestMap['app_version'] = await Util().getAppVersion();
 
-    _bookTicketBloc.add(BookButtonEvent(requestMap: requestMap));
+    _storeTimeBloc.add(RetailerUpdateEvent(requestMap: requestMap));
   }
 }

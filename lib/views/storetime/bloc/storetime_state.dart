@@ -1,3 +1,4 @@
+import 'package:Retailer/models/categorysubmit.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:Retailer/models/getallslots.dart';
@@ -24,11 +25,20 @@ class StoreTimeFailure extends StoreTimeState {
   String toString() => 'BookTicket Failure { error: $error }';
 }
 
-class SlotListSuccess extends StoreTimeState {
-  final GetAllSlotsResponse result;
+class RetailerUpdateSuccess extends StoreTimeState {
+  final CategorySubmitResponse result;
 
-  SlotListSuccess(this.result);
+  RetailerUpdateSuccess(this.result);
 
   @override
   String toString() => 'BookTicket StateSuccess ';
+}
+
+class ShopTimeSlotSuccess extends StoreTimeState {
+  final String startTime, endTime;
+
+  ShopTimeSlotSuccess(this.startTime, this.endTime);
+
+  @override
+  String toString() => 'ShopTimeSlotSuccess StateSuccess ';
 }

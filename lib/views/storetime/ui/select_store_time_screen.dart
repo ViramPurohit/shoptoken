@@ -1,10 +1,8 @@
 import 'package:Retailer/utils/util_page.dart';
+import 'package:Retailer/views/storetime/bloc/storetime.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Retailer/views/booktickets/bloc/bookticket_bloc.dart';
-import 'package:Retailer/views/booktickets/bloc/bookticket_event.dart';
 import 'package:Retailer/widgets/text_style.dart';
-import 'package:intl/intl.dart';
 
 class SelectStoreSrtEndTime extends StatefulWidget {
   SelectStoreSrtEndTime({Key key}) : super(key: key);
@@ -15,54 +13,56 @@ class SelectStoreSrtEndTime extends StatefulWidget {
 }
 
 class _SelectStoreTimeScreenState extends State<SelectStoreSrtEndTime> {
-  var selectedDay, selectedMonth, selectedYear;
-  DateTime pickedDate;
-
-  BookTicketBloc _bookTicketBloc;
-
   var opentime = 'Select opening time';
   var closetime = 'Select closing time';
+
+  int opentimeTO, closetimeTO;
+
+  StoreTimeBloc _storeTimeBloc;
 
   @override
   void initState() {
     super.initState();
-    _bookTicketBloc = BlocProvider.of<BookTicketBloc>(context);
-    pickedDate = DateTime.now();
-    // selectedDay = pickedDate.day;
-    // selectedMonth = pickedDate.month;
-    // selectedYear = pickedDate.year;
-    // var bookDate = "$selectedYear-$selectedMonth-$selectedDay";
-    // _bookTicketBloc.add(SelectDateEvent(bookDate: bookDate));
+    _storeTimeBloc = BlocProvider.of<StoreTimeBloc>(context);
   }
 
   void callTimePicker(bool isFromStarTime) async {
-    var order = await getDate();
+    var _selectTime = await getDate();
     setState(() {
-      // selectedDay = order;
-      // selectedMonth = order.hour;
-      // selectedYear = order.minute;
-
-      // var bookDate = "$selectedYear-$selectedMonth-$selectedDay";
       if (isFromStarTime) {
-        opentime = Util().formatTimeOfDay(order);
+        opentimeTO = _selectTime.hour + _selectTime.minute;
+        print('opentimeTO  == $opentimeTO');
+        if (closetimeTO != null) {
+          if (opentimeTO > closetimeTO) {
+            Util().showToast(
+                context, 'Shop open time should lesser than close time');
+          } else {
+            opentime = Util().formatTimeOfDay(_selectTime);
+          }
+        } else {
+          opentime = Util().formatTimeOfDay(_selectTime);
+        }
       } else {
-        closetime = Util().formatTimeOfDay(order);
+        closetimeTO = _selectTime.hour + _selectTime.minute;
+        print('closetimeTO == $closetimeTO');
+        if (opentimeTO != null) {
+          if (opentimeTO > closetimeTO) {
+            Util().showToast(
+                context, 'Shop close time should greater than open time');
+          } else {
+            closetime = Util().formatTimeOfDay(_selectTime);
+          }
+        } else {
+          closetime = Util().formatTimeOfDay(_selectTime);
+        }
       }
-      // DateTime myopentime = DateTime.parse(opentime);
-      // DateTime myclosetime = DateTime.parse(closetime);
-      // DateTime myopentime = DateFormat.jm()
-      //     .format(DateFormat("hh:mm a").parse(opentime)) as DateTime;
-      // DateTime myclosetime = DateFormat.jm()
-      //     .format(DateFormat("hh:mm a").parse(closetime)) as DateTime;
 
-      // print("object $myopentime");
-      // print("object $myclosetime");
-      // print("object ${myclosetime.isAfter(myopentime)}");
-      // _bookTicketBloc.add(SelectDateEvent(bookDate: bookDate));
-      // var requestMap = new Map<String, dynamic>();
-      // requestMap['retailer_id'] = 1;
-      // requestMap['booking_date'] = bookDate;
-      // _bookTicketBloc.add(SelectDayButtonEvent(requestMap: requestMap));
+      print('closetime  == $closetime');
+      print('opentime  == $opentime');
+      if (opentimeTO != null && closetimeTO != null) {
+        _storeTimeBloc
+            .add(SelectTimeSlot(startTime: opentime, endTime: closetime));
+      }
     });
   }
 

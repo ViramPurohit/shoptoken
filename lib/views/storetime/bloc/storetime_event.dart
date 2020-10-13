@@ -5,10 +5,10 @@ abstract class StoreTimeEvent extends Equatable {
   const StoreTimeEvent();
 }
 
-class SlotListEvent extends StoreTimeEvent {
+class RetailerUpdateEvent extends StoreTimeEvent {
   final Map<String, dynamic> requestMap;
 
-  SlotListEvent({@required this.requestMap});
+  RetailerUpdateEvent({@required this.requestMap});
 
   // get name => null;
 
@@ -17,4 +17,18 @@ class SlotListEvent extends StoreTimeEvent {
 
   @override
   List<Object> get props => [requestMap];
+}
+
+class SelectTimeSlot extends StoreTimeEvent {
+  final String startTime, endTime;
+
+  SelectTimeSlot({@required this.startTime, @required this.endTime});
+
+  // get name => null;
+
+  @override
+  String toString() => "SelectDayButtonEvent { User name : $startTime}";
+
+  @override
+  List<Object> get props => [startTime, endTime];
 }

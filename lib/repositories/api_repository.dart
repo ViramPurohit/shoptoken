@@ -29,9 +29,14 @@ class APIRepository {
     return await shopApiClient.getCategoryList();
   }
 
-  Future<CategorySubmitResponse> submitCategory(
+  Future<CategorySubmitResponse> submitShopCategory(
       {Map<String, dynamic> requestMap}) async {
     return await shopApiClient.submitCategory(requestMap);
+  }
+
+  Future<CategorySubmitResponse> submitShopTimeSlot(
+      {Map<String, dynamic> requestMap}) async {
+    return await shopApiClient.submitTimeSlot(requestMap);
   }
 
   Future<NearShopResponse> getNearShop() async {

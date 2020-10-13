@@ -74,6 +74,25 @@ class ShopApiClient {
     }
   }
 
+  Future<CategorySubmitResponse> submitTimeSlot(
+      Map<String, dynamic> requestMap) async {
+    var url = '$_baseUrl/register/updateretailertime';
+
+    final response = await http.post(url,
+        headers: _json_header, body: json.encode(requestMap));
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      print(response.body);
+      return CategorySubmitResponse.fromJson(json.decode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
+    }
+  }
+
   Future<NearShopResponse> getNearShop() async {
     var url = '$_baseUrl/getnearshop';
 

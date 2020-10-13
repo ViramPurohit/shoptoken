@@ -15,7 +15,7 @@ class _BookTicketScreenState extends State<StoreTimeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Book Ticket'),
+        title: Text('Select Store time'),
       ),
       body: Container(
           child: SingleChildScrollView(

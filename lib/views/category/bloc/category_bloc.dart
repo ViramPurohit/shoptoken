@@ -31,8 +31,8 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       print("Event name CategorySubmitSuccess");
       yield CategoryInProgress();
       try {
-        final result =
-            await apireporsitory.submitCategory(requestMap: event.requestMap);
+        final result = await apireporsitory.submitShopCategory(
+            requestMap: event.requestMap);
         yield CategorySubmitSuccess(result);
       } catch (error) {
         yield CategoryFailure(error: error.toString());
