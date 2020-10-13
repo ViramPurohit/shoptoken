@@ -59,8 +59,7 @@ class _SelectTimeSlotState extends State<SelectTimeSlotScreen> {
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      BookConfirmScreen(bookSlotsResponse: state.result)),
+                  builder: (BuildContext context) => BookConfirmScreen()),
               (Route<dynamic> route) => route is HomeScreen);
         }
       },

@@ -1,4 +1,5 @@
 import 'package:Retailer/utils/apppreferences.dart';
+import 'package:Retailer/views/home/ui/home_screen.dart';
 import 'package:Retailer/views/storetime/bloc/storetime.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,6 +48,9 @@ class _SelectTimeSlotState extends State<SelectUserSlotScreen> {
       listener: (BuildContext context, StoreTimeState state) {
         if (state is RetailerUpdateSuccess) {
           print(state.result);
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+              (Route<dynamic> route) => false);
         }
         if (state is ShopTimeSlotSuccess) {
           print(state.startTime);
