@@ -16,6 +16,12 @@ class Apppreferences {
     return userId;
   }
 
+  Future<String> getShopName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return prefs.getString('shopname');
+  }
+
   Future<bool> isUserLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 

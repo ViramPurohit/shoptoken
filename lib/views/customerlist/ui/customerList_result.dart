@@ -1,30 +1,44 @@
+import 'package:Retailer/models/retailerallbookings.dart';
+import 'package:Retailer/widgets/button.dart';
+import 'package:Retailer/widgets/text_style.dart';
 import 'package:flutter/material.dart';
-import 'package:Retailer/models/getallslots.dart';
 
-class CustomerListResult extends StatelessWidget {
-  final List<SlotData> slotsList;
+class CustomerListResult extends StatefulWidget {
+  final Function(int) callback;
 
-  const CustomerListResult({Key key, @required this.slotsList})
+  CustomerListResult(
+      {Key key, @required this.bookingList, @required this.callback})
       : super(key: key);
+  final List<RetailerbookinData> bookingList;
+  @override
+  _CustomerListResultState createState() => new _CustomerListResultState();
+}
+
+class _CustomerListResultState extends State<CustomerListResult> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
         shrinkWrap: true,
         primary: false,
-        itemCount: slotsList.length,
+        itemCount: widget.bookingList.length,
         itemBuilder: (BuildContext context, int index) {
-          return _BookTicketResultItem(
-            slots: slotsList[index],
+          return _BookResultItem(
+            slots: widget.bookingList[index],
           );
         });
   }
 }
 
-class _BookTicketResultItem extends StatelessWidget {
-  final SlotData slots;
+class _BookResultItem extends StatelessWidget {
+  final RetailerbookinData slots;
+  final Function(int) callback;
 
-  const _BookTicketResultItem({Key key, this.slots}) : super(key: key);
+  const _BookResultItem({Key key, this.slots, this.callback}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +49,79 @@ class _BookTicketResultItem extends StatelessWidget {
 
   Container _getTimeSlotLayout(BuildContext context) {
     return Container(
-        margin: EdgeInsets.symmetric(vertical: 5.0),
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.lightBlue, width: 2)),
-        child: ListTile(
-          leading: Icon(Icons.timer),
-          title: Text(slots.startTime),
-          onTap: () {},
-        ));
+      padding: EdgeInsets.symmetric(vertical: 8.0),
+      child: Card(
+        elevation: 2,
+        child: Center(
+          child: new InkWell(
+            highlightColor: Colors.blue.withAlpha(30),
+            splashColor: Colors.white.withAlpha(20),
+            child: new Row(children: <Widget>[
+              Flexible(
+                child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.50,
+                    height: 200.0,
+                    child: Padding(
+                        padding: EdgeInsets.all(4.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Expanded(
+                              child: Padding(
+                                  padding: EdgeInsets.all(4.0),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: new Text(slots.fullName,
+                                        textAlign: TextAlign.start,
+                                        style: getTextStyle().copyWith(
+                                            fontWeight: FontWeight.bold)),
+                                  )),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                  padding: EdgeInsets.all(4.0),
+                                  child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: new Text(slots.mobileNo))),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                  padding: EdgeInsets.all(4.0),
+                                  child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: new Text(
+                                        'Time slot ${slots.bookStartTime} To ${slots.bookEndTime}',
+                                        style: getTextStyle().copyWith(
+                                            fontWeight: FontWeight.bold),
+                                      ))),
+                            )
+                          ],
+                        ))),
+              ),
+              Flexible(
+                  child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.50,
+                      height: 200.0,
+                      child: Padding(
+                          padding: EdgeInsets.all(4.0),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Padding(
+                                    padding: EdgeInsets.all(4.0),
+                                    child: getColorButton(
+                                      text: 'Enter Code',
+                                      colors: Color(0xFF1B5E20),
+                                      onPressed: () {
+                                        callback(slots.bookId);
+                                      },
+                                    )),
+                              ]))))
+            ]),
+            onTap: () {},
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -4,6 +4,8 @@ import 'package:Retailer/models/getallslots.dart';
 import 'package:Retailer/models/categories.dart';
 import 'package:Retailer/models/nearshop.dart';
 import 'package:Retailer/models/registeuser.dart';
+import 'package:Retailer/models/retailerallbookings.dart';
+import 'package:Retailer/models/verifycoderesult.dart';
 import 'package:Retailer/service/uploadphoto.dart';
 
 import 'api_client.dart';
@@ -55,5 +57,15 @@ class APIRepository {
   Future<ShopCertificateResponse> uploadShopCerificate(
       {retailerId, imagePath}) async {
     return await shopApiClient.uploadShopCerificate(retailerId, imagePath);
+  }
+
+  Future<RetailerbookingResponse> getAllbooking(
+      {Map<String, dynamic> requestMap}) async {
+    return await shopApiClient.getAllbooking(requestMap);
+  }
+
+  Future<VerifyCodeResponse> verifyUserCode(
+      {Map<String, dynamic> requestMap}) async {
+    return await shopApiClient.verifyUserCode(requestMap);
   }
 }

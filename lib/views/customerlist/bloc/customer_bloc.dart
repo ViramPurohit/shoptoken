@@ -9,16 +9,14 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
 
   CustomerBloc({@required this.apireporsitory}) : super(CustomerInitial());
 
-  // @override
-  // BookTicketState get initialState => BookTicketInitial();
-
   @override
   Stream<CustomerState> mapEventToState(CustomerEvent event) async* {
     print("event --- $event");
     if (event is CustomerListEvent) {
       yield CustomerProgress();
       try {
-        final result = await apireporsitory.geSlotList();
+        final result =
+            await apireporsitory.getAllbooking(requestMap: event.requestMap);
         print("response --- $result");
         yield CustomerSuccess(result);
       } catch (error) {
@@ -28,7 +26,8 @@ class CustomerBloc extends Bloc<CustomerEvent, CustomerState> {
     if (event is EnterCodeButtonEvent) {
       yield CustomerProgress();
       try {
-        final result = await apireporsitory.geSlotList();
+        final result =
+            await apireporsitory.verifyUserCode(requestMap: event.requestMap);
         print("response --- $result");
         yield CodeVerificationSuccess(result);
       } catch (error) {

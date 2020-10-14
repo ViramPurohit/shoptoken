@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'customerList_result.dart';
+import 'customerlist.dart';
 
 class CustomerScreen extends StatefulWidget {
   CustomerScreen({Key key}) : super(key: key);
@@ -20,11 +20,7 @@ class _CustomerScreenState extends State<CustomerScreen> {
           child: SingleChildScrollView(
               child: Container(
                   child: Column(
-        children: <Widget>[
-          CustomerListResult(
-            slotsList: [],
-          )
-        ],
+        children: <Widget>[CustomerList()],
       )))),
     );
   }

@@ -1,21 +1,34 @@
 import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
 
 abstract class CustomerEvent extends Equatable {
   const CustomerEvent();
 }
 
 class CustomerListEvent extends CustomerEvent {
-  @override
-  List<Object> get props => [];
+  final Map<String, dynamic> requestMap;
+
+  CustomerListEvent({@required this.requestMap});
+
+  // get name => null;
 
   @override
-  String toString() => "Collect category List";
+  String toString() => "SubmitCategoryEvent { Request Data: $requestMap}";
+
+  @override
+  List<Object> get props => [requestMap];
 }
 
 class EnterCodeButtonEvent extends CustomerEvent {
-  @override
-  List<Object> get props => [];
+  final Map<String, dynamic> requestMap;
+
+  EnterCodeButtonEvent({@required this.requestMap});
+
+  // get name => null;
 
   @override
-  String toString() => "Booked Ticket for Users";
+  String toString() => "SubmitCategoryEvent { Request Data: $requestMap}";
+
+  @override
+  List<Object> get props => [requestMap];
 }

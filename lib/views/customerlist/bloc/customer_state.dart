@@ -1,7 +1,7 @@
+import 'package:Retailer/models/retailerallbookings.dart';
+import 'package:Retailer/models/verifycoderesult.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:Retailer/models/bookslots.dart';
-import 'package:Retailer/models/getallslots.dart';
 
 abstract class CustomerState extends Equatable {
   const CustomerState();
@@ -26,7 +26,7 @@ class CustomerFailure extends CustomerState {
 }
 
 class CustomerSuccess extends CustomerState {
-  final GetAllSlotsResponse result;
+  final RetailerbookingResponse result;
 
   CustomerSuccess(this.result);
 
@@ -35,7 +35,7 @@ class CustomerSuccess extends CustomerState {
 }
 
 class CodeVerificationSuccess extends CustomerState {
-  final GetAllSlotsResponse result;
+  final VerifyCodeResponse result;
 
   CodeVerificationSuccess(this.result);
 

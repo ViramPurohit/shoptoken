@@ -21,6 +21,8 @@ import 'package:Retailer/views/stores/ui/storelist.dart';
 import 'package:Retailer/views/userlocation/ui/user_location.dart';
 
 import 'views/booktickets/ui/user_booking.dart';
+import 'views/customerlist/bloc/customer_bloc.dart';
+import 'views/customerlist/ui/customer.dart';
 import 'views/login/ui/login_page.dart';
 import 'views/stores/ui/users_fav_store.dart';
 import 'views/storetime/bloc/storetime_bloc.dart';
@@ -56,6 +58,9 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<StoreTimeBloc>(
             create: (context) => StoreTimeBloc(apireporsitory: apirepository),
+          ),
+          BlocProvider<CustomerBloc>(
+            create: (context) => CustomerBloc(apireporsitory: apirepository),
           )
         ],
         child: MaterialApp(
@@ -70,7 +75,7 @@ class MyApp extends StatelessWidget {
                 if (snapshot.hasData) {
                   print('======= snapshot.data======== ${snapshot.data}');
                   if (snapshot.data == true) {
-                    return CategoryScreen();
+                    return HomeScreen();
                   } else {
                     return LoginPage(title: 'Customer Login');
                   }
@@ -80,9 +85,9 @@ class MyApp extends StatelessWidget {
                 // return PlaceDetail();
               }),
           routes: {
-            PageRoutes.mybookings: (context) => UserBooking(),
-            PageRoutes.userfavstores: (context) => UserFavStores(),
+            PageRoutes.customerlist: (context) => CustomerScreen(),
             PageRoutes.userProfile: (context) => UserProfile(),
+            PageRoutes.setting: (context) => UserProfile(),
           },
         ));
   }

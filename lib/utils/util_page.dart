@@ -65,4 +65,14 @@ class Util {
       ),
     );
   }
+
+  void showErrorToast(BuildContext context, String msg) {
+    final scaffold = Scaffold.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: new Text(msg),
+        backgroundColor: Theme.of(context).errorColor,
+      ),
+    );
+  }
 }

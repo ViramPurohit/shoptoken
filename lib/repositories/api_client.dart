@@ -5,6 +5,8 @@ import 'package:Retailer/models/registeuser.dart';
 import 'package:Retailer/models/bookslots.dart';
 import 'package:Retailer/models/getallslots.dart';
 import 'package:Retailer/models/categories.dart';
+import 'package:Retailer/models/retailerallbookings.dart';
+import 'package:Retailer/models/verifycoderesult.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:Retailer/models/nearshop.dart';
@@ -173,5 +175,43 @@ class ShopApiClient {
 
   ShopCertificateResponse parseCertificate(String responseBody) {
     return ShopCertificateResponse.fromJson(json.decode(responseBody));
+  }
+
+  Future<RetailerbookingResponse> getAllbooking(
+      Map<String, dynamic> requestMap) async {
+    var url = '$_baseUrl/getallretailerbooking';
+    print(url);
+    final response = await http.post(url,
+        headers: _json_header, body: json.encode(requestMap));
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      print(response.body);
+      return RetailerbookingResponse.fromJson(json.decode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load api');
+    }
+  }
+
+  Future<VerifyCodeResponse> verifyUserCode(
+      Map<String, dynamic> requestMap) async {
+    var url = '$_baseUrl/verifyCode';
+
+    final response = await http.post(url,
+        headers: _json_header, body: json.encode(requestMap));
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      print(response.body);
+      return VerifyCodeResponse.fromJson(json.decode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load api');
+    }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:Retailer/utils/apppreferences.dart';
 import 'package:flutter/material.dart';
 import 'package:Retailer/routes/pageroutes.dart';
 import 'package:Retailer/views/booktickets/ui/book_confirm.dart';
@@ -13,12 +14,29 @@ class HomeScreen extends StatefulWidget {
   }
 }
 
+String shopName = "Shop name";
+int retailerId = 14;
+
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    getUserDetails();
+  }
+
+  Future<void> getUserDetails() async {
+    retailerId = await Apppreferences().getUserId();
+    shopName = await Apppreferences().getShopName();
+
+    print('shopName $shopName');
+    print('retailerId $retailerId');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ticket Booked'),
+        title: Text(shopName),
       ),
       body: BookConfirmScreen(),
       drawer: Drawer(child: HomeMenuList(
@@ -63,24 +81,24 @@ class HomeMenuList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(padding: EdgeInsets.zero, children: <Widget>[
-        _createHeader(),
+        _createHeader(context),
         _createDrawerItem(
             select: false,
             icon: Icons.shopping_basket,
             colors: Colors.blueAccent,
-            text: 'Bookings',
+            text: 'Customer list',
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, PageRoutes.mybookings);
+              Navigator.pushNamed(context, PageRoutes.customerlist);
             }),
         _createDrawerItem(
             select: false,
             icon: Icons.bookmark,
             colors: Colors.blueAccent,
-            text: 'Favourite stores',
+            text: 'Profile',
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, PageRoutes.userfavstores);
+              Navigator.pushNamed(context, PageRoutes.userProfile);
             }),
         _createDrawerItem(
             select: false,
@@ -89,7 +107,7 @@ class HomeMenuList extends StatelessWidget {
             text: 'Settings',
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, PageRoutes.userProfile);
+              Navigator.pushNamed(context, PageRoutes.setting);
             }),
         Divider(),
         Padding(
@@ -103,19 +121,19 @@ class HomeMenuList extends StatelessWidget {
     );
   }
 
-  Widget _createHeader() {
+  Widget _createHeader(BuildContext context) {
     return UserAccountsDrawerHeader(
       margin: EdgeInsets.zero,
       decoration: BoxDecoration(
           image: DecorationImage(
               fit: BoxFit.fill,
               image: AssetImage('assets/icons/drawer_header.png'))),
-      accountName: Text("Viram P"),
-      accountEmail: Text("virampurohit@clarion.com"),
+      accountName: Text(shopName),
+      accountEmail: Text(retailerId.toString()),
       currentAccountPicture: CircleAvatar(
         backgroundColor: Colors.green,
         child: Text(
-          "V",
+          shopName.substring(shopName.length - 1),
           style: TextStyle(
               color: Colors.white, fontSize: 40.0, fontWeight: FontWeight.w500),
         ),
