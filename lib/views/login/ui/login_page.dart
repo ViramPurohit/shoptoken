@@ -266,17 +266,6 @@ class _LoginPageState extends State<LoginPage> {
           } else {
             _loginButtonClick();
           }
-
-          // final result = await displayInputDialog(
-          //   context: context,
-          //   text: 'Enter Confimation Code',
-          //   onPressed: () {
-          //     setState(() {
-          //       print('Result---- On finish');
-          //     });
-          //   },
-          // );
-          // print('Result---- $result');
         });
 
     return BlocListener<LoginBloc, LoginState>(

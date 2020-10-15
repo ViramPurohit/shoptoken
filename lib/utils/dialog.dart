@@ -28,4 +28,28 @@ class Dialogs {
       Navigator.pop(context);
     });
   }
+
+  showAlertMsgDialog(BuildContext context, title, msg) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      AlertDialog alert = AlertDialog(
+        title: new Text(title),
+        content: new Text(msg),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Ok'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    });
+  }
 }

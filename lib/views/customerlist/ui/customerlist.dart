@@ -5,6 +5,7 @@ import 'package:Retailer/utils/util_page.dart';
 import 'package:Retailer/views/customerlist/bloc/customer_bloc.dart';
 import 'package:Retailer/views/customerlist/bloc/customer_event.dart';
 import 'package:Retailer/views/customerlist/bloc/customer_state.dart';
+import 'package:Retailer/widgets/textinputdialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -61,6 +62,12 @@ class _CustomerListState extends State<CustomerList> {
         }
         if (state is CodeVerificationSuccess) {
           Dialogs().dismissLoaderDialog(context);
+          if (state.result.verifyCoderesult.isError == 0) {
+            Dialogs().showAlertMsgDialog(
+                context, "Confirm Code", state.result.verifyCoderesult.message);
+          } else {
+            Util().showToast(context, state.result.verifyCoderesult.message);
+          }
         }
         if (state is CustomerFailure) {
           Dialogs().dismissLoaderDialog(context);
@@ -70,17 +77,6 @@ class _CustomerListState extends State<CustomerList> {
       child: BlocBuilder<CustomerBloc, CustomerState>(
         // bloc: BlocProvider.of<BookTicketBloc>(context),
         builder: (BuildContext context, CustomerState state) {
-          // if (state is CustomerProgress) {
-          //   Dialogs().showLoaderDialog(context);
-          // }
-          // if (state is CustomerFailure) {
-          //   Dialogs().dismissLoaderDialog(context);
-          //   return SnackBar(
-          //     content: Text(state.error),
-          //     backgroundColor: Theme.of(context).errorColor,
-          //   );
-          // }
-
           return Container(
             child: Center(
               child: Padding(
@@ -114,9 +110,53 @@ class _CustomerListState extends State<CustomerList> {
     );
   }
 
+  void showConfirmDialog() {
+    new AlertDialog(
+      title: new Text("Logout"),
+      content: new Text("Do you want to Logout?"),
+      actions: <Widget>[
+        FlatButton(
+          child: Text('Yes'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        FlatButton(
+          child: Text('No'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        )
+      ],
+    );
+  }
+
   callback(bookId) {
     setState(() {
       print('Booking date $bookId ');
+      showCodeEnterDialog(bookId);
     });
+  }
+
+  Future<void> showCodeEnterDialog(bookId) async {
+    final confirmCode = await displayInputDialog(
+      context: context,
+      text: 'Enter Confimation Code',
+      onPressed: () {
+        setState(() {
+          print('Result---- On finish');
+        });
+      },
+    );
+    print('Result---- $confirmCode');
+    submitUserCode(bookId, confirmCode);
+  }
+
+  Future<void> submitUserCode(bookId, confirmCode) async {
+    var requestMap = new Map<String, dynamic>();
+    requestMap['book_id'] = bookId;
+    requestMap['confirm_code'] = confirmCode;
+
+    _customerBloc.add(EnterCodeButtonEvent(requestMap: requestMap));
   }
 }

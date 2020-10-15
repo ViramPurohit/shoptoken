@@ -29,6 +29,7 @@ class _CustomerListResultState extends State<CustomerListResult> {
         itemBuilder: (BuildContext context, int index) {
           return _BookResultItem(
             slots: widget.bookingList[index],
+            callback: widget.callback,
           );
         });
   }
@@ -53,73 +54,69 @@ class _BookResultItem extends StatelessWidget {
       child: Card(
         elevation: 2,
         child: Center(
-          child: new InkWell(
-            highlightColor: Colors.blue.withAlpha(30),
-            splashColor: Colors.white.withAlpha(20),
-            child: new Row(children: <Widget>[
-              Flexible(
+          child: new Row(children: <Widget>[
+            Flexible(
+              child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.50,
+                  height: 150.0,
+                  child: Padding(
+                      padding: EdgeInsets.all(4.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            child: Padding(
+                                padding: EdgeInsets.all(2.0),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: new Text(slots.fullName,
+                                      textAlign: TextAlign.start,
+                                      style: getTextStyle().copyWith(
+                                          fontWeight: FontWeight.bold)),
+                                )),
+                          ),
+                          Expanded(
+                            child: Padding(
+                                padding: EdgeInsets.all(2.0),
+                                child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: new Text(slots.mobileNo))),
+                          ),
+                          Expanded(
+                            child: Padding(
+                                padding: EdgeInsets.all(2.0),
+                                child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: new Text(
+                                      'Time slot ${slots.bookStartTime} To ${slots.bookEndTime}',
+                                      style: getTextStyle().copyWith(
+                                          fontWeight: FontWeight.bold),
+                                    ))),
+                          )
+                        ],
+                      ))),
+            ),
+            Flexible(
                 child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.50,
-                    height: 200.0,
-                    child: Padding(
-                        padding: EdgeInsets.all(4.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Expanded(
-                              child: Padding(
-                                  padding: EdgeInsets.all(4.0),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: new Text(slots.fullName,
-                                        textAlign: TextAlign.start,
-                                        style: getTextStyle().copyWith(
-                                            fontWeight: FontWeight.bold)),
-                                  )),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                  padding: EdgeInsets.all(4.0),
-                                  child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: new Text(slots.mobileNo))),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                  padding: EdgeInsets.all(4.0),
-                                  child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: new Text(
-                                        'Time slot ${slots.bookStartTime} To ${slots.bookEndTime}',
-                                        style: getTextStyle().copyWith(
-                                            fontWeight: FontWeight.bold),
-                                      ))),
-                            )
-                          ],
-                        ))),
-              ),
-              Flexible(
-                  child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.50,
-                      height: 200.0,
-                      child: Padding(
-                          padding: EdgeInsets.all(4.0),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                    padding: EdgeInsets.all(4.0),
-                                    child: getColorButton(
-                                      text: 'Enter Code',
-                                      colors: Color(0xFF1B5E20),
-                                      onPressed: () {
-                                        callback(slots.bookId);
-                                      },
-                                    )),
-                              ]))))
-            ]),
-            onTap: () {},
-          ),
+                    height: 150.0,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Padding(
+                              padding: EdgeInsets.all(4.0),
+                              child: Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: getColorButton(
+                                    text: 'Enter Code',
+                                    colors: Color(0xFF1B5E20),
+                                    onPressed: () {
+                                      print("slots.bookI ${slots.bookId}");
+                                      callback(slots.bookId);
+                                    },
+                                  ))),
+                        ])))
+          ]),
         ),
       ),
     );

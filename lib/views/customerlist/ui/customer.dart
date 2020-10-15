@@ -13,9 +13,6 @@ class _CustomerScreenState extends State<CustomerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Customer List'),
-      ),
       body: Container(
           child: SingleChildScrollView(
               child: Container(

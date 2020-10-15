@@ -1,4 +1,5 @@
 import 'package:Retailer/utils/apppreferences.dart';
+import 'package:Retailer/views/customerlist/ui/customer.dart';
 import 'package:flutter/material.dart';
 import 'package:Retailer/routes/pageroutes.dart';
 import 'package:Retailer/views/booktickets/ui/book_confirm.dart';
@@ -36,9 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(shopName),
+        title: Text('Customer list'),
       ),
-      body: BookConfirmScreen(),
+      body: CustomerScreen(),
       drawer: Drawer(child: HomeMenuList(
         onHeaderClick: () {
           Navigator.of(context).pop();
@@ -82,15 +83,15 @@ class HomeMenuList extends StatelessWidget {
     return Scaffold(
       body: ListView(padding: EdgeInsets.zero, children: <Widget>[
         _createHeader(context),
-        _createDrawerItem(
-            select: false,
-            icon: Icons.shopping_basket,
-            colors: Colors.blueAccent,
-            text: 'Customer list',
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, PageRoutes.customerlist);
-            }),
+        // _createDrawerItem(
+        //     select: false,
+        //     icon: Icons.shopping_basket,
+        //     colors: Colors.blueAccent,
+        //     text: 'Customer list',
+        //     onTap: () {
+        //       Navigator.pop(context);
+        //       Navigator.pushNamed(context, PageRoutes.customerlist);
+        //     }),
         _createDrawerItem(
             select: false,
             icon: Icons.bookmark,
@@ -133,7 +134,7 @@ class HomeMenuList extends StatelessWidget {
       currentAccountPicture: CircleAvatar(
         backgroundColor: Colors.green,
         child: Text(
-          shopName.substring(shopName.length - 1),
+          shopName[0],
           style: TextStyle(
               color: Colors.white, fontSize: 40.0, fontWeight: FontWeight.w500),
         ),
