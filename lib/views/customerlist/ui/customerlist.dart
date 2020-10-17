@@ -149,7 +149,9 @@ class _CustomerListState extends State<CustomerList> {
       },
     );
     print('Result---- $confirmCode');
-    submitUserCode(bookId, confirmCode);
+    if (confirmCode != null) {
+      submitUserCode(bookId, confirmCode);
+    }
   }
 
   Future<void> submitUserCode(bookId, confirmCode) async {

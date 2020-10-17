@@ -83,18 +83,9 @@ class HomeMenuList extends StatelessWidget {
     return Scaffold(
       body: ListView(padding: EdgeInsets.zero, children: <Widget>[
         _createHeader(context),
-        // _createDrawerItem(
-        //     select: false,
-        //     icon: Icons.shopping_basket,
-        //     colors: Colors.blueAccent,
-        //     text: 'Customer list',
-        //     onTap: () {
-        //       Navigator.pop(context);
-        //       Navigator.pushNamed(context, PageRoutes.customerlist);
-        //     }),
         _createDrawerItem(
             select: false,
-            icon: Icons.bookmark,
+            icon: Icons.account_box,
             colors: Colors.blueAccent,
             text: 'Profile',
             onTap: () {

@@ -55,66 +55,131 @@ class _BookResultItem extends StatelessWidget {
         elevation: 2,
         child: Center(
           child: new Row(children: <Widget>[
-            Flexible(
-              child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.50,
-                  height: 150.0,
-                  child: Padding(
-                      padding: EdgeInsets.all(4.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Expanded(
-                            child: Padding(
-                                padding: EdgeInsets.all(2.0),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: new Text(slots.fullName,
-                                      textAlign: TextAlign.start,
-                                      style: getTextStyle().copyWith(
-                                          fontWeight: FontWeight.bold)),
-                                )),
-                          ),
-                          Expanded(
-                            child: Padding(
-                                padding: EdgeInsets.all(2.0),
-                                child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: new Text(slots.mobileNo))),
-                          ),
-                          Expanded(
-                            child: Padding(
-                                padding: EdgeInsets.all(2.0),
-                                child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: new Text(
-                                      'Time slot ${slots.bookStartTime} To ${slots.bookEndTime}',
-                                      style: getTextStyle().copyWith(
-                                          fontWeight: FontWeight.bold),
-                                    ))),
-                          )
-                        ],
-                      ))),
+            Container(
+              child: Flexible(
+                child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.60,
+                    height: 180.0,
+                    child: Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                        margin:
+                                            const EdgeInsets.only(right: 10.0),
+                                        child: new Icon(
+                                            Icons.supervised_user_circle)),
+                                    new Text(slots.fullName,
+                                        textAlign: TextAlign.start,
+                                        style: getTextStyle().copyWith(
+                                            fontWeight: FontWeight.bold)),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 10.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                        margin:
+                                            const EdgeInsets.only(right: 10.0),
+                                        child: new Icon(Icons.phone)),
+                                    new Text(slots.mobileNo,
+                                        textAlign: TextAlign.start,
+                                        style: getTextStyle().copyWith(
+                                            fontWeight: FontWeight.bold)),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 10.0),
+                                  child: Row(
+                                    children: [
+                                      Flexible(
+                                        child: Container(
+                                            margin: const EdgeInsets.only(
+                                                right: 10.0),
+                                            child: new Icon(Icons.phone)),
+                                      ),
+                                      Flexible(
+                                        child: new Text(
+                                          'Time slot ${slots.bookStartTime} To ${slots.bookEndTime}',
+                                          style: getTextStyle().copyWith(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ))),
+              ),
             ),
             Flexible(
                 child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.50,
-                    height: 150.0,
+                    width: MediaQuery.of(context).size.width * 0.40,
+                    height: 160.0,
                     child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Padding(
-                              padding: EdgeInsets.all(4.0),
-                              child: Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: getColorButton(
-                                    text: 'Enter Code',
-                                    colors: Color(0xFF1B5E20),
-                                    onPressed: () {
-                                      print("slots.bookI ${slots.bookId}");
-                                      callback(slots.bookId);
-                                    },
-                                  ))),
+                          Text("Ticket Number",
+                              textAlign: TextAlign.start,
+                              style: getTextStyle()
+                                  .copyWith(fontWeight: FontWeight.bold)),
+                          Align(
+                            alignment: Alignment.topCenter,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  // Container(
+                                  //     margin:
+                                  //         const EdgeInsets.only(right: 10.0),
+                                  //     child: new Icon(
+                                  //         Icons.supervised_user_circle)),
+
+                                  new Text(slots.ticketNumber.toString(),
+                                      textScaleFactor: 1.8,
+                                      textAlign: TextAlign.start,
+                                      style: getTextStyle().copyWith(
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Padding(
+                                padding: EdgeInsets.all(4.0),
+                                child: getColorButton(
+                                  text: 'Enter Code',
+                                  colors: Color(0xFF1B5E20),
+                                  onPressed: () {
+                                    print("slots.bookI ${slots.bookId}");
+                                    callback(slots.bookId);
+                                  },
+                                )),
+                          ),
                         ])))
           ]),
         ),
