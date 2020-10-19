@@ -59,7 +59,6 @@ class _BookResultItem extends StatelessWidget {
               child: Flexible(
                 child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.60,
-                    height: 180.0,
                     child: Padding(
                         padding: EdgeInsets.all(10.0),
                         child: Column(
@@ -77,10 +76,12 @@ class _BookResultItem extends StatelessWidget {
                                             const EdgeInsets.only(right: 10.0),
                                         child: new Icon(
                                             Icons.supervised_user_circle)),
-                                    new Text(slots.fullName,
-                                        textAlign: TextAlign.start,
-                                        style: getTextStyle().copyWith(
-                                            fontWeight: FontWeight.bold)),
+                                    Flexible(
+                                      child: new Text(slots.fullName,
+                                          textAlign: TextAlign.start,
+                                          style: getTextStyle().copyWith(
+                                              fontWeight: FontWeight.bold)),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -115,7 +116,7 @@ class _BookResultItem extends StatelessWidget {
                                         child: Container(
                                             margin: const EdgeInsets.only(
                                                 right: 10.0),
-                                            child: new Icon(Icons.phone)),
+                                            child: new Icon(Icons.watch_later)),
                                       ),
                                       Flexible(
                                         child: new Text(
@@ -136,7 +137,6 @@ class _BookResultItem extends StatelessWidget {
             Flexible(
                 child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.40,
-                    height: 160.0,
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
@@ -152,12 +152,6 @@ class _BookResultItem extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
-                                  // Container(
-                                  //     margin:
-                                  //         const EdgeInsets.only(right: 10.0),
-                                  //     child: new Icon(
-                                  //         Icons.supervised_user_circle)),
-
                                   new Text(slots.ticketNumber.toString(),
                                       textScaleFactor: 1.8,
                                       textAlign: TextAlign.start,

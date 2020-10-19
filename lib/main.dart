@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:Retailer/views/category/ui/category_screen.dart';
+import 'package:Retailer/views/setting/ui/setting_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,22 +10,15 @@ import 'package:Retailer/repositories/api_repository.dart';
 import 'package:Retailer/routes/pageroutes.dart';
 import 'package:Retailer/service/firebasenotifications.dart';
 import 'package:Retailer/utils/apppreferences.dart';
-import 'package:Retailer/views/booktickets/bloc/bookticket.dart';
-import 'package:Retailer/views/booktickets/ui/book_confirm.dart';
-
 import 'package:Retailer/views/category/bloc/category_bloc.dart';
 import 'package:Retailer/views/home/ui/home_screen.dart';
 
 import 'package:Retailer/views/login/bloc/login.dart';
-import 'package:Retailer/views/stores/bloc/neareststore_bloc.dart';
-import 'package:Retailer/views/stores/ui/storelist.dart';
 import 'package:Retailer/views/userlocation/ui/user_location.dart';
 
-import 'views/booktickets/ui/user_booking.dart';
 import 'views/customerlist/bloc/customer_bloc.dart';
 import 'views/customerlist/ui/customer.dart';
 import 'views/login/ui/login_page.dart';
-import 'views/stores/ui/users_fav_store.dart';
 import 'views/storetime/bloc/storetime_bloc.dart';
 import 'views/userprofile/ui/user_profile.dart';
 
@@ -48,13 +42,6 @@ class MyApp extends StatelessWidget {
               create: (context) => LoginBloc(apirepository: apirepository)),
           BlocProvider<CategoryBloc>(
             create: (context) => CategoryBloc(apireporsitory: apirepository),
-          ),
-          BlocProvider<NearestStoreBloc>(
-            create: (context) =>
-                NearestStoreBloc(apireporsitory: apirepository),
-          ),
-          BlocProvider<BookTicketBloc>(
-            create: (context) => BookTicketBloc(apireporsitory: apirepository),
           ),
           BlocProvider<StoreTimeBloc>(
             create: (context) => StoreTimeBloc(apireporsitory: apirepository),
@@ -87,7 +74,7 @@ class MyApp extends StatelessWidget {
           routes: {
             PageRoutes.customerlist: (context) => CustomerScreen(),
             PageRoutes.userProfile: (context) => UserProfile(),
-            PageRoutes.setting: (context) => UserProfile(),
+            PageRoutes.setting: (context) => SettingScreen(),
           },
         ));
   }

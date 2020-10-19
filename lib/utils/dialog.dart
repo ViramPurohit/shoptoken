@@ -52,4 +52,58 @@ class Dialogs {
       );
     });
   }
+
+  Future<String> selectTimeSlot(BuildContext context, list) async {
+    var _currentIndex = -1;
+    var slotvalue = "";
+    // SchedulerBinding.instance.addPostFrameCallback((_) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              title: Text('Select TimeSlot'),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context, null);
+                  },
+                  child: Text('CANCEL'),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    print("Navigator.pop value $slotvalue");
+                    Navigator.pop(context, slotvalue);
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+              content: Container(
+                width: double.minPositive,
+                height: 300,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: list.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return RadioListTile(
+                      value: index,
+                      groupValue: _currentIndex,
+                      title: Text(list[index].toString()),
+                      onChanged: (val) {
+                        setState(() {
+                          _currentIndex = val;
+                          print("_currentIndex $_currentIndex");
+                          slotvalue = list[index].toString();
+                          print("value $slotvalue");
+                        });
+                      },
+                    );
+                  },
+                ),
+              ),
+            );
+          });
+        });
+    // });
+  }
 }

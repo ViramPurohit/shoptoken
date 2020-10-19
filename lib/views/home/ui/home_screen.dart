@@ -2,7 +2,6 @@ import 'package:Retailer/utils/apppreferences.dart';
 import 'package:Retailer/views/customerlist/ui/customer.dart';
 import 'package:flutter/material.dart';
 import 'package:Retailer/routes/pageroutes.dart';
-import 'package:Retailer/views/booktickets/ui/book_confirm.dart';
 
 class HomeScreen extends StatefulWidget {
   final VoidCallback onHeaderClick;
