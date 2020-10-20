@@ -2,9 +2,11 @@ import 'package:Retailer/models/bookslots.dart';
 import 'package:Retailer/models/categorysubmit.dart';
 import 'package:Retailer/models/getallslots.dart';
 import 'package:Retailer/models/categories.dart';
+import 'package:Retailer/models/holidayresponse.dart';
 import 'package:Retailer/models/nearshop.dart';
 import 'package:Retailer/models/registeuser.dart';
 import 'package:Retailer/models/retailerallbookings.dart';
+import 'package:Retailer/models/shopslotresponse.dart';
 import 'package:Retailer/models/verifycoderesult.dart';
 import 'package:Retailer/service/uploadphoto.dart';
 
@@ -67,5 +69,15 @@ class APIRepository {
   Future<VerifyCodeResponse> verifyUserCode(
       {Map<String, dynamic> requestMap}) async {
     return await shopApiClient.verifyUserCode(requestMap);
+  }
+
+  Future<ShopuserslotResponse> updatetimeslot(
+      {Map<String, dynamic> requestMap}) async {
+    return await shopApiClient.updatetimeslot(requestMap);
+  }
+
+  Future<Holidayresponse> enableholiday(
+      {Map<String, dynamic> requestMap}) async {
+    return await shopApiClient.enableholiday(requestMap);
   }
 }

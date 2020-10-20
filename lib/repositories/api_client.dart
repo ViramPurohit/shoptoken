@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:Retailer/models/categorysubmit.dart';
+import 'package:Retailer/models/holidayresponse.dart';
 import 'package:Retailer/models/registeuser.dart';
 import 'package:Retailer/models/bookslots.dart';
 import 'package:Retailer/models/getallslots.dart';
 import 'package:Retailer/models/categories.dart';
 import 'package:Retailer/models/retailerallbookings.dart';
+import 'package:Retailer/models/shopslotresponse.dart';
 import 'package:Retailer/models/verifycoderesult.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -208,6 +210,43 @@ class ShopApiClient {
       // then parse the JSON.
       print(response.body);
       return VerifyCodeResponse.fromJson(json.decode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load api');
+    }
+  }
+
+  Future<ShopuserslotResponse> updatetimeslot(
+      Map<String, dynamic> requestMap) async {
+    var url = '$_baseUrl/updatetimeslot';
+
+    final response = await http.post(url,
+        headers: _json_header, body: json.encode(requestMap));
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      print(response.body);
+      return ShopuserslotResponse.fromJson(json.decode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load api');
+    }
+  }
+
+  Future<Holidayresponse> enableholiday(Map<String, dynamic> requestMap) async {
+    var url = '$_baseUrl/enableholiday';
+
+    final response = await http.post(url,
+        headers: _json_header, body: json.encode(requestMap));
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      print(response.body);
+      return Holidayresponse.fromJson(json.decode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.

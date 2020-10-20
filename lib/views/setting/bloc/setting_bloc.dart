@@ -15,7 +15,7 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
       yield SettingProgress();
       try {
         final result =
-            await apireporsitory.getAllbooking(requestMap: event.requestMap);
+            await apireporsitory.updatetimeslot(requestMap: event.requestMap);
         print("response --- $result");
         yield ChangeSlotValueSuccess(result);
       } catch (error) {
@@ -26,7 +26,7 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
       yield SettingProgress();
       try {
         final result =
-            await apireporsitory.verifyUserCode(requestMap: event.requestMap);
+            await apireporsitory.enableholiday(requestMap: event.requestMap);
         print("response --- $result");
         yield EnableHolidaySuccess(result);
       } catch (error) {

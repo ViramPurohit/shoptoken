@@ -1,4 +1,6 @@
+import 'package:Retailer/models/holidayresponse.dart';
 import 'package:Retailer/models/retailerallbookings.dart';
+import 'package:Retailer/models/shopslotresponse.dart';
 import 'package:Retailer/models/verifycoderesult.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
@@ -26,7 +28,7 @@ class SettingFailure extends SettingState {
 }
 
 class ChangeSlotValueSuccess extends SettingState {
-  final RetailerbookingResponse result;
+  final ShopuserslotResponse result;
 
   ChangeSlotValueSuccess(this.result);
 
@@ -35,7 +37,7 @@ class ChangeSlotValueSuccess extends SettingState {
 }
 
 class EnableHolidaySuccess extends SettingState {
-  final VerifyCodeResponse result;
+  final Holidayresponse result;
 
   EnableHolidaySuccess(this.result);
 

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:Retailer/views/category/ui/category_screen.dart';
+import 'package:Retailer/views/setting/bloc/setting.dart';
 import 'package:Retailer/views/setting/ui/setting_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,9 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<CustomerBloc>(
             create: (context) => CustomerBloc(apireporsitory: apirepository),
+          ),
+          BlocProvider<SettingBloc>(
+            create: (context) => SettingBloc(apireporsitory: apirepository),
           )
         ],
         child: MaterialApp(

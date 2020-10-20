@@ -106,4 +106,27 @@ class Dialogs {
         });
     // });
   }
+
+  Future<bool> dialogwithbutton(BuildContext context, title, msg) async {
+    return showDialog(
+        context: context,
+        builder: (_) => new AlertDialog(
+              title: new Text(title),
+              content: new Text(msg),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Yes'),
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                ),
+                FlatButton(
+                  child: Text('No'),
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                )
+              ],
+            ));
+  }
 }
