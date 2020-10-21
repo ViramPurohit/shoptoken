@@ -1,57 +1,48 @@
 import 'package:Retailer/utils/apppreferences.dart';
 import 'package:Retailer/utils/dialog.dart';
-import 'package:Retailer/utils/util_page.dart';
-import 'package:Retailer/views/setting/bloc/setting.dart';
+import 'package:Retailer/views/userprofile/bloc/userprofile.dart';
 import 'package:Retailer/widgets/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
-class SettingOptions extends StatefulWidget {
+class UserProfilePage extends StatefulWidget {
   //requiring the list of todos
-  SettingOptions({Key key}) : super(key: key);
+  UserProfilePage({Key key}) : super(key: key);
 
   @override
-  _SettingOptionsState createState() => new _SettingOptionsState();
+  _UserProfilePageState createState() => new _UserProfilePageState();
 }
 
-class _SettingOptionsState extends State<SettingOptions> {
-  SettingBloc _settingBloc;
+class _UserProfilePageState extends State<UserProfilePage> {
+  UserprofileBloc _userprofileBloc;
   @override
   void initState() {
     super.initState();
-    _settingBloc = BlocProvider.of<SettingBloc>(context);
+    _userprofileBloc = BlocProvider.of<UserprofileBloc>(context);
+    getUserProfile();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SettingBloc, SettingState>(
-      listener: (BuildContext context, SettingState state) {
-        if (state is SettingProgress) {
+    return BlocListener<UserprofileBloc, UserprofileState>(
+      listener: (BuildContext context, UserprofileState state) {
+        if (state is UserprofileProgress) {
           Dialogs().showLoaderDialog(context);
         }
-        if (state is SettingFailure) {
+        if (state is UserprofileFailure) {
           Dialogs().dismissLoaderDialog(context);
           return SnackBar(
             content: Text(state.error),
             backgroundColor: Theme.of(context).errorColor,
           );
         }
-
-        if (state is ChangeSlotValueSuccess) {
+        if (state is RetailerdetailSuccess) {
           Dialogs().dismissLoaderDialog(context);
           print(state.result);
-          // Navigator.of(context).pushAndRemoveUntil(
-          //     MaterialPageRoute(builder: (context) => HomeScreen()),
-          //     (Route<dynamic> route) => false);
-        }
-        if (state is EnableHolidaySuccess) {
-          Dialogs().dismissLoaderDialog(context);
         }
       },
-      child: BlocBuilder<SettingBloc, SettingState>(
-        // bloc: BlocProvider.of<BookTicketBloc>(context),
-        builder: (BuildContext context, SettingState state) {
+      child: BlocBuilder<UserprofileBloc, UserprofileState>(
+        builder: (BuildContext context, UserprofileState state) {
           return Container(
             child: SingleChildScrollView(
                 child: Container(
@@ -80,9 +71,6 @@ class _SettingOptionsState extends State<SettingOptions> {
                       ],
                     ),
                   ),
-                  onTap: () {
-                    showSlotList(context);
-                  },
                 ),
                 InkWell(
                   child: Container(
@@ -107,10 +95,6 @@ class _SettingOptionsState extends State<SettingOptions> {
                       ],
                     ),
                   ),
-                  onTap: () {
-                    dialogwithbutton(
-                        context, 'Add holiday', 'Today,You shop is close ?');
-                  },
                 )
               ],
             ))),
@@ -120,48 +104,9 @@ class _SettingOptionsState extends State<SettingOptions> {
     );
   }
 
-  List<int> getSlotList() {
-    var list = List<int>();
-    for (var i = 1; i <= 60; i++) {
-      if (i % 5 == 0) {
-        list.add(i);
-      }
-    }
-
-    return list;
-  }
-
-  Future<void> showSlotList(BuildContext context) async {
-    var value = await Dialogs().selectTimeSlot(context, getSlotList());
-
-    if (value > 0) {
-      print("value Final $value");
-      var requestMap = new Map<String, dynamic>();
-      requestMap['retailer_id'] = await Apppreferences().getUserId();
-      requestMap['slotvalue'] = value;
-      requestMap['app_os'] = await Util().getDeviceOS();
-      requestMap['app_version'] = await Util().getAppVersion();
-      _settingBloc.add(ChangeSlotValueEvent(requestMap: requestMap));
-    }
-  }
-
-  Future<void> dialogwithbutton(BuildContext context, title, msg) async {
-    var isholiday = await Dialogs().dialogwithbutton(context, title, msg);
-    print("value Final $isholiday");
-
-    if (isholiday) {
-      var now = new DateTime.now();
-      var formatter = new DateFormat('yyyy-MM-dd');
-      String formattedDate = formatter.format(now);
-      print(formattedDate); // 2016-01-25
-
-      var requestMap = new Map<String, dynamic>();
-      requestMap['retailer_id'] = await Apppreferences().getUserId();
-      requestMap['isCloseToday'] = isholiday ? 0 : 1;
-      requestMap['holiday_date'] = formattedDate;
-      requestMap['app_os'] = await Util().getDeviceOS();
-      requestMap['app_version'] = await Util().getAppVersion();
-      _settingBloc.add(EnableHolidayEvent(requestMap: requestMap));
-    }
+  Future<void> getUserProfile() async {
+    var requestMap = new Map<String, dynamic>();
+    requestMap['retailer_id'] = await Apppreferences().getUserId();
+    _userprofileBloc.add(UserDetailsEvent(requestMap: requestMap));
   }
 }

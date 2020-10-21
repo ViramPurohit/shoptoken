@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 
+import 'user_profile_screen.dart';
+
 class UserProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // drawer: HomeScreen(),
       appBar: AppBar(
-        title: Text('UserProfile'),
+        title: Text('User Profile'),
       ),
+      body: Container(
+          child: SingleChildScrollView(
+              child: Container(
+                  child: Column(
+        children: <Widget>[UserProfilePage()],
+      )))),
     );
   }
 }

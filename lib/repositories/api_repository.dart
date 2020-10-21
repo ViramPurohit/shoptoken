@@ -6,6 +6,7 @@ import 'package:Retailer/models/holidayresponse.dart';
 import 'package:Retailer/models/nearshop.dart';
 import 'package:Retailer/models/registeuser.dart';
 import 'package:Retailer/models/retailerallbookings.dart';
+import 'package:Retailer/models/retailerdetailresult.dart';
 import 'package:Retailer/models/shopslotresponse.dart';
 import 'package:Retailer/models/verifycoderesult.dart';
 import 'package:Retailer/service/uploadphoto.dart';
@@ -79,5 +80,10 @@ class APIRepository {
   Future<Holidayresponse> enableholiday(
       {Map<String, dynamic> requestMap}) async {
     return await shopApiClient.enableholiday(requestMap);
+  }
+
+  Future<RetailerdetailResponse> getretailerdetail(
+      {Map<String, dynamic> requestMap}) async {
+    return await shopApiClient.getretailerdetail(requestMap);
   }
 }

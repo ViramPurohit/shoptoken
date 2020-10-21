@@ -53,9 +53,9 @@ class Dialogs {
     });
   }
 
-  Future<String> selectTimeSlot(BuildContext context, list) async {
+  Future<int> selectTimeSlot(BuildContext context, list) async {
     var _currentIndex = -1;
-    var slotvalue = "";
+    var slotvalue = 0;
     // SchedulerBinding.instance.addPostFrameCallback((_) {
     return showDialog(
         context: context,
@@ -93,7 +93,7 @@ class Dialogs {
                         setState(() {
                           _currentIndex = val;
                           print("_currentIndex $_currentIndex");
-                          slotvalue = list[index].toString();
+                          slotvalue = list[index];
                           print("value $slotvalue");
                         });
                       },
