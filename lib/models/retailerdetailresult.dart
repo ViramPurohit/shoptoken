@@ -19,7 +19,7 @@ class RetailerdetailResponse {
 }
 
 class Retailerdetailresult {
-  List<Data> data;
+  List<RetailerData> data;
   int isError;
   String message;
 
@@ -27,9 +27,9 @@ class Retailerdetailresult {
 
   Retailerdetailresult.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = new List<RetailerData>();
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data.add(new RetailerData.fromJson(v));
       });
     }
     isError = json['isError'];
@@ -47,7 +47,7 @@ class Retailerdetailresult {
   }
 }
 
-class Data {
+class RetailerData {
   String address;
   String endAt;
   String fullName;
@@ -57,7 +57,7 @@ class Data {
   String startAt;
   String url;
 
-  Data(
+  RetailerData(
       {this.address,
       this.endAt,
       this.fullName,
@@ -67,7 +67,7 @@ class Data {
       this.startAt,
       this.url});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  RetailerData.fromJson(Map<String, dynamic> json) {
     address = json['address'];
     endAt = json['end_at'];
     fullName = json['full_name'];

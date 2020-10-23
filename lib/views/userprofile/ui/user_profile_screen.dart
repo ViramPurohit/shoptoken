@@ -1,3 +1,4 @@
+import 'package:Retailer/models/retailerdetailresult.dart';
 import 'package:Retailer/utils/apppreferences.dart';
 import 'package:Retailer/utils/dialog.dart';
 import 'package:Retailer/views/userprofile/bloc/userprofile.dart';
@@ -15,10 +16,12 @@ class UserProfilePage extends StatefulWidget {
 
 class _UserProfilePageState extends State<UserProfilePage> {
   UserprofileBloc _userprofileBloc;
+  List<RetailerData> retailer;
   @override
   void initState() {
     super.initState();
     _userprofileBloc = BlocProvider.of<UserprofileBloc>(context);
+    retailer = new List<RetailerData>();
     getUserProfile();
   }
 
@@ -39,66 +42,101 @@ class _UserProfilePageState extends State<UserProfilePage> {
         if (state is RetailerdetailSuccess) {
           Dialogs().dismissLoaderDialog(context);
           print(state.result);
+          if (state.result.retailerdetailresult.isError == 0) {
+            retailer = state.result.retailerdetailresult.data;
+          } else {
+            return SnackBar(
+              content: Text(state.result.retailerdetailresult.message),
+              backgroundColor: Theme.of(context).errorColor,
+            );
+          }
         }
       },
       child: BlocBuilder<UserprofileBloc, UserprofileState>(
         builder: (BuildContext context, UserprofileState state) {
-          return Container(
-            child: SingleChildScrollView(
-                child: Container(
-                    child: Column(
-              children: <Widget>[
-                InkWell(
+          if (retailer.isNotEmpty)
+            return Container(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
                   child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: const EdgeInsets.only(
-                        left: 10.0, right: 10.0, top: 10, bottom: 10),
-                    margin: const EdgeInsets.only(
-                        left: 10.0, right: 10.0, top: 40, bottom: 10),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey, width: 1)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        new Text(
-                          'Change shop slot amount',
-                          style: getTextStyle()
-                              .copyWith(fontWeight: FontWeight.bold),
+                      child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: new Text(
+                            retailer[0].fullName,
+                            style: getTextStyle()
+                                .copyWith(fontWeight: FontWeight.bold),
+                          ),
                         ),
-                        Container(
-                            margin: const EdgeInsets.only(right: 10.0),
-                            child: new Icon(Icons.chevron_right))
-                      ],
-                    ),
-                  ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: new Text(
+                            retailer[0].shopName,
+                            style: getTextStyle()
+                                .copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: new Text(
+                            retailer[0].mobileNo,
+                            style: getTextStyle()
+                                .copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: new Text(
+                              retailer[0].shopLicense,
+                              style: getTextStyle()
+                                  .copyWith(fontWeight: FontWeight.bold),
+                            ),
+                          )),
+                      Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: new Text(
+                              retailer[0].startAt + " TO " + retailer[0].endAt,
+                              style: getTextStyle()
+                                  .copyWith(fontWeight: FontWeight.bold),
+                            ),
+                          )),
+                    ],
+                  )),
                 ),
-                InkWell(
+              ),
+            );
+          else
+            return Container(
+              child: SingleChildScrollView(
                   child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: const EdgeInsets.only(
-                        left: 10.0, right: 10.0, top: 10, bottom: 10),
-                    margin: const EdgeInsets.only(
-                        left: 10.0, right: 10.0, top: 40, bottom: 10),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey, width: 1)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        new Text(
-                          'Add holiday for today',
-                          style: getTextStyle()
-                              .copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        Container(
-                            margin: const EdgeInsets.only(right: 10.0),
-                            child: new Icon(Icons.chevron_right))
-                      ],
+                      child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: new Text(
+                      "No profile added",
+                      style:
+                          getTextStyle().copyWith(fontWeight: FontWeight.bold),
                     ),
-                  ),
-                )
-              ],
-            ))),
-          );
+                  )
+                ],
+              ))),
+            );
         },
       ),
     );
@@ -106,7 +144,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   Future<void> getUserProfile() async {
     var requestMap = new Map<String, dynamic>();
-    requestMap['retailer_id'] = await Apppreferences().getUserId();
+    requestMap['retailer_id'] = 11; //await Apppreferences().getUserId();
     _userprofileBloc.add(UserDetailsEvent(requestMap: requestMap));
   }
 }
