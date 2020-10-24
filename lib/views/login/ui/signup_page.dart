@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:Retailer/utils/dialog.dart';
 import 'package:Retailer/views/photo/takephoto.dart';
+import 'package:Retailer/widgets/text_style.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,7 +41,7 @@ class _SignupPageState extends State<SignupPage> {
   String locationLabel = 'Shop Location';
   double latitude, longitude;
   String uploadlicenceLabel = 'Upload shop licence or doc';
-  String fullname, mobile, shopname, location, storelicencePath;
+  String fullname, mobile, shopname, location, storelicencePath, password;
 
   LoginBloc _loginBloc;
 
@@ -110,6 +111,15 @@ class _SignupPageState extends State<SignupPage> {
       return null;
     }
 
+    String _validatePassword(String value) {
+      if (value.length == 0) {
+        return "Password is Required";
+      } else if (value.length != 7) {
+        return "Password must greter than 7 character";
+      }
+      return null;
+    }
+
     final nameField = TextFormField(
       obscureText: false,
       style: style,
@@ -150,6 +160,24 @@ class _SignupPageState extends State<SignupPage> {
           ),
         ));
 
+    final passwordField = TextFormField(
+      obscureText: true,
+      style: getTextStyle(),
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
+        labelText: "New Password",
+        fillColor: Colors.white,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.blue, width: 2.0),
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+      ),
+      validator: _validatePassword,
+      onSaved: (String val) {
+        password = val;
+      },
+    );
     _navigateToUserLocation(BuildContext context) async {
       final userLocationDetails = await Navigator.push(
         context,
@@ -327,47 +355,35 @@ class _SignupPageState extends State<SignupPage> {
                                   fit: BoxFit.contain,
                                 ),
                               ),
-                              // SizedBox(height: 5.0),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: nameField,
                               ),
-                              // SizedBox(height: 5.0),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: mobileField,
                               ),
-                              // SizedBox(
-                              //   height: 5.0,
-                              // ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: passwordField,
+                              ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: locationField,
                               ),
-                              // SizedBox(
-                              //   height: 5.0,
-                              // ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: shopNameField,
                               ),
-                              // SizedBox(
-                              //   height: 5.0,
-                              // ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: uploadlicenceField,
                               ),
-                              // SizedBox(
-                              //   height: 5.0,
-                              // ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.only(
+                                    left: 8, right: 8, top: 30, bottom: 8),
                                 child: loginButon,
                               ),
-                              // SizedBox(
-                              //   height: 5.0,
-                              // ),
                             ],
                           ),
                         ),

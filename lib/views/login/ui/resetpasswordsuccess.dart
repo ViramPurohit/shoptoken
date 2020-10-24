@@ -1,4 +1,5 @@
 import 'package:Retailer/utils/dialog.dart';
+import 'package:Retailer/views/login/ui/login_page.dart';
 import 'package:Retailer/views/login/ui/signup_page.dart';
 import 'package:Retailer/widgets/text_style.dart';
 import 'package:flutter/material.dart';
@@ -13,20 +14,18 @@ import 'package:Retailer/views/login/bloc/login.dart';
 
 import 'package:Retailer/widgets/button.dart';
 
-import 'forgotpassword.dart';
-
-class LoginPage extends StatefulWidget {
-  LoginPage({Key key, this.title}) : super(key: key);
+class ResettPasswordSuccess extends StatefulWidget {
+  ResettPasswordSuccess({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
   State<StatefulWidget> createState() {
-    return _LoginPageState();
+    return _ResettPasswordSuccess();
   }
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _ResettPasswordSuccess extends State<ResettPasswordSuccess> {
   // For CircularProgressIndicator.
   bool visible = false;
 
@@ -61,108 +60,19 @@ class _LoginPageState extends State<LoginPage> {
       _loginBloc.add(LoginButtonPressed(requestMap: requestMap));
     }
 
-    void _loginButtonClick() {
-      if (_formKey.currentState.validate()) {
-        // No any error in validation
-        _formKey.currentState.save();
-
-        visible = true;
-        callLoginAPI();
-      } else {
-        // validation error
-        setState(() {
-          visible = false;
-          _validate = true;
-        });
-      }
-    }
-
-    String _validateMobile(String value) {
-      String patttern = r'(^[0-9]*$)';
-      RegExp regExp = new RegExp(patttern);
-      if (value.length == 0) {
-        return "Mobile is Required";
-      } else if (value.length != 10) {
-        return "Mobile number must 10 digits";
-      } else if (!regExp.hasMatch(value)) {
-        return "Mobile Number must be digits";
-      }
-      return null;
-    }
-
-    String _validatePassword(String value) {
-      if (value.length == 0) {
-        return "Password is Required";
-      } else if (value.length != 7) {
-        return "Password must greter than 7 character";
-      }
-      return null;
-    }
-
-    final passwordField = TextFormField(
-      obscureText: true,
-      style: getTextStyle(),
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-        labelText: "Enter Password",
-        fillColor: Colors.white,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.blue, width: 2.0),
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-      ),
-      validator: _validatePassword,
-      onSaved: (String val) {
-        password = val;
-      },
+    final successtitle = Container(
+      child: new Text('Success.', style: getTextLargeStyle()),
     );
-
-    final mobileField = TextFormField(
-        obscureText: false,
-        style: getTextStyle(),
-        validator: _validateMobile,
-        onSaved: (String val) {
-          mobile = val;
-        },
-        keyboardType: TextInputType.number,
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        maxLength: 10,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-          labelText: "Enter Mobile no",
-          counterText: "",
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.blue, width: 2.0),
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-        ));
-
-    final signUpField = InkWell(
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(14.0, 14.0, 14.0, 14.0),
-        child: new Text('SignUp', style: getTextLargeStyle()),
-      ),
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SignupPage()));
-      },
+    final successmsg = Container(
+      child: new Text(
+          'Your password has been reset successfully!\nNow login with your new password.',
+          style: getTextStyle()),
     );
-
-    final forgotPasswordField = InkWell(
-      child: Container(
-        child: new Text('Forgot Password', style: getTextLargeStyle()),
-      ),
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ForgotPassword()));
-      },
-    );
-    final loginButon = getBaseButton(
+    final login = getBaseButton(
         text: 'Login',
         onPressed: () async {
-          _loginButtonClick();
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => LoginPage()));
         });
 
     return BlocListener<LoginBloc, LoginState>(
@@ -217,29 +127,24 @@ class _LoginPageState extends State<LoginPage> {
                               SizedBox(
                                 height: 155.0,
                                 child: Image.asset(
-                                  "assets/shop.png",
+                                  "assets/check.png",
                                   fit: BoxFit.contain,
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: mobileField,
+                                padding: const EdgeInsets.only(
+                                    left: 8, right: 8, top: 30, bottom: 8),
+                                child: successtitle,
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: passwordField,
+                                padding: const EdgeInsets.only(
+                                    left: 8, right: 8, top: 8, bottom: 8),
+                                child: successmsg,
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: loginButon,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: signUpField,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: forgotPasswordField,
+                                padding: const EdgeInsets.only(
+                                    left: 8, right: 8, top: 30, bottom: 8),
+                                child: login,
                               ),
                             ],
                           ),

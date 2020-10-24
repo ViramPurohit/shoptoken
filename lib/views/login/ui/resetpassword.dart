@@ -1,4 +1,5 @@
 import 'package:Retailer/utils/dialog.dart';
+import 'package:Retailer/views/login/ui/resetpasswordsuccess.dart';
 import 'package:Retailer/views/login/ui/signup_page.dart';
 import 'package:Retailer/widgets/text_style.dart';
 import 'package:flutter/material.dart';
@@ -13,20 +14,18 @@ import 'package:Retailer/views/login/bloc/login.dart';
 
 import 'package:Retailer/widgets/button.dart';
 
-import 'forgotpassword.dart';
-
-class LoginPage extends StatefulWidget {
-  LoginPage({Key key, this.title}) : super(key: key);
+class ResetPassword extends StatefulWidget {
+  ResetPassword({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
   State<StatefulWidget> createState() {
-    return _LoginPageState();
+    return _ResetPassword();
   }
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _ResetPassword extends State<ResetPassword> {
   // For CircularProgressIndicator.
   bool visible = false;
 
@@ -34,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
 
   GlobalKey<FormState> _formKey = new GlobalKey();
   bool _validate = false;
-  String mobile, password;
+  String mobile, password, confirmpassword;
   LoginBloc _loginBloc;
 
   @override
@@ -77,15 +76,11 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
 
-    String _validateMobile(String value) {
-      String patttern = r'(^[0-9]*$)';
-      RegExp regExp = new RegExp(patttern);
+    String _validateOTP(String value) {
       if (value.length == 0) {
-        return "Mobile is Required";
-      } else if (value.length != 10) {
-        return "Mobile number must 10 digits";
-      } else if (!regExp.hasMatch(value)) {
-        return "Mobile Number must be digits";
+        return "Password is Required";
+      } else if (value.length != 7) {
+        return "Password must greter than 7 character";
       }
       return null;
     }
@@ -99,12 +94,23 @@ class _LoginPageState extends State<LoginPage> {
       return null;
     }
 
+    String _validateConfirmPassword(String value) {
+      if (value.length == 0) {
+        return "Password is Required";
+      } else if (value.length != 7) {
+        return "Password must greter than 7 character";
+      } else if (password != confirmpassword) {
+        return "New password and Confirm Password must be same";
+      }
+      return null;
+    }
+
     final passwordField = TextFormField(
       obscureText: true,
       style: getTextStyle(),
       decoration: InputDecoration(
         contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-        labelText: "Enter Password",
+        labelText: "New Password",
         fillColor: Colors.white,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
         enabledBorder: OutlineInputBorder(
@@ -118,19 +124,38 @@ class _LoginPageState extends State<LoginPage> {
       },
     );
 
-    final mobileField = TextFormField(
+    final confirmpasswordField = TextFormField(
+      obscureText: true,
+      style: getTextStyle(),
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
+        labelText: "Confirm Password",
+        fillColor: Colors.white,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.blue, width: 2.0),
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+      ),
+      validator: _validateConfirmPassword,
+      onSaved: (String val) {
+        confirmpassword = val;
+      },
+    );
+
+    final otpField = TextFormField(
         obscureText: false,
         style: getTextStyle(),
-        validator: _validateMobile,
+        validator: _validateOTP,
         onSaved: (String val) {
           mobile = val;
         },
         keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        maxLength: 10,
+        maxLength: 4,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-          labelText: "Enter Mobile no",
+          labelText: "Enter OTP",
           counterText: "",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
           enabledBorder: OutlineInputBorder(
@@ -139,30 +164,13 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ));
 
-    final signUpField = InkWell(
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(14.0, 14.0, 14.0, 14.0),
-        child: new Text('SignUp', style: getTextLargeStyle()),
-      ),
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SignupPage()));
-      },
-    );
-
-    final forgotPasswordField = InkWell(
-      child: Container(
-        child: new Text('Forgot Password', style: getTextLargeStyle()),
-      ),
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ForgotPassword()));
-      },
-    );
-    final loginButon = getBaseButton(
-        text: 'Login',
+    final resetpassword = getBaseButton(
+        text: 'Reset Password',
         onPressed: () async {
-          _loginButtonClick();
+          // _loginButtonClick();
+
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ResettPasswordSuccess()));
         });
 
     return BlocListener<LoginBloc, LoginState>(
@@ -217,13 +225,14 @@ class _LoginPageState extends State<LoginPage> {
                               SizedBox(
                                 height: 155.0,
                                 child: Image.asset(
-                                  "assets/shop.png",
+                                  "assets/securepassword.png",
                                   fit: BoxFit.contain,
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: mobileField,
+                                padding: const EdgeInsets.only(
+                                    left: 8, right: 8, top: 30, bottom: 8),
+                                child: otpField,
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -231,15 +240,12 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: loginButon,
+                                child: confirmpasswordField,
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: signUpField,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: forgotPasswordField,
+                                padding: const EdgeInsets.only(
+                                    left: 8, right: 8, top: 30, bottom: 8),
+                                child: resetpassword,
                               ),
                             ],
                           ),
