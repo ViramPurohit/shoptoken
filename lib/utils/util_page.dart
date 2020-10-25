@@ -75,4 +75,21 @@ class Util {
       ),
     );
   }
+
+  void showScaffoldErrorToast(
+      GlobalKey<ScaffoldState> _scaffoldKey, String msg) {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(msg),
+      backgroundColor: Theme.of(_scaffoldKey.currentContext).errorColor,
+      duration: Duration(seconds: 3),
+    ));
+  }
+
+  void showScaffoldToast(GlobalKey<ScaffoldState> _scaffoldKey, String msg) {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(msg),
+      backgroundColor: Theme.of(_scaffoldKey.currentContext).errorColor,
+      duration: Duration(seconds: 3),
+    ));
+  }
 }

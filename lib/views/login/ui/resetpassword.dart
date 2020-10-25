@@ -26,6 +26,7 @@ class ResetPassword extends StatefulWidget {
 
 class _ResetPassword extends State<ResetPassword> {
   GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   // For CircularProgressIndicator.
   bool visible = false;
 
@@ -210,17 +211,11 @@ class _ResetPassword extends State<ResetPassword> {
         }
         if (state is LoginFailure) {
           Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
-          return SnackBar(
-            content: Text(state.error),
-            backgroundColor: Theme.of(context).errorColor,
-          );
+          Util().showScaffoldErrorToast(_scaffoldKey, state.error);
         }
         if (state is LoginErrorMsg) {
           Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
-          return SnackBar(
-            content: Text(state.error),
-            backgroundColor: Theme.of(context).errorColor,
-          );
+          Util().showScaffoldErrorToast(_scaffoldKey, state.error);
         }
 
         if (state is ResetPasswordSuccess) {

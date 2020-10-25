@@ -33,6 +33,7 @@ class _ForgotPassword extends State<ForgotPassword> {
 
   GlobalKey<FormState> _formKey = new GlobalKey();
   GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool _validate = false;
   String mobile, password;
   LoginBloc _loginBloc;
@@ -126,17 +127,11 @@ class _ForgotPassword extends State<ForgotPassword> {
         }
         if (state is LoginFailure) {
           Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
-          return SnackBar(
-            content: Text(state.error),
-            backgroundColor: Theme.of(context).errorColor,
-          );
+          Util().showScaffoldErrorToast(_scaffoldKey, state.error);
         }
         if (state is LoginErrorMsg) {
           Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
-          return SnackBar(
-            content: Text(state.error),
-            backgroundColor: Theme.of(context).errorColor,
-          );
+          Util().showScaffoldErrorToast(_scaffoldKey, state.error);
         }
         if (state is VerifyMobileSuccess) {
           print("VerifyMobileSuccess============");

@@ -29,7 +29,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   GlobalKey<State> _keyLoader = new GlobalKey<State>();
-  GlobalKey<State> _scaffoldKey = new GlobalKey<State>();
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   // For CircularProgressIndicator.
   bool visible = false;
 
@@ -175,11 +175,11 @@ class _LoginPageState extends State<LoginPage> {
         }
         if (state is LoginFailure) {
           Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
-          Util().showErrorToast(_scaffoldKey.currentContext, state.error);
+          Util().showScaffoldErrorToast(_scaffoldKey, state.error);
         }
         if (state is LoginErrorMsg) {
           Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
-          Util().showErrorToast(_scaffoldKey.currentContext, state.error);
+          Util().showScaffoldErrorToast(_scaffoldKey, state.error);
         }
         if (state is LoginSuccess) {
           Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
