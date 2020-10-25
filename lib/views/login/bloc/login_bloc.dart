@@ -19,10 +19,27 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       print("LoginInProgress====");
       try {
         final result =
+            await apirepository.loginretailer(requestMap: event.requestMap);
+        print("LoginIn result====$result");
+        if (result.retailerloginresult.isError == 0) {
+          yield LoginSuccess(result);
+        } else {
+          yield LoginErrorMsg(error: result.retailerloginresult.message);
+        }
+      } catch (error) {
+        print("LoginIn Error====");
+        print(error);
+        yield LoginFailure(error: error.toString());
+      }
+    } else if (event is SignupButtonPressed) {
+      yield SignupInProgress();
+      print("SignupInProgress====");
+      try {
+        final result =
             await apirepository.registerRetailer(requestMap: event.requestMap);
         print("result====$result");
         if (result.retailerregisterResult.isError == 0) {
-          yield LoginSuccess(result);
+          yield SignupSuccess(result);
         } else {
           yield LoginErrorMsg(error: result.retailerregisterResult.message);
         }
@@ -33,16 +50,55 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       }
     } else if (event is UploadShopCertificate) {
       print("UploadShop Progress====");
+      yield UploadShopCertificateInProgress();
       try {
         final result = await apirepository.uploadShopCerificate(
             retailerId: event.retailerId, imagePath: event.imagePath);
-        print("result====$result");
+        print("result==UploadShopCertificate ==$result");
         if (result.uploadshopCertificateResult.isError == 0) {
           yield UploadCertificateSuccess(result);
-        } else {}
+        } else {
+          yield LoginErrorMsg(
+              error: result.uploadshopCertificateResult.message);
+        }
       } catch (error) {
         print("Error====");
-        print(error.toString());
+        print(error);
+        yield LoginFailure(error: error.toString());
+      }
+    } else if (event is VerifyMobileButtonPressed) {
+      print("VerifyMobileButto Progress====");
+      yield VerifyRetailerInProgress();
+      try {
+        final result = await apirepository.verifyretailermobile(
+            requestMap: event.requestMap);
+
+        if (result.verifyretailerresult.isError == 0) {
+          yield VerifyMobileSuccess(result);
+        } else {
+          yield LoginErrorMsg(error: result.verifyretailerresult.message);
+        }
+      } catch (error) {
+        print("Error====");
+        print(error);
+        yield LoginFailure(error: error.toString());
+      }
+    } else if (event is ResetPasswordButtonPressed) {
+      print("ResetPassword Progress====");
+      yield ConfirmPasswordInProgress();
+      try {
+        final result = await apirepository.resetretailerpassword(
+            requestMap: event.requestMap);
+
+        if (result.resetretailerresult.isError == 0) {
+          yield ResetPasswordSuccess(result);
+        } else {
+          yield LoginErrorMsg(error: result.resetretailerresult.message);
+        }
+      } catch (error) {
+        print("Error====");
+        print(error);
+        yield LoginFailure(error: error.toString());
       }
     }
   }

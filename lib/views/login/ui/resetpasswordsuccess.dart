@@ -1,4 +1,3 @@
-import 'package:Retailer/utils/dialog.dart';
 import 'package:Retailer/views/login/ui/login_page.dart';
 import 'package:Retailer/views/login/ui/signup_page.dart';
 import 'package:Retailer/widgets/text_style.dart';
@@ -39,7 +38,6 @@ class _ResettPasswordSuccess extends State<ResettPasswordSuccess> {
   @override
   void initState() {
     super.initState();
-    new NotificationHandler().initializeFcmNotification();
     _loginBloc = BlocProvider.of<LoginBloc>(context);
   }
 
@@ -76,31 +74,7 @@ class _ResettPasswordSuccess extends State<ResettPasswordSuccess> {
         });
 
     return BlocListener<LoginBloc, LoginState>(
-      listener: (BuildContext context, LoginState state) {
-        if (state is LoginInProgress) {
-          Dialogs().showLoaderDialog(context);
-        }
-        if (state is LoginFailure) {
-          Dialogs().dismissLoaderDialog(context);
-          return SnackBar(
-            content: Text(state.error),
-            backgroundColor: Theme.of(context).errorColor,
-          );
-        }
-        if (state is LoginErrorMsg) {
-          Dialogs().dismissLoaderDialog(context);
-          return SnackBar(
-            content: Text(state.error),
-            backgroundColor: Theme.of(context).errorColor,
-          );
-        }
-        if (state is LoginSuccess) {
-          Dialogs().dismissLoaderDialog(context);
-          Apppreferences().addUserLogin(state.result);
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CategoryScreen()));
-        }
-      },
+      listener: (BuildContext context, LoginState state) {},
       child: BlocBuilder<LoginBloc, LoginState>(
         // bloc: BlocProvider.of<LoginBloc>(context),
         builder: (BuildContext context, LoginState state) {

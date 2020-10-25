@@ -20,6 +20,7 @@ import 'package:Retailer/views/userlocation/ui/user_location.dart';
 
 import 'views/customerlist/bloc/customer_bloc.dart';
 import 'views/customerlist/ui/customer.dart';
+
 import 'views/login/ui/login_page.dart';
 import 'views/storetime/bloc/storetime_bloc.dart';
 import 'views/userprofile/ui/user_profile.dart';
@@ -72,10 +73,10 @@ class MyApp extends StatelessWidget {
                   if (snapshot.data == true) {
                     return HomeScreen();
                   } else {
-                    return LoginPage(title: 'Customer Login');
+                    return LoginPage();
                   }
                 } else {
-                  return LoginPage(title: 'Customer Login');
+                  return LoginPage();
                 }
                 // return PlaceDetail();
               }),

@@ -5,10 +5,13 @@ import 'package:Retailer/models/categories.dart';
 import 'package:Retailer/models/holidayresponse.dart';
 import 'package:Retailer/models/nearshop.dart';
 import 'package:Retailer/models/registeuser.dart';
+import 'package:Retailer/models/resetretailerresponse.dart';
 import 'package:Retailer/models/retailerallbookings.dart';
 import 'package:Retailer/models/retailerdetailresult.dart';
+import 'package:Retailer/models/retailerloginresponse.dart';
 import 'package:Retailer/models/shopslotresponse.dart';
 import 'package:Retailer/models/verifycoderesult.dart';
+import 'package:Retailer/models/verifyretailerresponse.dart';
 import 'package:Retailer/service/uploadphoto.dart';
 
 import 'api_client.dart';
@@ -28,6 +31,11 @@ class APIRepository {
   Future<RetailerregisterResponse> registerRetailer(
       {Map<String, dynamic> requestMap}) async {
     return await shopApiClient.registerRetailer(requestMap);
+  }
+
+  Future<Retailerloginrespone> loginretailer(
+      {Map<String, dynamic> requestMap}) async {
+    return await shopApiClient.loginretailer(requestMap);
   }
 
   Future<CategoryResponse> categoryList() async {
@@ -85,5 +93,15 @@ class APIRepository {
   Future<RetailerdetailResponse> getretailerdetail(
       {Map<String, dynamic> requestMap}) async {
     return await shopApiClient.getretailerdetail(requestMap);
+  }
+
+  Future<Verifyretailerresponse> verifyretailermobile(
+      {Map<String, dynamic> requestMap}) async {
+    return await shopApiClient.verifyretailermobile(requestMap);
+  }
+
+  Future<Resetretailerresponse> resetretailerpassword(
+      {Map<String, dynamic> requestMap}) async {
+    return await shopApiClient.resetretailerpassword(requestMap);
   }
 }

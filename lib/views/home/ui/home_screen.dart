@@ -1,5 +1,6 @@
 import 'package:Retailer/utils/apppreferences.dart';
 import 'package:Retailer/views/customerlist/ui/customer.dart';
+import 'package:Retailer/views/login/ui/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:Retailer/routes/pageroutes.dart';
 
@@ -15,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 String shopName = "Shop name";
-int retailerId = 14;
+int retailerId = 0;
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
@@ -59,6 +60,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Text('Yes'),
                   onPressed: () {
                     Navigator.of(context).pop();
+                    Apppreferences().clearApppreferences();
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                        (Route<dynamic> route) => false);
                   },
                 ),
                 FlatButton(

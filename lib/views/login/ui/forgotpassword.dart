@@ -32,6 +32,7 @@ class _ForgotPassword extends State<ForgotPassword> {
   BuildContext scaffoldContext;
 
   GlobalKey<FormState> _formKey = new GlobalKey();
+  GlobalKey<State> _keyLoader = new GlobalKey<State>();
   bool _validate = false;
   String mobile, password;
   LoginBloc _loginBloc;
@@ -39,7 +40,6 @@ class _ForgotPassword extends State<ForgotPassword> {
   @override
   void initState() {
     super.initState();
-    new NotificationHandler().initializeFcmNotification();
     _loginBloc = BlocProvider.of<LoginBloc>(context);
   }
 
@@ -48,16 +48,14 @@ class _ForgotPassword extends State<ForgotPassword> {
     /*
       On Click events
     */
-    Future<void> callLoginAPI() async {
+    Future<void> callVerifyMobileAPI() async {
       var requestMap = new Map<String, dynamic>();
       requestMap['mobile_no'] = mobile;
-      requestMap['password'] = password;
-      requestMap['push_token'] = await Apppreferences().getAppToken();
       requestMap['app_os'] = await Util().getDeviceOS();
       requestMap['app_version'] = await Util().getAppVersion();
 
       print("requestMap $requestMap");
-      _loginBloc.add(LoginButtonPressed(requestMap: requestMap));
+      _loginBloc.add(VerifyMobileButtonPressed(requestMap: requestMap));
     }
 
     void _loginButtonClick() {
@@ -66,7 +64,7 @@ class _ForgotPassword extends State<ForgotPassword> {
         _formKey.currentState.save();
 
         visible = true;
-        callLoginAPI();
+        callVerifyMobileAPI();
       } else {
         // validation error
         setState(() {
@@ -88,6 +86,11 @@ class _ForgotPassword extends State<ForgotPassword> {
       }
       return null;
     }
+
+    final forgottitle = Container(
+      child: new Text('It\'s okay! reset your password',
+          style: getTextLargeStyle()),
+    );
 
     final mobileField = TextFormField(
         obscureText: false,
@@ -113,35 +116,37 @@ class _ForgotPassword extends State<ForgotPassword> {
     final sendOTP = getBaseButton(
         text: 'Continue',
         onPressed: () async {
-          // _loginButtonClick();
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ResetPassword()));
+          _loginButtonClick();
         });
 
     return BlocListener<LoginBloc, LoginState>(
       listener: (BuildContext context, LoginState state) {
-        if (state is LoginInProgress) {
-          Dialogs().showLoaderDialog(context);
+        if (state is VerifyRetailerInProgress) {
+          Dialogs().showLoadingDialog(context, _keyLoader);
         }
         if (state is LoginFailure) {
-          Dialogs().dismissLoaderDialog(context);
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
           return SnackBar(
             content: Text(state.error),
             backgroundColor: Theme.of(context).errorColor,
           );
         }
         if (state is LoginErrorMsg) {
-          Dialogs().dismissLoaderDialog(context);
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
           return SnackBar(
             content: Text(state.error),
             backgroundColor: Theme.of(context).errorColor,
           );
         }
-        if (state is LoginSuccess) {
-          Dialogs().dismissLoaderDialog(context);
-          Apppreferences().addUserLogin(state.result);
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CategoryScreen()));
+        if (state is VerifyMobileSuccess) {
+          print("VerifyMobileSuccess============");
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ResetPassword(
+                      retailerId:
+                          state.result.verifyretailerresult.retailerId)));
         }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
@@ -177,6 +182,11 @@ class _ForgotPassword extends State<ForgotPassword> {
                               Padding(
                                 padding: const EdgeInsets.only(
                                     left: 8, right: 8, top: 30, bottom: 8),
+                                child: forgottitle,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8, right: 8, top: 8, bottom: 8),
                                 child: mobileField,
                               ),
                               Padding(

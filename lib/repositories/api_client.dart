@@ -6,10 +6,13 @@ import 'package:Retailer/models/registeuser.dart';
 import 'package:Retailer/models/bookslots.dart';
 import 'package:Retailer/models/getallslots.dart';
 import 'package:Retailer/models/categories.dart';
+import 'package:Retailer/models/resetretailerresponse.dart';
 import 'package:Retailer/models/retailerallbookings.dart';
 import 'package:Retailer/models/retailerdetailresult.dart';
+import 'package:Retailer/models/retailerloginresponse.dart';
 import 'package:Retailer/models/shopslotresponse.dart';
 import 'package:Retailer/models/verifycoderesult.dart';
+import 'package:Retailer/models/verifyretailerresponse.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:Retailer/models/nearshop.dart';
@@ -36,6 +39,25 @@ class ShopApiClient {
       // then parse the JSON.
       // print(response.body);
       return RetailerregisterResponse.fromJson(json.decode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
+    }
+  }
+
+  Future<Retailerloginrespone> loginretailer(
+      Map<String, dynamic> requestMap) async {
+    var url = '$_baseUrl/loginretailer';
+
+    final response = await http.post(url,
+        headers: _json_header, body: json.encode(requestMap));
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      // print(response.body);
+      return Retailerloginrespone.fromJson(json.decode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -157,7 +179,7 @@ class ShopApiClient {
     var url = '$_baseUrl/uploadshopcertificate';
 
     final request = http.MultipartRequest('POST', Uri.parse(url));
-    request.fields['retailer_id'] = retailerId;
+    request.fields['retailer_id'] = retailerId.toString();
     request.files.add(await http.MultipartFile.fromPath('file', imagePath));
     var response = await request.send();
 
@@ -267,6 +289,44 @@ class ShopApiClient {
       // then parse the JSON.
       print(response.body);
       return RetailerdetailResponse.fromJson(json.decode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load api');
+    }
+  }
+
+  Future<Verifyretailerresponse> verifyretailermobile(
+      Map<String, dynamic> requestMap) async {
+    var url = '$_baseUrl/verifyretailermobile';
+
+    final response = await http.post(url,
+        headers: _json_header, body: json.encode(requestMap));
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      print(response.body);
+      return Verifyretailerresponse.fromJson(json.decode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load api');
+    }
+  }
+
+  Future<Resetretailerresponse> resetretailerpassword(
+      Map<String, dynamic> requestMap) async {
+    var url = '$_baseUrl/resetretailerpassword';
+
+    final response = await http.post(url,
+        headers: _json_header, body: json.encode(requestMap));
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      print(response.body);
+      return Resetretailerresponse.fromJson(json.decode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.

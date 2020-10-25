@@ -1,4 +1,5 @@
 import 'package:Retailer/utils/dialog.dart';
+import 'package:Retailer/views/home/ui/home_screen.dart';
 import 'package:Retailer/views/login/ui/signup_page.dart';
 import 'package:Retailer/widgets/text_style.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  GlobalKey<State> _scaffoldKey = new GlobalKey<State>();
   // For CircularProgressIndicator.
   bool visible = false;
 
@@ -93,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
     String _validatePassword(String value) {
       if (value.length == 0) {
         return "Password is Required";
-      } else if (value.length != 7) {
+      } else if (value.length < 7) {
         return "Password must greter than 7 character";
       }
       return null;
@@ -168,37 +171,31 @@ class _LoginPageState extends State<LoginPage> {
     return BlocListener<LoginBloc, LoginState>(
       listener: (BuildContext context, LoginState state) {
         if (state is LoginInProgress) {
-          Dialogs().showLoaderDialog(context);
+          Dialogs().showLoadingDialog(context, _keyLoader);
         }
         if (state is LoginFailure) {
-          Dialogs().dismissLoaderDialog(context);
-          return SnackBar(
-            content: Text(state.error),
-            backgroundColor: Theme.of(context).errorColor,
-          );
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
+          Util().showErrorToast(_scaffoldKey.currentContext, state.error);
         }
         if (state is LoginErrorMsg) {
-          Dialogs().dismissLoaderDialog(context);
-          return SnackBar(
-            content: Text(state.error),
-            backgroundColor: Theme.of(context).errorColor,
-          );
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
+          Util().showErrorToast(_scaffoldKey.currentContext, state.error);
         }
         if (state is LoginSuccess) {
-          Dialogs().dismissLoaderDialog(context);
-          Apppreferences().addUserLogin(state.result);
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CategoryScreen()));
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
+          Apppreferences().addUserLogin(state.result.retailerloginresult.id,
+              state.result.retailerloginresult.shopName);
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+              (Route<dynamic> route) => false);
         }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
-        // bloc: BlocProvider.of<LoginBloc>(context),
         builder: (BuildContext context, LoginState state) {
           return Scaffold(
-            backgroundColor: Colors.white,
-            body: new Builder(builder: (BuildContext context) {
-              scaffoldContext = context;
-              return new Center(
+              key: _scaffoldKey,
+              backgroundColor: Colors.white,
+              body: new Center(
                 child: ScrollConfiguration(
                   behavior: new ScrollBehavior()
                     ..buildViewportChrome(context, null, AxisDirection.up),
@@ -248,9 +245,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-              );
-            }),
-          );
+              ));
         },
       ),
     );

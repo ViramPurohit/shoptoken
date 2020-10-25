@@ -45,9 +45,11 @@ class _SignupPageState extends State<SignupPage> {
 
   LoginBloc _loginBloc;
 
+  bool _passwordVisible;
   @override
   void initState() {
     super.initState();
+    _passwordVisible = false;
     new NotificationHandler().initializeFcmNotification();
     _loginBloc = BlocProvider.of<LoginBloc>(context);
   }
@@ -63,6 +65,7 @@ class _SignupPageState extends State<SignupPage> {
       requestMap['full_name'] = fullname;
       requestMap['shop_name'] = shopname;
       requestMap['address'] = location;
+      requestMap['password'] = password;
 
       requestMap['lat'] = latitude;
       requestMap['lng'] = longitude;
@@ -72,7 +75,7 @@ class _SignupPageState extends State<SignupPage> {
       requestMap['app_version'] = await Util().getAppVersion();
 
       print("requestMap $requestMap");
-      _loginBloc.add(LoginButtonPressed(requestMap: requestMap));
+      _loginBloc.add(SignupButtonPressed(requestMap: requestMap));
     }
 
     void _loginButtonClick() {
@@ -114,7 +117,7 @@ class _SignupPageState extends State<SignupPage> {
     String _validatePassword(String value) {
       if (value.length == 0) {
         return "Password is Required";
-      } else if (value.length != 7) {
+      } else if (value.length < 7) {
         return "Password must greter than 7 character";
       }
       return null;
@@ -161,11 +164,23 @@ class _SignupPageState extends State<SignupPage> {
         ));
 
     final passwordField = TextFormField(
-      obscureText: true,
+      obscureText: !_passwordVisible,
       style: getTextStyle(),
       decoration: InputDecoration(
         contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
         labelText: "New Password",
+        suffixIcon: IconButton(
+            icon: Icon(
+              // Based on passwordVisible state choose the icon
+              _passwordVisible ? Icons.visibility : Icons.visibility_off,
+              color: Theme.of(context).primaryColorDark,
+            ),
+            onPressed: () {
+              // Update the state i.e. toogle the state of passwordVisible variable
+              setState(() {
+                _passwordVisible = !_passwordVisible;
+              });
+            }),
         fillColor: Colors.white,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
         enabledBorder: OutlineInputBorder(
@@ -195,7 +210,7 @@ class _SignupPageState extends State<SignupPage> {
       setState(() {});
     }
 
-    Future<void> callShopLicenceAPI(storelicencePath, int id) async {
+    Future<void> callShopLicenceAPI(storelicencePath, id) async {
       _loginBloc.add(
           UploadShopCertificate(retailerId: id, imagePath: storelicencePath));
     }
@@ -299,30 +314,33 @@ class _SignupPageState extends State<SignupPage> {
 
     return BlocListener<LoginBloc, LoginState>(
       listener: (BuildContext context, LoginState state) {
-        if (state is LoginInProgress) {
+        if (state is SignupInProgress) {
           Dialogs().showLoaderDialog(context);
         }
         if (state is LoginFailure) {
           Dialogs().dismissLoaderDialog(context);
-          return SnackBar(
-            content: Text(state.error),
-            backgroundColor: Theme.of(context).errorColor,
-          );
+          Util().showErrorToast(context, state.error);
         }
         if (state is LoginErrorMsg) {
           Dialogs().dismissLoaderDialog(context);
-          return SnackBar(
-            content: Text(state.error),
-            backgroundColor: Theme.of(context).errorColor,
-          );
+          Util().showErrorToast(context, state.error);
         }
-        if (state is LoginSuccess) {
+        if (state is SignupSuccess) {
           Dialogs().dismissLoaderDialog(context);
           callShopLicenceAPI(
               storelicencePath, state.result.retailerregisterResult.id);
-          Apppreferences().addUserLogin(state.result);
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CategoryScreen()));
+          Apppreferences().addUserLogin(state.result.retailerregisterResult.id,
+              state.result.retailerregisterResult.shopName);
+        }
+        if (state is UploadShopCertificateInProgress) {
+          Dialogs().showLoaderDialog(context);
+        }
+
+        if (state is UploadCertificateSuccess) {
+          // Dialogs().dismissLoaderDialog(context);
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => CategoryScreen()),
+              (Route<dynamic> route) => false);
         }
       },
       child: BlocBuilder<LoginBloc, LoginState>(

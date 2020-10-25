@@ -2,6 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 class Dialogs {
+  Future<void> showLoadingDialog(BuildContext context, GlobalKey key) async {
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return new WillPopScope(
+              onWillPop: () async => false,
+              child: SimpleDialog(
+                  key: key,
+                  backgroundColor: Colors.white,
+                  children: <Widget>[
+                    Center(
+                      child: Column(children: [
+                        CircularProgressIndicator(),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Please wait...",
+                          style: TextStyle(color: Colors.blueAccent),
+                        )
+                      ]),
+                    )
+                  ]));
+        });
+  }
+
+  dismissLoadingDialog(BuildContext currentContext) {
+    Navigator.of(currentContext, rootNavigator: true).pop(); //close the dialoge
+  }
+
   showLoaderDialog(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       AlertDialog alert = AlertDialog(

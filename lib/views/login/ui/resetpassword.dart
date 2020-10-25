@@ -15,10 +15,9 @@ import 'package:Retailer/views/login/bloc/login.dart';
 import 'package:Retailer/widgets/button.dart';
 
 class ResetPassword extends StatefulWidget {
-  ResetPassword({Key key, this.title}) : super(key: key);
+  ResetPassword({@required this.retailerId, Key key}) : super(key: key);
 
-  final String title;
-
+  final int retailerId;
   @override
   State<StatefulWidget> createState() {
     return _ResetPassword();
@@ -26,6 +25,7 @@ class ResetPassword extends StatefulWidget {
 }
 
 class _ResetPassword extends State<ResetPassword> {
+  GlobalKey<State> _keyLoader = new GlobalKey<State>();
   // For CircularProgressIndicator.
   bool visible = false;
 
@@ -33,14 +33,16 @@ class _ResetPassword extends State<ResetPassword> {
 
   GlobalKey<FormState> _formKey = new GlobalKey();
   bool _validate = false;
-  String mobile, password, confirmpassword;
+  String otp, password, confirmpassword;
+  bool _passwordVisible, _confpasswordVisible;
   LoginBloc _loginBloc;
 
   @override
   void initState() {
     super.initState();
-    new NotificationHandler().initializeFcmNotification();
     _loginBloc = BlocProvider.of<LoginBloc>(context);
+    _passwordVisible = false;
+    _confpasswordVisible = false;
   }
 
   @override
@@ -48,25 +50,25 @@ class _ResetPassword extends State<ResetPassword> {
     /*
       On Click events
     */
-    Future<void> callLoginAPI() async {
+    Future<void> callChangePasswordAPI() async {
       var requestMap = new Map<String, dynamic>();
-      requestMap['mobile_no'] = mobile;
+      requestMap['otp'] = otp;
+      requestMap['retailer_id'] = widget.retailerId;
       requestMap['password'] = password;
-      requestMap['push_token'] = await Apppreferences().getAppToken();
       requestMap['app_os'] = await Util().getDeviceOS();
       requestMap['app_version'] = await Util().getAppVersion();
 
       print("requestMap $requestMap");
-      _loginBloc.add(LoginButtonPressed(requestMap: requestMap));
+      _loginBloc.add(ResetPasswordButtonPressed(requestMap: requestMap));
     }
 
-    void _loginButtonClick() {
+    void _passwordButtonClick() {
       if (_formKey.currentState.validate()) {
         // No any error in validation
         _formKey.currentState.save();
 
         visible = true;
-        callLoginAPI();
+        callChangePasswordAPI();
       } else {
         // validation error
         setState(() {
@@ -78,9 +80,9 @@ class _ResetPassword extends State<ResetPassword> {
 
     String _validateOTP(String value) {
       if (value.length == 0) {
-        return "Password is Required";
-      } else if (value.length != 7) {
-        return "Password must greter than 7 character";
+        return "OTP is Required";
+      } else if (value.length != 4) {
+        return "OTP must be 4 digits";
       }
       return null;
     }
@@ -88,7 +90,7 @@ class _ResetPassword extends State<ResetPassword> {
     String _validatePassword(String value) {
       if (value.length == 0) {
         return "Password is Required";
-      } else if (value.length != 7) {
+      } else if (value.length < 7) {
         return "Password must greter than 7 character";
       }
       return null;
@@ -97,7 +99,7 @@ class _ResetPassword extends State<ResetPassword> {
     String _validateConfirmPassword(String value) {
       if (value.length == 0) {
         return "Password is Required";
-      } else if (value.length != 7) {
+      } else if (value.length < 7) {
         return "Password must greter than 7 character";
       } else if (password != confirmpassword) {
         return "New password and Confirm Password must be same";
@@ -106,11 +108,23 @@ class _ResetPassword extends State<ResetPassword> {
     }
 
     final passwordField = TextFormField(
-      obscureText: true,
+      obscureText: !_passwordVisible,
       style: getTextStyle(),
       decoration: InputDecoration(
         contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
         labelText: "New Password",
+        suffixIcon: IconButton(
+            icon: Icon(
+              // Based on passwordVisible state choose the icon
+              _passwordVisible ? Icons.visibility : Icons.visibility_off,
+              color: Theme.of(context).primaryColorDark,
+            ),
+            onPressed: () {
+              // Update the state i.e. toogle the state of passwordVisible variable
+              setState(() {
+                _passwordVisible = !_passwordVisible;
+              });
+            }),
         fillColor: Colors.white,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
         enabledBorder: OutlineInputBorder(
@@ -125,11 +139,23 @@ class _ResetPassword extends State<ResetPassword> {
     );
 
     final confirmpasswordField = TextFormField(
-      obscureText: true,
+      obscureText: !_passwordVisible,
       style: getTextStyle(),
       decoration: InputDecoration(
         contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
         labelText: "Confirm Password",
+        suffixIcon: IconButton(
+            icon: Icon(
+              // Based on passwordVisible state choose the icon
+              _confpasswordVisible ? Icons.visibility : Icons.visibility_off,
+              color: Theme.of(context).primaryColorDark,
+            ),
+            onPressed: () {
+              // Update the state i.e. toogle the state of passwordVisible variable
+              setState(() {
+                _confpasswordVisible = !_confpasswordVisible;
+              });
+            }),
         fillColor: Colors.white,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
         enabledBorder: OutlineInputBorder(
@@ -143,12 +169,19 @@ class _ResetPassword extends State<ResetPassword> {
       },
     );
 
+    final resettitle = Container(
+      child: new Text('Reset your password', style: getTextLargeStyle()),
+    );
+    final resetmsg = Container(
+      child: new Text('We have sent a four digit code on your phone.',
+          textAlign: TextAlign.center, style: getTextStyle()),
+    );
     final otpField = TextFormField(
         obscureText: false,
         style: getTextStyle(),
         validator: _validateOTP,
         onSaved: (String val) {
-          mobile = val;
+          otp = val;
         },
         keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -167,36 +200,33 @@ class _ResetPassword extends State<ResetPassword> {
     final resetpassword = getBaseButton(
         text: 'Reset Password',
         onPressed: () async {
-          // _loginButtonClick();
-
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ResettPasswordSuccess()));
+          _passwordButtonClick();
         });
 
     return BlocListener<LoginBloc, LoginState>(
       listener: (BuildContext context, LoginState state) {
-        if (state is LoginInProgress) {
-          Dialogs().showLoaderDialog(context);
+        if (state is ConfirmPasswordInProgress) {
+          Dialogs().showLoadingDialog(context, _keyLoader);
         }
         if (state is LoginFailure) {
-          Dialogs().dismissLoaderDialog(context);
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
           return SnackBar(
             content: Text(state.error),
             backgroundColor: Theme.of(context).errorColor,
           );
         }
         if (state is LoginErrorMsg) {
-          Dialogs().dismissLoaderDialog(context);
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
           return SnackBar(
             content: Text(state.error),
             backgroundColor: Theme.of(context).errorColor,
           );
         }
-        if (state is LoginSuccess) {
-          Dialogs().dismissLoaderDialog(context);
-          Apppreferences().addUserLogin(state.result);
+
+        if (state is ResetPasswordSuccess) {
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CategoryScreen()));
+              MaterialPageRoute(builder: (context) => ResettPasswordSuccess()));
         }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
@@ -232,6 +262,14 @@ class _ResetPassword extends State<ResetPassword> {
                               Padding(
                                 padding: const EdgeInsets.only(
                                     left: 8, right: 8, top: 30, bottom: 8),
+                                child: resettitle,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: resetmsg,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
                                 child: otpField,
                               ),
                               Padding(
