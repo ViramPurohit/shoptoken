@@ -29,9 +29,6 @@ class _ResetPassword extends State<ResetPassword> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   // For CircularProgressIndicator.
   bool visible = false;
-
-  BuildContext scaffoldContext;
-
   GlobalKey<FormState> _formKey = new GlobalKey();
   bool _validate = false;
   String otp, password, confirmpassword;
@@ -228,10 +225,9 @@ class _ResetPassword extends State<ResetPassword> {
         // bloc: BlocProvider.of<LoginBloc>(context),
         builder: (BuildContext context, LoginState state) {
           return Scaffold(
-            backgroundColor: Colors.white,
-            body: new Builder(builder: (BuildContext context) {
-              scaffoldContext = context;
-              return new Center(
+              key: _scaffoldKey,
+              backgroundColor: Colors.white,
+              body: new Center(
                 child: ScrollConfiguration(
                   behavior: new ScrollBehavior()
                     ..buildViewportChrome(context, null, AxisDirection.up),
@@ -287,9 +283,7 @@ class _ResetPassword extends State<ResetPassword> {
                     ),
                   ),
                 ),
-              );
-            }),
-          );
+              ));
         },
       ),
     );

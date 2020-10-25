@@ -29,8 +29,6 @@ class _ForgotPassword extends State<ForgotPassword> {
   // For CircularProgressIndicator.
   bool visible = false;
 
-  BuildContext scaffoldContext;
-
   GlobalKey<FormState> _formKey = new GlobalKey();
   GlobalKey<State> _keyLoader = new GlobalKey<State>();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -148,10 +146,9 @@ class _ForgotPassword extends State<ForgotPassword> {
         // bloc: BlocProvider.of<LoginBloc>(context),
         builder: (BuildContext context, LoginState state) {
           return Scaffold(
-            backgroundColor: Colors.white,
-            body: new Builder(builder: (BuildContext context) {
-              scaffoldContext = context;
-              return new Center(
+              key: _scaffoldKey,
+              backgroundColor: Colors.white,
+              body: new Center(
                 child: ScrollConfiguration(
                   behavior: new ScrollBehavior()
                     ..buildViewportChrome(context, null, AxisDirection.up),
@@ -196,9 +193,7 @@ class _ForgotPassword extends State<ForgotPassword> {
                     ),
                   ),
                 ),
-              );
-            }),
-          );
+              ));
         },
       ),
     );
