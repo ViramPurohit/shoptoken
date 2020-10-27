@@ -1,6 +1,7 @@
 import 'package:Retailer/models/retailerdetailresult.dart';
 import 'package:Retailer/utils/apppreferences.dart';
 import 'package:Retailer/utils/dialog.dart';
+import 'package:Retailer/utils/util_page.dart';
 import 'package:Retailer/views/userprofile/bloc/userprofile.dart';
 import 'package:Retailer/widgets/text_style.dart';
 import 'package:flutter/material.dart';
@@ -34,10 +35,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
         }
         if (state is UserprofileFailure) {
           Dialogs().dismissLoaderDialog(context);
-          return SnackBar(
-            content: Text(state.error),
-            backgroundColor: Theme.of(context).errorColor,
-          );
+          Util().showErrorToast(context, state.error);
         }
         if (state is RetailerdetailSuccess) {
           Dialogs().dismissLoaderDialog(context);
@@ -45,10 +43,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
           if (state.result.retailerdetailresult.isError == 0) {
             retailer = state.result.retailerdetailresult.data;
           } else {
-            return SnackBar(
-              content: Text(state.result.retailerdetailresult.message),
-              backgroundColor: Theme.of(context).errorColor,
-            );
+            Util()
+                .showToast(context, state.result.retailerdetailresult.message);
           }
         }
       },
@@ -144,7 +140,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   Future<void> getUserProfile() async {
     var requestMap = new Map<String, dynamic>();
-    requestMap['retailer_id'] = 11; //await Apppreferences().getUserId();
+    requestMap['retailer_id'] = await Apppreferences().getUserId();
     _userprofileBloc.add(UserDetailsEvent(requestMap: requestMap));
   }
 }

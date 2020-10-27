@@ -1,5 +1,6 @@
 import 'package:Retailer/models/categories.dart';
 import 'package:Retailer/utils/apppreferences.dart';
+import 'package:Retailer/utils/dialog.dart';
 import 'package:Retailer/views/category/bloc/category_bloc.dart';
 import 'package:Retailer/views/category/bloc/category_event.dart';
 import 'package:Retailer/views/category/bloc/category_state.dart';

@@ -1,4 +1,5 @@
 import 'package:Retailer/utils/apppreferences.dart';
+import 'package:Retailer/utils/dialog.dart';
 import 'package:Retailer/views/home/ui/home_screen.dart';
 import 'package:Retailer/views/storetime/bloc/storetime.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,8 @@ class SelectUserSlotScreen extends StatefulWidget {
 }
 
 class _SelectTimeSlotState extends State<SelectUserSlotScreen> {
+  GlobalKey<State> _keyLoader = new GlobalKey<State>();
+
   StoreTimeBloc _storeTimeBloc;
 
   String _bookstarttime;
@@ -46,13 +49,24 @@ class _SelectTimeSlotState extends State<SelectUserSlotScreen> {
   Widget build(BuildContext context) {
     return BlocListener<StoreTimeBloc, StoreTimeState>(
       listener: (BuildContext context, StoreTimeState state) {
+        if (state is StoreTimeInProgress) {
+          Dialogs().showLoadingDialog(context, _keyLoader);
+        }
+        if (state is StoreTimeFailure) {
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
+        }
+
         if (state is RetailerUpdateSuccess) {
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
           print(state.result);
+          Apppreferences().addSignupLevel(3);
+          Apppreferences().addLogin();
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => HomeScreen()),
               (Route<dynamic> route) => false);
         }
         if (state is ShopTimeSlotSuccess) {
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
           print(state.startTime);
           _bookstarttime = state.startTime;
           _bookendtime = state.endTime;
@@ -61,18 +75,6 @@ class _SelectTimeSlotState extends State<SelectUserSlotScreen> {
       child: BlocBuilder<StoreTimeBloc, StoreTimeState>(
         // bloc: BlocProvider.of<BookTicketBloc>(context),
         builder: (BuildContext context, StoreTimeState state) {
-          if (state is StoreTimeInProgress) {
-            return Padding(
-                padding: EdgeInsets.only(top: 16.0),
-                child: Center(child: CircularProgressIndicator()));
-          }
-          if (state is StoreTimeFailure) {
-            return SnackBar(
-              content: Text(state.error),
-              backgroundColor: Theme.of(context).errorColor,
-            );
-          }
-
           return Container(
             child: Center(
               child: Padding(

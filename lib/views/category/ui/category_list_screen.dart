@@ -1,5 +1,6 @@
 import 'package:Retailer/utils/apppreferences.dart';
 import 'package:Retailer/utils/dialog.dart';
+import 'package:Retailer/utils/util_page.dart';
 
 import 'package:Retailer/views/category/bloc/category_event.dart';
 
@@ -21,6 +22,8 @@ class CategoryList extends StatefulWidget {
 }
 
 class CategoryListState extends State<CategoryList> {
+  GlobalKey<State> _keyLoader = new GlobalKey<State>();
+
   List<CategoryData> categoryList;
   List<CategoryData> selectedcategory;
   CategoryBloc _categoryBloc;
@@ -39,23 +42,22 @@ class CategoryListState extends State<CategoryList> {
     return BlocListener<CategoryBloc, CategoryState>(
       listener: (BuildContext context, CategoryState state) {
         if (state is CategoryInProgress) {
-          // Dialogs().showLoaderDialog(context);
+          Dialogs().showLoadingDialog(context, _keyLoader);
         }
 
         if (state is CategorySuccess) {
           print(state.result);
-          // Dialogs().dismissLoaderDialog(context);
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
           categoryList = state.result.categorylistresult.data;
         }
 
+        if (state is CategoryFailure) {
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
+          Util().showErrorToast(context, state.error);
+        }
         if (state is CategorySubmitSuccess) {
-          // Dialogs().dismissLoaderDialog(context);
-          print("=========CategorySubmitSuccess============");
-          print(state.result.categoryresult.message);
-
-          // Navigator.push(
-          //     context, MaterialPageRoute(builder: (context) => StoresScreen()));
-
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
+          Apppreferences().addSignupLevel(2);
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -65,14 +67,6 @@ class CategoryListState extends State<CategoryList> {
       child: BlocBuilder<CategoryBloc, CategoryState>(
         // bloc: BlocProvider.of<BookTicketBloc>(context),
         builder: (BuildContext context, CategoryState state) {
-          if (state is CategoryFailure) {
-            // Dialogs().dismissLoaderDialog(context);
-            return SnackBar(
-              content: Text(state.error),
-              backgroundColor: Theme.of(context).errorColor,
-            );
-          }
-
           return Container(
             child: Center(
               child: Padding(

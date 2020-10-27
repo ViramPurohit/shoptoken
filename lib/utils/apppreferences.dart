@@ -9,9 +9,18 @@ class Apppreferences {
 
   addUserLogin(id, shopName) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isLogin', true);
     prefs.setInt('userId', id);
     prefs.setString('shopname', shopName);
+  }
+
+  addSignupLevel(level) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt("signuplevel", level);
+  }
+
+  addLogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isLogin', true);
   }
 
   Future<int> getUserId() async {

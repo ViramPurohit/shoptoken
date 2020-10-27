@@ -38,7 +38,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         final result =
             await apirepository.registerRetailer(requestMap: event.requestMap);
         print("result====$result");
-        if (result.retailerregisterResult.isError == 0) {
+        if (result.retailerregisterResult.isError == 0 ||
+            result.retailerregisterResult.isError == 1) {
           yield SignupSuccess(result);
         } else {
           yield LoginErrorMsg(error: result.retailerregisterResult.message);

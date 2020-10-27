@@ -29,6 +29,8 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   // For CircularProgressIndicator.
   bool visible = false;
 
@@ -315,29 +317,37 @@ class _SignupPageState extends State<SignupPage> {
     return BlocListener<LoginBloc, LoginState>(
       listener: (BuildContext context, LoginState state) {
         if (state is SignupInProgress) {
-          Dialogs().showLoaderDialog(context);
+          Dialogs().showLoadingDialog(context, _keyLoader);
         }
         if (state is LoginFailure) {
-          Dialogs().dismissLoaderDialog(context);
-          Util().showErrorToast(context, state.error);
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
+          Util().showScaffoldErrorToast(_scaffoldKey, state.error);
         }
         if (state is LoginErrorMsg) {
-          Dialogs().dismissLoaderDialog(context);
-          Util().showErrorToast(context, state.error);
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
+          Util().showScaffoldErrorToast(_scaffoldKey, state.error);
         }
         if (state is SignupSuccess) {
-          Dialogs().dismissLoaderDialog(context);
-          callShopLicenceAPI(
-              storelicencePath, state.result.retailerregisterResult.id);
-          Apppreferences().addUserLogin(state.result.retailerregisterResult.id,
-              state.result.retailerregisterResult.shopName);
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
+          if (state.result.retailerregisterResult.isError == 0) {
+            callShopLicenceAPI(
+                storelicencePath, state.result.retailerregisterResult.id);
+            Apppreferences().addUserLogin(
+                state.result.retailerregisterResult.id,
+                state.result.retailerregisterResult.shopName);
+            Apppreferences().addSignupLevel(1);
+          } else {
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => CategoryScreen()),
+                (Route<dynamic> route) => false);
+          }
         }
         if (state is UploadShopCertificateInProgress) {
-          Dialogs().showLoaderDialog(context);
+          Dialogs().showLoadingDialog(context, _keyLoader);
         }
 
         if (state is UploadCertificateSuccess) {
-          // Dialogs().dismissLoaderDialog(context);
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => CategoryScreen()),
               (Route<dynamic> route) => false);
@@ -347,6 +357,7 @@ class _SignupPageState extends State<SignupPage> {
         // bloc: BlocProvider.of<LoginBloc>(context),
         builder: (BuildContext context, LoginState state) {
           return Scaffold(
+            key: _scaffoldKey,
             backgroundColor: Colors.white,
             body: new Builder(builder: (BuildContext context) {
               scaffoldContext = context;

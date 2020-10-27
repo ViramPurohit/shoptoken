@@ -1,4 +1,5 @@
 import 'package:Retailer/models/retailerallbookings.dart';
+import 'package:Retailer/utils/apppreferences.dart';
 
 import 'package:Retailer/utils/dialog.dart';
 import 'package:Retailer/utils/util_page.dart';
@@ -35,10 +36,8 @@ class _CustomerListState extends State<CustomerList> {
     DateTime now = new DateTime.now();
     var bookingdate = "${now.year}-${now.month}-${now.day}";
     var requestMap = new Map<String, dynamic>();
-    // requestMap['retailer_id'] = await Apppreferences().getUserId();
-    // requestMap['booking_date'] = bookingdate.toString();
-    requestMap['retailer_id'] = 11;
-    requestMap['booking_date'] = "2020-10-03";
+    requestMap['retailer_id'] = await Apppreferences().getUserId();
+    requestMap['booking_date'] = bookingdate.toString();
 
     _customerBloc.add(CustomerListEvent(requestMap: requestMap));
   }
