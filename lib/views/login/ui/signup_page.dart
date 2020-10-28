@@ -328,7 +328,6 @@ class _SignupPageState extends State<SignupPage> {
           Util().showScaffoldErrorToast(_scaffoldKey, state.error);
         }
         if (state is SignupSuccess) {
-          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
           if (state.result.retailerregisterResult.isError == 0) {
             callShopLicenceAPI(
                 storelicencePath, state.result.retailerregisterResult.id);
@@ -337,13 +336,14 @@ class _SignupPageState extends State<SignupPage> {
                 state.result.retailerregisterResult.shopName);
             Apppreferences().addSignupLevel(1);
           } else {
+            Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => CategoryScreen()),
                 (Route<dynamic> route) => false);
           }
         }
         if (state is UploadShopCertificateInProgress) {
-          Dialogs().showLoadingDialog(context, _keyLoader);
+          // Dialogs().showLoadingDialog(context, _keyLoader);
         }
 
         if (state is UploadCertificateSuccess) {

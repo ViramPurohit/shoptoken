@@ -12,7 +12,7 @@
          
     <application
         android:name="com.viram.retailertoken.App"
-        android:label="Retailertoken"
+        android:label="Retailer"
      
         android:icon="@mipmap/ic_launcher">
         <activity
