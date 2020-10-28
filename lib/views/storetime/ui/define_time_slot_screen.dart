@@ -54,6 +54,7 @@ class _SelectTimeSlotState extends State<SelectUserSlotScreen> {
         }
         if (state is StoreTimeFailure) {
           Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
+          Util().showErrorToast(context, state.error);
         }
 
         if (state is RetailerUpdateSuccess) {
@@ -66,7 +67,6 @@ class _SelectTimeSlotState extends State<SelectUserSlotScreen> {
               (Route<dynamic> route) => false);
         }
         if (state is ShopTimeSlotSuccess) {
-          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
           print(state.startTime);
           _bookstarttime = state.startTime;
           _bookendtime = state.endTime;
@@ -143,14 +143,28 @@ class _SelectTimeSlotState extends State<SelectUserSlotScreen> {
   }
 
   Future<void> saveRetailer() async {
-    var requestMap = new Map<String, dynamic>();
-    requestMap['retailer_id'] = await Apppreferences().getUserId();
-    requestMap['start_at'] = _bookstarttime;
-    requestMap['end_at'] = _bookendtime;
-    requestMap['slotvalue'] = timeSlotValue;
-    requestMap['app_os'] = await Util().getDeviceOS();
-    requestMap['app_version'] = await Util().getAppVersion();
+    if (_bookstarttime != null &&
+        _bookendtime != null &&
+        timeSlotValue != null) {
+      var requestMap = new Map<String, dynamic>();
+      requestMap['retailer_id'] = await Apppreferences().getUserId();
+      requestMap['start_at'] = _bookstarttime;
+      requestMap['end_at'] = _bookendtime;
+      requestMap['slotvalue'] = timeSlotValue;
+      requestMap['app_os'] = await Util().getDeviceOS();
+      requestMap['app_version'] = await Util().getAppVersion();
 
-    _storeTimeBloc.add(RetailerUpdateEvent(requestMap: requestMap));
+      _storeTimeBloc.add(RetailerUpdateEvent(requestMap: requestMap));
+    } else {
+      if (_bookstarttime == null) {
+        Util().showToast(context, "Please select Opening Time");
+      }
+      if (_bookendtime == null) {
+        Util().showToast(context, "Please select Closing Time");
+      }
+      if (timeSlotValue == null) {
+        Util().showToast(context, "Please select Time Slot");
+      }
+    }
   }
 }

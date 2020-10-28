@@ -121,19 +121,24 @@ class CategoryListState extends State<CategoryList> {
   }
 
   Future<void> submitCategory(List<CategoryData> selectedList) async {
-    var categoryIds = new StringBuffer();
+    if (selectedList.isNotEmpty) {
+      var categoryIds = new StringBuffer();
 
-    for (var category in selectedList) {
-      categoryIds.write(category.id);
-      categoryIds.write(",");
+      for (var category in selectedList) {
+        categoryIds.write(category.id);
+        categoryIds.write(",");
+      }
+      var finalIds = categoryIds
+          .toString()
+          .substring(0, categoryIds.toString().length - 1);
+      var requestMap = new Map<String, dynamic>();
+      requestMap['retailer_id'] = await Apppreferences().getUserId();
+      requestMap['category_id'] = finalIds.toString();
+
+      _categoryBloc.add(SubmitCategoryEvent(requestMap: requestMap));
+    } else {
+      Util().showToast(context, "Please select Category");
     }
-    var finalIds =
-        categoryIds.toString().substring(0, categoryIds.toString().length - 1);
-    var requestMap = new Map<String, dynamic>();
-    requestMap['retailer_id'] = await Apppreferences().getUserId();
-    requestMap['category_id'] = finalIds.toString();
-
-    _categoryBloc.add(SubmitCategoryEvent(requestMap: requestMap));
   }
 }
 
