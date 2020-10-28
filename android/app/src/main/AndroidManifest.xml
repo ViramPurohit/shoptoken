@@ -12,7 +12,7 @@
          
     <application
         android:name="com.example.shoptoken.App"
-        android:label="shoptoken"
+        android:label="MyBooking"
      
         android:icon="@mipmap/ic_launcher">
         <activity
