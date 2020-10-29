@@ -19,12 +19,64 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       print("LoginInProgress====");
       try {
         final result =
-            await apirepository.registerUser(requestMap: event.requestMap);
-        print("result====$result");
-        if (result.isError == 0) {
+            await apirepository.logincustomer(requestMap: event.requestMap);
+        print("LoginIn result====$result");
+        if (result.customerloginresult.isError == 0) {
           yield LoginSuccess(result);
         } else {
-          yield LoginErrorMsg(error: result.message);
+          yield LoginErrorMsg(error: result.customerloginresult.message);
+        }
+      } catch (error) {
+        print("LoginIn Error====");
+        print(error);
+        yield LoginFailure(error: error.toString());
+      }
+    } else if (event is SignupButtonPressed) {
+      yield SignupInProgress();
+      print("SignupInProgress====");
+      try {
+        final result =
+            await apirepository.registerUser(requestMap: event.requestMap);
+        print("result====$result");
+        if (result.customerregisterResult.isError == 0 ||
+            result.customerregisterResult.isError == 1) {
+          yield SignupSuccess(result);
+        } else {
+          yield LoginErrorMsg(error: result.customerregisterResult.message);
+        }
+      } catch (error) {
+        print("Error====");
+        print(error);
+        yield LoginFailure(error: error.toString());
+      }
+    } else if (event is VerifyMobileButtonPressed) {
+      print("VerifyMobileButto Progress====");
+      yield VerifyRetailerInProgress();
+      try {
+        final result = await apirepository.verifycustomermobile(
+            requestMap: event.requestMap);
+
+        if (result.verifycustomerresult.isError == 0) {
+          yield VerifyMobileSuccess(result);
+        } else {
+          yield LoginErrorMsg(error: result.verifycustomerresult.message);
+        }
+      } catch (error) {
+        print("Error====");
+        print(error);
+        yield LoginFailure(error: error.toString());
+      }
+    } else if (event is ResetPasswordButtonPressed) {
+      print("ResetPassword Progress====");
+      yield ConfirmPasswordInProgress();
+      try {
+        final result = await apirepository.resetcustomerpassword(
+            requestMap: event.requestMap);
+
+        if (result.resetcustomerresult.isError == 0) {
+          yield ResetPasswordSuccess(result);
+        } else {
+          yield LoginErrorMsg(error: result.resetcustomerresult.message);
         }
       } catch (error) {
         print("Error====");

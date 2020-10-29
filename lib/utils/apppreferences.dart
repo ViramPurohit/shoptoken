@@ -1,12 +1,10 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shoptoken/models/registeuser.dart';
 
 class Apppreferences {
-  addUserLogin(RegisterUser result) async {
+  addUserLogin(id, shopName) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isLogin', true);
-    prefs.setInt('userId', result.id);
-    prefs.setString('username', result.fullName);
+    prefs.setInt('userId', id);
+    prefs.setString('shopname', shopName);
   }
 
   Future<int> getUserId() async {

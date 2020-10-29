@@ -1,43 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shoptoken/service/firebasenotifications.dart';
-import 'package:shoptoken/utils/apppreferences.dart';
 import 'package:shoptoken/utils/dialog.dart';
 import 'package:shoptoken/utils/util_page.dart';
-
-import 'package:shoptoken/views/category/ui/category_screen.dart';
-import 'package:shoptoken/views/home/ui/home_screen.dart';
 import 'package:shoptoken/views/login/bloc/login.dart';
-import 'package:shoptoken/views/login/ui/signup_page.dart';
-import 'package:shoptoken/views/userlocation/ui/user_location.dart';
-
+import 'package:shoptoken/views/login/bloc/login_bloc.dart';
 import 'package:shoptoken/widgets/button.dart';
 import 'package:shoptoken/widgets/text_style.dart';
 
-import 'forgotpassword.dart';
+import 'resetpassword.dart';
 
-class LoginPage extends StatefulWidget {
-  LoginPage({Key key, this.title}) : super(key: key);
+class ForgotPassword extends StatefulWidget {
+  ForgotPassword({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
   State<StatefulWidget> createState() {
-    return _LoginPageState();
+    return _ForgotPassword();
   }
 }
 
-class _LoginPageState extends State<LoginPage> {
-  GlobalKey<State> _keyLoader = new GlobalKey<State>();
-  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+class _ForgotPassword extends State<ForgotPassword> {
   // For CircularProgressIndicator.
   bool visible = false;
 
-  BuildContext scaffoldContext;
-
   GlobalKey<FormState> _formKey = new GlobalKey();
+  GlobalKey<State> _keyLoader = new GlobalKey<State>();
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool _validate = false;
   String mobile, password;
   LoginBloc _loginBloc;
@@ -45,7 +35,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    new NotificationHandler().initializeFcmNotification();
     _loginBloc = BlocProvider.of<LoginBloc>(context);
   }
 
@@ -54,16 +43,14 @@ class _LoginPageState extends State<LoginPage> {
     /*
       On Click events
     */
-    Future<void> callLoginAPI() async {
+    Future<void> callVerifyMobileAPI() async {
       var requestMap = new Map<String, dynamic>();
       requestMap['mobile_no'] = mobile;
-      requestMap['password'] = password;
-      requestMap['push_token'] = await Apppreferences().getAppToken();
       requestMap['app_os'] = await Util().getDeviceOS();
       requestMap['app_version'] = await Util().getAppVersion();
 
       print("requestMap $requestMap");
-      _loginBloc.add(LoginButtonPressed(requestMap: requestMap));
+      _loginBloc.add(VerifyMobileButtonPressed(requestMap: requestMap));
     }
 
     void _loginButtonClick() {
@@ -72,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
         _formKey.currentState.save();
 
         visible = true;
-        callLoginAPI();
+        callVerifyMobileAPI();
       } else {
         // validation error
         setState(() {
@@ -95,32 +82,9 @@ class _LoginPageState extends State<LoginPage> {
       return null;
     }
 
-    String _validatePassword(String value) {
-      if (value.length == 0) {
-        return "Password is Required";
-      } else if (value.length < 7) {
-        return "Password must greter than 7 character";
-      }
-      return null;
-    }
-
-    final passwordField = TextFormField(
-      obscureText: true,
-      style: getTextStyle(),
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-        labelText: "Enter Password",
-        fillColor: Colors.white,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.blue, width: 2.0),
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-      ),
-      validator: _validatePassword,
-      onSaved: (String val) {
-        password = val;
-      },
+    final forgottitle = Container(
+      child: new Text('It\'s okay! reset your password',
+          style: getTextLargeStyle()),
     );
 
     final mobileField = TextFormField(
@@ -144,35 +108,15 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ));
 
-    final signUpField = InkWell(
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(14.0, 14.0, 14.0, 14.0),
-        child: new Text('SignUp', style: getTextLargeStyle()),
-      ),
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SignupPage()));
-      },
-    );
-
-    final forgotPasswordField = InkWell(
-      child: Container(
-        child: new Text('Forgot Password', style: getTextLargeStyle()),
-      ),
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ForgotPassword()));
-      },
-    );
-    final loginButon = getBaseButton(
-        text: 'Login',
+    final sendOTP = getBaseButton(
+        text: 'Continue',
         onPressed: () async {
           _loginButtonClick();
         });
 
     return BlocListener<LoginBloc, LoginState>(
       listener: (BuildContext context, LoginState state) {
-        if (state is LoginInProgress) {
+        if (state is VerifyRetailerInProgress) {
           Dialogs().showLoadingDialog(context, _keyLoader);
         }
         if (state is LoginFailure) {
@@ -183,16 +127,19 @@ class _LoginPageState extends State<LoginPage> {
           Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
           Util().showScaffoldErrorToast(_scaffoldKey, state.error);
         }
-        if (state is LoginSuccess) {
+        if (state is VerifyMobileSuccess) {
+          print("VerifyMobileSuccess============");
           Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
-          Apppreferences().addUserLogin(state.result.customerloginresult.id,
-              state.result.customerloginresult.fullName);
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => HomeScreen()),
-              (Route<dynamic> route) => false);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ResetPassword(
+                      retailerId:
+                          state.result.verifycustomerresult.customerId)));
         }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
+        // bloc: BlocProvider.of<LoginBloc>(context),
         builder: (BuildContext context, LoginState state) {
           return Scaffold(
               key: _scaffoldKey,
@@ -206,7 +153,6 @@ class _LoginPageState extends State<LoginPage> {
                       color: Colors.white,
                       child: Form(
                         key: _formKey,
-                        autovalidate: _validate,
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Column(
@@ -216,29 +162,24 @@ class _LoginPageState extends State<LoginPage> {
                               SizedBox(
                                 height: 155.0,
                                 child: Image.asset(
-                                  "assets/shop.png",
+                                  "assets/forgotpassword.png",
                                   fit: BoxFit.contain,
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.only(
+                                    left: 8, right: 8, top: 30, bottom: 8),
+                                child: forgottitle,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8, right: 8, top: 8, bottom: 8),
                                 child: mobileField,
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: passwordField,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: loginButon,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: signUpField,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: forgotPasswordField,
+                                padding: const EdgeInsets.only(
+                                    left: 8, right: 8, top: 30, bottom: 8),
+                                child: sendOTP,
                               ),
                             ],
                           ),

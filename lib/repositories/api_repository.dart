@@ -1,8 +1,11 @@
+import 'package:shoptoken/models/CustomerregisterResponse.dart';
 import 'package:shoptoken/models/bookslots.dart';
+import 'package:shoptoken/models/customerloginrespone.dart';
 import 'package:shoptoken/models/getallslots.dart';
 import 'package:shoptoken/models/categories.dart';
 import 'package:shoptoken/models/nearshop.dart';
-import 'package:shoptoken/models/registeuser.dart';
+import 'package:shoptoken/models/resetcustomerrespone.dart';
+import 'package:shoptoken/models/verifycustomerrespone.dart';
 
 import 'api_client.dart';
 
@@ -11,8 +14,24 @@ class APIRepository {
 
   APIRepository(this.shopApiClient);
 
-  Future<RegisterUser> registerUser({Map<String, dynamic> requestMap}) async {
+  Future<CustomerRegisterResponse> registerUser(
+      {Map<String, dynamic> requestMap}) async {
     return await shopApiClient.registerUser(requestMap);
+  }
+
+  Future<Customerloginresponse> logincustomer(
+      {Map<String, dynamic> requestMap}) async {
+    return await shopApiClient.logincustomer(requestMap);
+  }
+
+  Future<Verifycustomerresponse> verifycustomermobile(
+      {Map<String, dynamic> requestMap}) async {
+    return await shopApiClient.verifycustomermobile(requestMap);
+  }
+
+  Future<Resetcustomerresponse> resetcustomerpassword(
+      {Map<String, dynamic> requestMap}) async {
+    return await shopApiClient.resetcustomerpassword(requestMap);
   }
 
   Future<CategoryResponse> categoryList() async {

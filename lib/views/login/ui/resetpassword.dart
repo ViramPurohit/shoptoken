@@ -1,52 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shoptoken/service/firebasenotifications.dart';
-import 'package:shoptoken/utils/apppreferences.dart';
 import 'package:shoptoken/utils/dialog.dart';
 import 'package:shoptoken/utils/util_page.dart';
-
-import 'package:shoptoken/views/category/ui/category_screen.dart';
-import 'package:shoptoken/views/home/ui/home_screen.dart';
 import 'package:shoptoken/views/login/bloc/login.dart';
-import 'package:shoptoken/views/login/ui/signup_page.dart';
-import 'package:shoptoken/views/userlocation/ui/user_location.dart';
-
+import 'package:shoptoken/views/login/bloc/login_bloc.dart';
+import 'package:shoptoken/views/login/ui/resetpasswordsuccess.dart';
 import 'package:shoptoken/widgets/button.dart';
 import 'package:shoptoken/widgets/text_style.dart';
 
-import 'forgotpassword.dart';
+class ResetPassword extends StatefulWidget {
+  ResetPassword({@required this.retailerId, Key key}) : super(key: key);
 
-class LoginPage extends StatefulWidget {
-  LoginPage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
+  final int retailerId;
   @override
   State<StatefulWidget> createState() {
-    return _LoginPageState();
+    return _ResetPassword();
   }
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _ResetPassword extends State<ResetPassword> {
   GlobalKey<State> _keyLoader = new GlobalKey<State>();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   // For CircularProgressIndicator.
   bool visible = false;
-
-  BuildContext scaffoldContext;
-
   GlobalKey<FormState> _formKey = new GlobalKey();
   bool _validate = false;
-  String mobile, password;
+  String otp, password, confirmpassword;
+  bool _passwordVisible, _confpasswordVisible;
   LoginBloc _loginBloc;
 
   @override
   void initState() {
     super.initState();
-    new NotificationHandler().initializeFcmNotification();
     _loginBloc = BlocProvider.of<LoginBloc>(context);
+    _passwordVisible = false;
+    _confpasswordVisible = false;
   }
 
   @override
@@ -54,25 +43,25 @@ class _LoginPageState extends State<LoginPage> {
     /*
       On Click events
     */
-    Future<void> callLoginAPI() async {
+    Future<void> callChangePasswordAPI() async {
       var requestMap = new Map<String, dynamic>();
-      requestMap['mobile_no'] = mobile;
+      requestMap['otp'] = otp;
+      requestMap['retailer_id'] = widget.retailerId;
       requestMap['password'] = password;
-      requestMap['push_token'] = await Apppreferences().getAppToken();
       requestMap['app_os'] = await Util().getDeviceOS();
       requestMap['app_version'] = await Util().getAppVersion();
 
       print("requestMap $requestMap");
-      _loginBloc.add(LoginButtonPressed(requestMap: requestMap));
+      _loginBloc.add(ResetPasswordButtonPressed(requestMap: requestMap));
     }
 
-    void _loginButtonClick() {
+    void _passwordButtonClick() {
       if (_formKey.currentState.validate()) {
         // No any error in validation
         _formKey.currentState.save();
 
         visible = true;
-        callLoginAPI();
+        callChangePasswordAPI();
       } else {
         // validation error
         setState(() {
@@ -82,15 +71,11 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
 
-    String _validateMobile(String value) {
-      String patttern = r'(^[0-9]*$)';
-      RegExp regExp = new RegExp(patttern);
+    String _validateOTP(String value) {
       if (value.length == 0) {
-        return "Mobile is Required";
-      } else if (value.length != 10) {
-        return "Mobile number must 10 digits";
-      } else if (!regExp.hasMatch(value)) {
-        return "Mobile Number must be digits";
+        return "OTP is Required";
+      } else if (value.length != 4) {
+        return "OTP must be 4 digits";
       }
       return null;
     }
@@ -104,12 +89,35 @@ class _LoginPageState extends State<LoginPage> {
       return null;
     }
 
+    String _validateConfirmPassword(String value) {
+      if (value.length == 0) {
+        return "Password is Required";
+      } else if (value.length < 7) {
+        return "Password must greter than 7 character";
+      } else if (password != confirmpassword) {
+        return "New password and Confirm Password must be same";
+      }
+      return null;
+    }
+
     final passwordField = TextFormField(
-      obscureText: true,
+      obscureText: !_passwordVisible,
       style: getTextStyle(),
       decoration: InputDecoration(
         contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-        labelText: "Enter Password",
+        labelText: "New Password",
+        suffixIcon: IconButton(
+            icon: Icon(
+              // Based on passwordVisible state choose the icon
+              _passwordVisible ? Icons.visibility : Icons.visibility_off,
+              color: Theme.of(context).primaryColorDark,
+            ),
+            onPressed: () {
+              // Update the state i.e. toogle the state of passwordVisible variable
+              setState(() {
+                _passwordVisible = !_passwordVisible;
+              });
+            }),
         fillColor: Colors.white,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
         enabledBorder: OutlineInputBorder(
@@ -123,19 +131,57 @@ class _LoginPageState extends State<LoginPage> {
       },
     );
 
-    final mobileField = TextFormField(
+    final confirmpasswordField = TextFormField(
+      obscureText: !_passwordVisible,
+      style: getTextStyle(),
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
+        labelText: "Confirm Password",
+        suffixIcon: IconButton(
+            icon: Icon(
+              // Based on passwordVisible state choose the icon
+              _confpasswordVisible ? Icons.visibility : Icons.visibility_off,
+              color: Theme.of(context).primaryColorDark,
+            ),
+            onPressed: () {
+              // Update the state i.e. toogle the state of passwordVisible variable
+              setState(() {
+                _confpasswordVisible = !_confpasswordVisible;
+              });
+            }),
+        fillColor: Colors.white,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.blue, width: 2.0),
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+      ),
+      validator: _validateConfirmPassword,
+      onSaved: (String val) {
+        confirmpassword = val;
+      },
+    );
+
+    final resettitle = Container(
+      child: new Text('Reset your password', style: getTextLargeStyle()),
+    );
+    final resetmsg = Container(
+      child: new Text('We have sent a four digit code on your phone.',
+          textAlign: TextAlign.center, style: getTextStyle()),
+    );
+    final otpField = TextFormField(
         obscureText: false,
         style: getTextStyle(),
-        validator: _validateMobile,
+        validator: _validateOTP,
         onSaved: (String val) {
-          mobile = val;
+          otp = val;
         },
         keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        maxLength: 10,
+        maxLength: 4,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-          labelText: "Enter Mobile no",
+          labelText: "Enter OTP",
           counterText: "",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
           enabledBorder: OutlineInputBorder(
@@ -144,35 +190,15 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ));
 
-    final signUpField = InkWell(
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(14.0, 14.0, 14.0, 14.0),
-        child: new Text('SignUp', style: getTextLargeStyle()),
-      ),
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SignupPage()));
-      },
-    );
-
-    final forgotPasswordField = InkWell(
-      child: Container(
-        child: new Text('Forgot Password', style: getTextLargeStyle()),
-      ),
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ForgotPassword()));
-      },
-    );
-    final loginButon = getBaseButton(
-        text: 'Login',
+    final resetpassword = getBaseButton(
+        text: 'Reset Password',
         onPressed: () async {
-          _loginButtonClick();
+          _passwordButtonClick();
         });
 
     return BlocListener<LoginBloc, LoginState>(
       listener: (BuildContext context, LoginState state) {
-        if (state is LoginInProgress) {
+        if (state is ConfirmPasswordInProgress) {
           Dialogs().showLoadingDialog(context, _keyLoader);
         }
         if (state is LoginFailure) {
@@ -183,16 +209,15 @@ class _LoginPageState extends State<LoginPage> {
           Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
           Util().showScaffoldErrorToast(_scaffoldKey, state.error);
         }
-        if (state is LoginSuccess) {
+
+        if (state is ResetPasswordSuccess) {
           Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
-          Apppreferences().addUserLogin(state.result.customerloginresult.id,
-              state.result.customerloginresult.fullName);
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => HomeScreen()),
-              (Route<dynamic> route) => false);
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ResettPasswordSuccess()));
         }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
+        // bloc: BlocProvider.of<LoginBloc>(context),
         builder: (BuildContext context, LoginState state) {
           return Scaffold(
               key: _scaffoldKey,
@@ -216,13 +241,22 @@ class _LoginPageState extends State<LoginPage> {
                               SizedBox(
                                 height: 155.0,
                                 child: Image.asset(
-                                  "assets/shop.png",
+                                  "assets/securepassword.png",
                                   fit: BoxFit.contain,
                                 ),
                               ),
                               Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8, right: 8, top: 30, bottom: 8),
+                                child: resettitle,
+                              ),
+                              Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: mobileField,
+                                child: resetmsg,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: otpField,
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -230,15 +264,12 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: loginButon,
+                                child: confirmpasswordField,
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: signUpField,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: forgotPasswordField,
+                                padding: const EdgeInsets.only(
+                                    left: 8, right: 8, top: 30, bottom: 8),
+                                child: resetpassword,
                               ),
                             ],
                           ),

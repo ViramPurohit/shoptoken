@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:shoptoken/models/CustomerregisterResponse.dart';
 import 'package:shoptoken/models/bookslots.dart';
+import 'package:shoptoken/models/customerloginrespone.dart';
 import 'package:shoptoken/models/getallslots.dart';
 import 'package:shoptoken/models/categories.dart';
 import 'package:http/http.dart' as http;
 import 'package:shoptoken/models/nearshop.dart';
-import 'package:shoptoken/models/registeuser.dart';
+import 'package:shoptoken/models/resetcustomerrespone.dart';
+import 'package:shoptoken/models/verifycustomerrespone.dart';
 
 class ShopApiClient {
   String _baseUrl = 'https://inline.pythonanywhere.com';
@@ -15,7 +18,8 @@ class ShopApiClient {
     'Content-Type': 'application/json; charset=UTF-8'
   };
 
-  Future<RegisterUser> registerUser(Map<String, dynamic> requestMap) async {
+  Future<CustomerRegisterResponse> registerUser(
+      Map<String, dynamic> requestMap) async {
     var url = '$_baseUrl/register/customer';
 
     final response = await http.post(url,
@@ -25,11 +29,68 @@ class ShopApiClient {
       // If the server did return a 200 OK response,
       // then parse the JSON.
       // print(response.body);
-      return RegisterUser.fromJson(json.decode(response.body));
+      return CustomerRegisterResponse.fromJson(json.decode(response.body));
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
       throw Exception('Failed to load album');
+    }
+  }
+
+  Future<Customerloginresponse> logincustomer(
+      Map<String, dynamic> requestMap) async {
+    var url = '$_baseUrl/logincustomer';
+
+    final response = await http.post(url,
+        headers: _json_header, body: json.encode(requestMap));
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      // print(response.body);
+      return Customerloginresponse.fromJson(json.decode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
+    }
+  }
+
+  Future<Verifycustomerresponse> verifycustomermobile(
+      Map<String, dynamic> requestMap) async {
+    var url = '$_baseUrl/verifycustomermobile';
+
+    final response = await http.post(url,
+        headers: _json_header, body: json.encode(requestMap));
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      print(response.body);
+      return Verifycustomerresponse.fromJson(json.decode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load api');
+    }
+  }
+
+  Future<Resetcustomerresponse> resetcustomerpassword(
+      Map<String, dynamic> requestMap) async {
+    var url = '$_baseUrl/resetcustomerpassword';
+
+    final response = await http.post(url,
+        headers: _json_header, body: json.encode(requestMap));
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      print(response.body);
+      return Resetcustomerresponse.fromJson(json.decode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load api');
     }
   }
 

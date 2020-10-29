@@ -2,6 +2,7 @@ import 'dart:io' show Platform;
 
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
 
 class Util {
@@ -47,5 +48,48 @@ class Util {
     // String packageName = packageInfo.packageName;
     return packageInfo.version;
     // String buildNumber = packageInfo.buildNumber;
+  }
+
+  String formatTimeOfDay(TimeOfDay tod) {
+    final now = new DateTime.now();
+    final dt = DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
+    final format = DateFormat.jm(); //"6:00 AM"
+    return format.format(dt);
+  }
+
+  void showToast(BuildContext context, String msg) {
+    final scaffold = Scaffold.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: new Text(msg),
+      ),
+    );
+  }
+
+  void showErrorToast(BuildContext context, String msg) {
+    final scaffold = Scaffold.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: new Text(msg),
+        backgroundColor: Theme.of(context).errorColor,
+      ),
+    );
+  }
+
+  void showScaffoldErrorToast(
+      GlobalKey<ScaffoldState> _scaffoldKey, String msg) {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(msg),
+      backgroundColor: Theme.of(_scaffoldKey.currentContext).errorColor,
+      duration: Duration(seconds: 3),
+    ));
+  }
+
+  void showScaffoldToast(GlobalKey<ScaffoldState> _scaffoldKey, String msg) {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(msg),
+      backgroundColor: Theme.of(_scaffoldKey.currentContext).errorColor,
+      duration: Duration(seconds: 3),
+    ));
   }
 }
