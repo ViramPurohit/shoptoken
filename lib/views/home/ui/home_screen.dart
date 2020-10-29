@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shoptoken/routes/pageRoutes.dart';
+import 'package:shoptoken/utils/apppreferences.dart';
+import 'package:shoptoken/views/login/ui/login_page.dart';
 
 class HomeScreen extends StatefulWidget {
   final VoidCallback onHeaderClick;
@@ -40,6 +42,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Text('Yes'),
                   onPressed: () {
                     Navigator.of(context).pop();
+                    Apppreferences().clearApppreferences();
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                        (Route<dynamic> route) => false);
                   },
                 ),
                 FlatButton(
@@ -80,15 +86,6 @@ class HomeMenuList extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
               Navigator.pushNamed(context, PageRoutes.userfavstores);
-            }),
-        _createDrawerItem(
-            select: false,
-            icon: Icons.settings,
-            colors: Colors.blueAccent,
-            text: 'Settings',
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, PageRoutes.userProfile);
             }),
         Divider(),
         Padding(

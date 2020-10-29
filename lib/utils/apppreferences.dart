@@ -1,6 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Apppreferences {
+  clearApppreferences() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
+  }
+
   addUserLogin(id, shopName) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt('userId', id);
