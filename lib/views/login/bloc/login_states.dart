@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 import 'package:shoptoken/models/customerloginrespone.dart';
-import 'package:shoptoken/models/customerregisterresponse.dart';
+import 'package:shoptoken/models/customerregister.dart';
 import 'package:shoptoken/models/resetcustomerrespone.dart';
 import 'package:shoptoken/models/verifycustomerrespone.dart';
 
