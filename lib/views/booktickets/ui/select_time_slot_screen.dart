@@ -23,6 +23,8 @@ class SelectTimeSlotScreen extends StatefulWidget {
 }
 
 class _SelectTimeSlotState extends State<SelectTimeSlotScreen> {
+  GlobalKey<State> _keyLoader = new GlobalKey<State>();
+
   List<SlotData> slotsList;
 
   BookTicketBloc _bookTicketBloc;
@@ -44,7 +46,22 @@ class _SelectTimeSlotState extends State<SelectTimeSlotScreen> {
   Widget build(BuildContext context) {
     return BlocListener<BookTicketBloc, BookTicketState>(
       listener: (BuildContext context, BookTicketState state) {
+        if (state is SlotListInProgress) {
+          Dialogs().showLoadingDialog(context, _keyLoader);
+        }
+        if (state is SlotListFailure) {
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
+          Util().showErrorToast(context, state.error);
+        }
+        if (state is BookTicketInProgress) {
+          Dialogs().showLoadingDialog(context, _keyLoader);
+        }
+        if (state is BookTicketFailure) {
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
+          Util().showErrorToast(context, state.error);
+        }
         if (state is SlotListSuccess) {
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
           print(state.result);
           slotsList = state.result.nearshopresult.data;
         }
@@ -53,40 +70,21 @@ class _SelectTimeSlotState extends State<SelectTimeSlotScreen> {
           bookDate = state.bookDate;
         }
         if (state is BookTicketSuccess) {
-          print(state.result);
-          // Dialogs().dismissLoaderDialog(context);
-
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      BookConfirmScreen(bookSlotsResponse: state.result)),
-              (Route<dynamic> route) => route is HomeScreen);
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
+          if (state.result.bookingresult.isError == 0) {
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (context) =>
+                        BookConfirmScreen(bookSlotsResponse: state.result)),
+                (Route<dynamic> route) => false);
+          } else {
+            Util().showErrorToast(context, state.result.bookingresult.message);
+          }
         }
       },
       child: BlocBuilder<BookTicketBloc, BookTicketState>(
         // bloc: BlocProvider.of<BookTicketBloc>(context),
         builder: (BuildContext context, BookTicketState state) {
-          if (state is SlotListInProgress) {
-            return Padding(
-                padding: EdgeInsets.only(top: 16.0),
-                child: Center(child: CircularProgressIndicator()));
-          }
-          if (state is SlotListFailure) {
-            return SnackBar(
-              content: Text(state.error),
-              backgroundColor: Theme.of(context).errorColor,
-            );
-          }
-          if (state is BookTicketInProgress) {
-            Dialogs().showLoaderDialog(context);
-          }
-          if (state is BookTicketFailure) {
-            return SnackBar(
-              content: Text(state.error),
-              backgroundColor: Theme.of(context).errorColor,
-            );
-          }
           return Container(
             child: Center(
               child: Padding(
@@ -140,15 +138,19 @@ class _SelectTimeSlotState extends State<SelectTimeSlotScreen> {
   }
 
   Future<void> bookTicket() async {
-    var requestMap = new Map<String, dynamic>();
-    requestMap['retailer_id'] = widget.retailerid;
-    requestMap['customer_id'] = await Apppreferences().getUserId();
-    requestMap['booking_date'] = bookDate;
-    requestMap['book_start_time'] = _bookstarttime;
-    requestMap['book_end_time'] = _bookendtime;
-    requestMap['app_os'] = await Util().getDeviceOS();
-    requestMap['app_version'] = await Util().getAppVersion();
+    if (_bookstarttime != null && _bookendtime != null) {
+      var requestMap = new Map<String, dynamic>();
+      requestMap['retailer_id'] = widget.retailerid;
+      requestMap['customer_id'] = await Apppreferences().getUserId();
+      requestMap['booking_date'] = bookDate;
+      requestMap['book_start_time'] = _bookstarttime;
+      requestMap['book_end_time'] = _bookendtime;
+      requestMap['app_os'] = await Util().getDeviceOS();
+      requestMap['app_version'] = await Util().getAppVersion();
 
-    _bookTicketBloc.add(BookButtonEvent(requestMap: requestMap));
+      _bookTicketBloc.add(BookButtonEvent(requestMap: requestMap));
+    } else {
+      Util().showToast(context, "Please select Time slot");
+    }
   }
 }

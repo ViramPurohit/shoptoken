@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shoptoken/routes/pageRoutes.dart';
 import 'package:shoptoken/utils/apppreferences.dart';
+import 'package:shoptoken/views/booktickets/ui/book_confirm.dart';
+import 'package:shoptoken/views/mybookings/ui/user_booking.dart';
 import 'package:shoptoken/views/login/ui/login_page.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,14 +16,32 @@ class HomeScreen extends StatefulWidget {
   }
 }
 
+String customername = "Customer Name";
+int customerId = 0;
+
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserDetails();
+  }
+
+  Future<void> getUserDetails() async {
+    customerId = await Apppreferences().getUserId();
+    customername = await Apppreferences().getFullName();
+
+    print('shopName $customername');
+    print('retailerId $customerId');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ticket Booked'),
+        title: Text('My Bookings'),
       ),
-      // body: BookConfirmScreen(),
+      body: UserBooking(),
       drawer: Drawer(child: HomeMenuList(
         onHeaderClick: () {
           Navigator.of(context).pop();
@@ -73,10 +93,10 @@ class HomeMenuList extends StatelessWidget {
             select: false,
             icon: Icons.shopping_basket,
             colors: Colors.blueAccent,
-            text: 'Bookings',
+            text: 'Profile',
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, PageRoutes.mybookings);
+              Navigator.pushNamed(context, PageRoutes.userProfile);
             }),
         _createDrawerItem(
             select: false,
@@ -106,12 +126,12 @@ class HomeMenuList extends StatelessWidget {
           image: DecorationImage(
               fit: BoxFit.fill,
               image: AssetImage('assets/icons/drawer_header.png'))),
-      accountName: Text("Viram P"),
-      accountEmail: Text("virampurohit@clarion.com"),
+      accountName: Text(customername),
+      accountEmail: Text(customerId.toString()),
       currentAccountPicture: CircleAvatar(
         backgroundColor: Colors.green,
         child: Text(
-          "V",
+          customername[0],
           style: TextStyle(
               color: Colors.white, fontSize: 40.0, fontWeight: FontWeight.w500),
         ),

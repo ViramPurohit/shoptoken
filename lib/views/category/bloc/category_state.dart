@@ -32,3 +32,12 @@ class CategorySuccess extends CategoryState {
   @override
   String toString() => 'Category StateSuccess ';
 }
+
+class CategorySelectSuccess extends CategoryState {
+  final String categoryIds;
+
+  CategorySelectSuccess(this.categoryIds);
+
+  @override
+  String toString() => 'Category StateSuccess ';
+}

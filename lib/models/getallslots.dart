@@ -50,8 +50,9 @@ class SlotListresult {
 class SlotData {
   String endTime;
   String startTime;
+  bool isSelect = false;
 
-  SlotData({this.endTime, this.startTime});
+  SlotData({this.endTime, this.startTime, this.isSelect});
 
   SlotData.fromJson(Map<String, dynamic> json) {
     endTime = json['EndTime'];

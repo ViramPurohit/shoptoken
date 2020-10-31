@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shoptoken/models/bookslots.dart';
+import 'package:shoptoken/views/home/ui/home_screen.dart';
 import 'package:shoptoken/widgets/text_style.dart';
 
 class BookConfirmScreen extends StatelessWidget {
@@ -12,52 +13,64 @@ class BookConfirmScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-            margin: const EdgeInsets.all(10.0),
-            child: Center(
-                child: new Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.all(10.0),
-                    child: new Text(
-                      bookSlotsResponse.bookingresult.message,
-                      style:
-                          getTextStyle().copyWith(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text(
-                      "TICKET NUMBER",
-                      style: getTextStyle()
-                          .copyWith(fontWeight: FontWeight.bold, fontSize: 25),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text(
-                      bookSlotsResponse.bookingresult.ticketNumber.toString(),
-                      style: getTextStyle()
-                          .copyWith(fontWeight: FontWeight.bold, fontSize: 25),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(10.0),
-                    child: new Text(
-                      'Confirmation code on SMS',
-                      style:
-                          getTextStyle().copyWith(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(10.0),
-                    child: new Text(
-                      bookSlotsResponse.bookingresult.confirmCode.toString(),
-                      style: getTextStyle()
-                          .copyWith(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                  ),
-                ]))));
+        appBar: AppBar(title: Text("Booking Success")),
+        body: WillPopScope(
+            onWillPop: () {
+              // this is the block you need
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                  (route) => false);
+              return Future.value(false);
+            },
+            child: Container(
+                margin: const EdgeInsets.all(10.0),
+                child: Center(
+                    child: new Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                      Container(
+                        padding: const EdgeInsets.all(10.0),
+                        child: new Text(
+                          bookSlotsResponse.bookingresult.message,
+                          style: getTextStyle()
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          "TICKET NUMBER",
+                          style: getTextStyle().copyWith(
+                              fontWeight: FontWeight.bold, fontSize: 25),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          bookSlotsResponse.bookingresult.ticketNumber
+                              .toString(),
+                          style: getTextStyle().copyWith(
+                              fontWeight: FontWeight.bold, fontSize: 25),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(10.0),
+                        child: new Text(
+                          'Confirmation code on SMS',
+                          style: getTextStyle()
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(10.0),
+                        child: new Text(
+                          bookSlotsResponse.bookingresult.confirmCode
+                              .toString(),
+                          style: getTextStyle().copyWith(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                      ),
+                    ])))));
   }
 }

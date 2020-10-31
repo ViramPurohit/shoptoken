@@ -58,7 +58,7 @@ class CategoryData {
   CategoryData.fromJson(Map<String, dynamic> json) {
     englishName = json['english_name'];
     hindiName = json['hindi_name'];
-    categoryurl = json['category_url'];
+    categoryurl = json['url'];
     id = json['id'];
   }
 
@@ -66,7 +66,7 @@ class CategoryData {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['english_name'] = this.englishName;
     data['hindi_name'] = this.hindiName;
-    data['category_url'] = this.categoryurl;
+    data['url'] = this.categoryurl;
     data['id'] = this.id;
     return data;
   }

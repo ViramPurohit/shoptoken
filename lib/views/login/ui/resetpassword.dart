@@ -10,9 +10,9 @@ import 'package:shoptoken/widgets/button.dart';
 import 'package:shoptoken/widgets/text_style.dart';
 
 class ResetPassword extends StatefulWidget {
-  ResetPassword({@required this.retailerId, Key key}) : super(key: key);
+  ResetPassword({@required this.customerId, Key key}) : super(key: key);
 
-  final int retailerId;
+  final int customerId;
   @override
   State<StatefulWidget> createState() {
     return _ResetPassword();
@@ -46,7 +46,7 @@ class _ResetPassword extends State<ResetPassword> {
     Future<void> callChangePasswordAPI() async {
       var requestMap = new Map<String, dynamic>();
       requestMap['otp'] = otp;
-      requestMap['retailer_id'] = widget.retailerId;
+      requestMap['customer_id'] = widget.customerId;
       requestMap['password'] = password;
       requestMap['app_os'] = await Util().getDeviceOS();
       requestMap['app_version'] = await Util().getAppVersion();

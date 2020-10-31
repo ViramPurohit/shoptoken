@@ -15,6 +15,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
 
   @override
   Stream<CategoryState> mapEventToState(CategoryEvent event) async* {
+    print("CategoryBloc event --- $event");
     if (event is FetchCategoryList) {
       yield CategoryInProgress();
       try {
@@ -23,6 +24,10 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       } catch (error) {
         yield CategoryFailure(error: error.toString());
       }
+    }
+    if (event is CategorySelectEvent) {
+      print("CategoryBloc event --- ${event.categoryIds}");
+      yield CategorySelectSuccess(event.categoryIds);
     }
   }
 }

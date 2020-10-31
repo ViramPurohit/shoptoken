@@ -24,26 +24,40 @@ class _DateSlotPickerState extends State<DateSlotPicker> {
     super.initState();
     _bookTicketBloc = BlocProvider.of<BookTicketBloc>(context);
     pickedDate = DateTime.now();
-    selectedDay = pickedDate.day;
-    selectedMonth = pickedDate.month;
-    selectedYear = pickedDate.year;
-    var bookDate = "$selectedYear-$selectedMonth-$selectedDay";
-    _bookTicketBloc.add(SelectDateEvent(bookDate: bookDate));
+    // selectedDay = pickedDate.day;
+    // selectedMonth = pickedDate.month;
+    // selectedYear = pickedDate.year;
+    // var bookDate = "$selectedYear-$selectedMonth-$selectedDay";
+    // _bookTicketBloc.add(SelectDateEvent(bookDate: bookDate));
+    updateDateToSlot(pickedDate);
   }
 
   void callDatePicker() async {
     var order = await getDate();
     setState(() {
-      selectedDay = order.day;
-      selectedMonth = order.month;
-      selectedYear = order.year;
-      var bookDate = "$selectedYear-$selectedMonth-$selectedDay";
-      _bookTicketBloc.add(SelectDateEvent(bookDate: bookDate));
-      var requestMap = new Map<String, dynamic>();
-      requestMap['retailer_id'] = widget.retailerid;
-      requestMap['booking_date'] = bookDate;
-      _bookTicketBloc.add(SelectDayButtonEvent(requestMap: requestMap));
+      updateDateToSlot(order);
+      // selectedDay = order.day;
+      // selectedMonth = order.month;
+      // selectedYear = order.year;
+      // var bookDate = "$selectedYear-$selectedMonth-$selectedDay";
+      // _bookTicketBloc.add(SelectDateEvent(bookDate: bookDate));
+      // var requestMap = new Map<String, dynamic>();
+      // requestMap['retailer_id'] = widget.retailerid;
+      // requestMap['booking_date'] = bookDate;
+      // _bookTicketBloc.add(SelectDayButtonEvent(requestMap: requestMap));
     });
+  }
+
+  void updateDateToSlot(DateTime order) {
+    selectedDay = order.day;
+    selectedMonth = order.month;
+    selectedYear = order.year;
+    var bookDate = "$selectedYear-$selectedMonth-$selectedDay";
+    _bookTicketBloc.add(SelectDateEvent(bookDate: bookDate));
+    var requestMap = new Map<String, dynamic>();
+    requestMap['retailer_id'] = widget.retailerid;
+    requestMap['booking_date'] = bookDate;
+    _bookTicketBloc.add(SelectDayButtonEvent(requestMap: requestMap));
   }
 
   Future<DateTime> getDate() {
