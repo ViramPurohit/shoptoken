@@ -35,7 +35,7 @@ class BookTicketBloc extends Bloc<BookTicketEvent, BookTicketState> {
       try {
         final result =
             await apireporsitory.bookSlot(requestMap: event.requestMap);
-        print("response --- $result");
+
         yield BookTicketSuccess(result);
       } catch (error) {
         yield BookTicketFailure(error: error.toString());

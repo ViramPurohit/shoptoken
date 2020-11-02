@@ -1,10 +1,23 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Apppreferences {
-  addUserLogin(id, shopName) async {
+  clearApppreferences() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
+  }
+
+  addUserLogin(id, fullName) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isLogin', true);
     prefs.setInt('userId', id);
-    prefs.setString('shopname', shopName);
+    prefs.setString('fullName', fullName);
+  }
+
+  Future<String> getFullName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String fullName = prefs.getString('fullName');
+    return fullName;
   }
 
   Future<int> getUserId() async {

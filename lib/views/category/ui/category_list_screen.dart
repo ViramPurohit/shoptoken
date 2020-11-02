@@ -1,36 +1,84 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoptoken/models/categories.dart';
+import 'package:shoptoken/utils/dialog.dart';
+import 'package:shoptoken/utils/util_page.dart';
 import 'package:shoptoken/views/category/bloc/category_bloc.dart';
+import 'package:shoptoken/views/category/bloc/category_event.dart';
 import 'package:shoptoken/views/category/bloc/category_state.dart';
 
-class CategoryList extends StatelessWidget {
-  CategoryList({Key key, this.firstName}) : super(key: key);
+class CategoryList extends StatefulWidget {
+  CategoryList({Key key}) : super(key: key);
 
-  final String firstName;
+  @override
+  State<StatefulWidget> createState() {
+    return CategoryListState();
+  }
+}
+
+CategoryBloc _categoryBloc;
+
+class CategoryListState extends State<CategoryList> {
+  List<CategoryData> categoryDataList;
+
+  @override
+  void initState() {
+    super.initState();
+    _categoryBloc = BlocProvider.of<CategoryBloc>(context);
+    categoryDataList = new List<CategoryData>();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CategoryBloc, CategoryState>(
-      // bloc: BlocProvider.of<CategoryBloc>(context),
-      builder: (BuildContext context, CategoryState state) {
-        if (state is CategoryFailure) {
-          return Text(state.error);
+    GlobalKey<State> _keyLoader = new GlobalKey<State>();
+
+    return BlocListener<CategoryBloc, CategoryState>(
+      listener: (BuildContext context, CategoryState state) {
+        if (state is CategoryInProgress) {
+          Dialogs().showLoadingDialog(context, _keyLoader);
         }
+        if (state is CategoryFailure) {
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
+          Util().showErrorToast(context, state.error);
+        }
+
         if (state is CategorySuccess) {
-          return state.result.categorylistresult.data.isEmpty
-              ? Text('Coming soon...')
-              : Expanded(
-                  child: _CategoryResults(
-                    categoryList: state.result.categorylistresult.data,
-                  ),
-                );
-        } else {
-          return Padding(
-              padding: EdgeInsets.only(top: 16.0),
-              child: Center(child: CircularProgressIndicator()));
+          print("CategorySuccess============");
+          Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
+          categoryDataList = state.result.categorylistresult.data;
         }
       },
+      child: BlocBuilder<CategoryBloc, CategoryState>(
+        builder: (BuildContext context, CategoryState state) {
+          return Container(
+            child: Center(
+              child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Container(
+                    margin: const EdgeInsets.all(10.0),
+                    child: SingleChildScrollView(
+                      child: new Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                              margin: EdgeInsets.symmetric(horizontal: 10.0),
+                              child: categoryDataList.isEmpty
+                                  ? Container(
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 10.0),
+                                      child: Text('Fetching Category'))
+                                  : _CategoryResults(
+                                      categoryList: categoryDataList,
+                                    )),
+                        ],
+                      ),
+                    ),
+                  )),
+            ),
+          );
+        },
+      ),
     );
   }
 }
@@ -61,6 +109,8 @@ class _CategoryResultsState extends State<_CategoryResults> {
     return Padding(
       padding: EdgeInsets.all(15.0),
       child: GridView.builder(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount:
                   (MediaQuery.of(context).orientation == Orientation.portrait)
@@ -77,13 +127,31 @@ class _CategoryResultsState extends State<_CategoryResults> {
                     } else {
                       selectedList.remove(widget.categoryList[index]);
                     }
+                    collectIds(selectedList);
                   });
-                  print("index $index : on Click isSelected $value");
                 },
                 key: Key(widget.categoryList[index].englishName.toString()));
           }),
     );
   }
+}
+
+void collectIds(List<CategoryData> selectedList) {
+  var categoryIds = new StringBuffer();
+
+  for (var category in selectedList) {
+    categoryIds.write(category.id);
+    categoryIds.write(",");
+  }
+
+  var finalIds = "";
+  if (categoryIds.isNotEmpty) {
+    finalIds =
+        categoryIds.toString().substring(0, categoryIds.toString().length - 1);
+  }
+  print("collectIds $finalIds");
+
+  _categoryBloc.add(CategorySelectEvent(categoryIds: finalIds));
 }
 
 class GridItem extends StatefulWidget {
@@ -141,15 +209,6 @@ class _GridItemState extends State<GridItem> {
                     textAlign: TextAlign.left,
                   ),
                 ),
-                // Container(
-                //   alignment: Alignment.topCenter,
-                //   padding: EdgeInsets.all(3.0),
-                //   child: new Text(
-                //       widget.category.firstName +
-                //           ' ' +
-                //           widget.category.lastName,
-                //       textAlign: TextAlign.start),
-                // ),
                 isSelected
                     ? Align(
                         alignment: Alignment.bottomRight,

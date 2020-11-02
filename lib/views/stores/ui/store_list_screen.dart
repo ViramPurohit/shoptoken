@@ -66,7 +66,7 @@ class _NearestStoreState extends State<_NearestStoreResults> {
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 1,
             childAspectRatio: MediaQuery.of(context).size.width /
-                (MediaQuery.of(context).size.height / 4),
+                (MediaQuery.of(context).size.height / 3),
           ),
           itemCount: widget.nearshopList.length,
           itemBuilder: (BuildContext context, int index) {

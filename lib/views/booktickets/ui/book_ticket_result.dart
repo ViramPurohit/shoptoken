@@ -15,9 +15,14 @@ class BookTicketResult extends StatefulWidget {
 class BookTicketResultState extends State<BookTicketResult> {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return GridView.builder(
+        physics: ScrollPhysics(),
         shrinkWrap: true,
-        primary: false,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            childAspectRatio: 2,
+            crossAxisCount: 2,
+            crossAxisSpacing: 8.0,
+            mainAxisSpacing: 8.0),
         itemCount: widget.slotsList.length,
         itemBuilder: (BuildContext context, int index) {
           return _BookTicketResultItem(
@@ -40,6 +45,8 @@ class _BookTicketResultItem extends StatefulWidget {
 }
 
 class _BookTicketResultItemState extends State<_BookTicketResultItem> {
+  bool isSelected = false;
+
   @override
   Widget build(BuildContext context) {
     return widget.slots != null
@@ -49,15 +56,62 @@ class _BookTicketResultItemState extends State<_BookTicketResultItem> {
 
   Container _getTimeSlotLayout(BuildContext context) {
     return Container(
-        margin: EdgeInsets.symmetric(vertical: 5.0),
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.lightBlue, width: 2)),
-        child: ListTile(
-          leading: Icon(Icons.timer),
-          title: Text("${widget.slots.startTime} to ${widget.slots.endTime}"),
-          onTap: () {
-            widget.callback(widget.slots.startTime, widget.slots.endTime);
-          },
-        ));
+      decoration:
+          BoxDecoration(border: Border.all(color: Colors.lightBlue, width: 2)),
+      child: InkWell(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Stack(
+            children: <Widget>[
+              // Max Size
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Icon(Icons.alarm),
+                    Flexible(
+                      child: Text(
+                        "${widget.slots.startTime} to ${widget.slots.endTime}",
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              widget.slots.isSelect
+                  ? Container(
+                      child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: Padding(
+                            padding: const EdgeInsets.all(1.0),
+                            child: Icon(
+                              Icons.check_circle,
+                              color: Colors.blue,
+                            ),
+                          )),
+                    )
+                  : Container(
+                      child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: Padding(
+                            padding: const EdgeInsets.all(1.0),
+                            child: Icon(
+                              Icons.radio_button_unchecked,
+                              color: Colors.blue,
+                            ),
+                          ))),
+            ],
+          ),
+        ),
+        onTap: () {
+          setState(() {
+            isSelected = !widget.slots.isSelect;
+            // isSelected(isSelected);
+            widget.slots.isSelect = isSelected;
+          });
+          widget.callback(widget.slots.startTime, widget.slots.endTime);
+        },
+      ),
+    );
   }
 }

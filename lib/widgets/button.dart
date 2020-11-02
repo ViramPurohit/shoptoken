@@ -51,3 +51,20 @@ Material getRectangleButton({String text, VoidCallback onPressed}) {
     ),
   );
 }
+
+Material getFavButton({String text, Color colors, VoidCallback onPressed}) {
+  return Material(
+    elevation: 5.0,
+    borderRadius: BorderRadius.circular(5.0),
+    color: colors,
+    child: MaterialButton(
+      minWidth: double.infinity,
+      padding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
+      onPressed: onPressed,
+      child: Text(text,
+          textAlign: TextAlign.center,
+          style: getTextSmallStyle()
+              .copyWith(color: Colors.white, fontWeight: FontWeight.normal)),
+    ),
+  );
+}

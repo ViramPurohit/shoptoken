@@ -19,9 +19,11 @@ import 'package:shoptoken/views/stores/bloc/neareststore_bloc.dart';
 import 'package:shoptoken/views/stores/ui/storelist.dart';
 import 'package:shoptoken/views/userlocation/ui/user_location.dart';
 
-import 'views/booktickets/ui/user_booking.dart';
+import 'views/mybookings/bloc/mybooking_bloc.dart';
+import 'views/mybookings/ui/user_booking.dart';
 import 'views/login/ui/login_page.dart';
 import 'views/stores/ui/users_fav_store.dart';
+import 'views/userprofile/bloc/userprofile_bloc.dart';
 import 'views/userprofile/ui/user_profile.dart';
 
 void main() {
@@ -51,6 +53,13 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<BookTicketBloc>(
             create: (context) => BookTicketBloc(apireporsitory: apirepository),
+          ),
+          BlocProvider<UserprofileBloc>(
+            create: (context) => UserprofileBloc(apireporsitory: apirepository),
+          ),
+          BlocProvider<MyBookTicketBloc>(
+            create: (context) =>
+                MyBookTicketBloc(apireporsitory: apirepository),
           )
         ],
         child: MaterialApp(
@@ -65,7 +74,7 @@ class MyApp extends StatelessWidget {
                 if (snapshot.hasData) {
                   print('======= snapshot.data======== ${snapshot.data}');
                   if (snapshot.data == true) {
-                    return StoresScreen();
+                    return HomeScreen();
                   } else {
                     return LoginPage(title: 'Customer Login');
                   }
@@ -76,8 +85,10 @@ class MyApp extends StatelessWidget {
               }),
           routes: {
             PageRoutes.mybookings: (context) => UserBooking(),
+            // ignore: missing_required_param
+            PageRoutes.bookconfirmscreen: (context) => BookConfirmScreen(),
             PageRoutes.userfavstores: (context) => UserFavStores(),
-            PageRoutes.userProfile: (context) => UserProfile(),
+            PageRoutes.userProfile: (context) => UserProfile()
           },
         ));
   }

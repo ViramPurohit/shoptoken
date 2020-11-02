@@ -63,6 +63,12 @@ flutter:
       - assets/team.png
       - assets/marker_1.png
       - assets/icons/drawer_header.png
+      - assets/forgotpassword.png
+      - assets/check.png
+      - assets/securepassword.png
+      - assets/home_address.png
+      - assets/phone_call.png
+      - assets/user.png
     
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg

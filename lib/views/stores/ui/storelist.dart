@@ -7,8 +7,8 @@ import 'package:shoptoken/views/stores/bloc/neareststore_event.dart';
 import 'package:shoptoken/views/stores/ui/store_list_screen.dart';
 
 class StoresScreen extends StatefulWidget {
-  StoresScreen();
-
+  StoresScreen({@required this.ids});
+  final String ids;
   @override
   State<StatefulWidget> createState() => StoresScreenState();
 }
@@ -20,7 +20,17 @@ class StoresScreenState extends State<StoresScreen> {
   void initState() {
     super.initState();
     _categoryBloc = BlocProvider.of<NearestStoreBloc>(context);
-    _categoryBloc.add(FetchNearestStoreEventList());
+    getNearestStore();
+  }
+
+  Future<void> getNearestStore() async {
+    var requestMap = new Map<String, dynamic>();
+    requestMap['lat'] = "0.0";
+    requestMap['lng'] = "0.0";
+    requestMap['category_ids'] = widget.ids;
+
+    print("requestMap $requestMap");
+    _categoryBloc.add(FetchNearestStoreEventList(requestMap: requestMap));
   }
 
   @override

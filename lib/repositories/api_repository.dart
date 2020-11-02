@@ -1,10 +1,14 @@
 import 'package:shoptoken/models/bookslots.dart';
+import 'package:shoptoken/models/customerbookingresponse.dart';
 import 'package:shoptoken/models/customerloginrespone.dart';
 import 'package:shoptoken/models/customerregister.dart';
 import 'package:shoptoken/models/getallslots.dart';
 import 'package:shoptoken/models/categories.dart';
+import 'package:shoptoken/models/getcustomerdetailresponse.dart';
+import 'package:shoptoken/models/getfavoriteresponse.dart';
 import 'package:shoptoken/models/nearshop.dart';
 import 'package:shoptoken/models/resetcustomerrespone.dart';
+import 'package:shoptoken/models/userfavoriteresponse.dart';
 import 'package:shoptoken/models/verifycustomerrespone.dart';
 
 import 'api_client.dart';
@@ -38,8 +42,9 @@ class APIRepository {
     return await shopApiClient.getCategoryList();
   }
 
-  Future<NearShopResponse> getNearShop() async {
-    return await shopApiClient.getNearShop();
+  Future<NearShopResponse> getNearShop(
+      {Map<String, dynamic> requestMap}) async {
+    return await shopApiClient.getNearShop(requestMap);
   }
 
   Future<GetAllSlotsResponse> geSlotList(
@@ -49,5 +54,25 @@ class APIRepository {
 
   Future<BookSlotsResponse> bookSlot({Map<String, dynamic> requestMap}) async {
     return await shopApiClient.bookSlot(requestMap);
+  }
+
+  Future<GetCustomerdetailresponse> getcustomerdetail(
+      {Map<String, dynamic> requestMap}) async {
+    return await shopApiClient.getcustomerdetail(requestMap);
+  }
+
+  Future<Customerbookingresponse> getallcustomerbooking(
+      {Map<String, dynamic> requestMap}) async {
+    return await shopApiClient.getallcustomerbooking(requestMap);
+  }
+
+  Future<Userfavoriteresponse> addtofavorite(
+      {Map<String, dynamic> requestMap}) async {
+    return await shopApiClient.addtofavorite(requestMap);
+  }
+
+  Future<Getfavoriteresponse> getfavoriteretailer(
+      {Map<String, dynamic> requestMap}) async {
+    return await shopApiClient.getfavoriteretailer(requestMap);
   }
 }

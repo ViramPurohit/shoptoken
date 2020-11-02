@@ -1,13 +1,18 @@
 import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
 
 abstract class NearestStoreEvent extends Equatable {
   const NearestStoreEvent();
 }
 
 class FetchNearestStoreEventList extends NearestStoreEvent {
-  @override
-  List<Object> get props => [];
+  final Map<String, dynamic> requestMap;
+
+  FetchNearestStoreEventList({@required this.requestMap});
 
   @override
-  String toString() => "Collect category List";
+  List<Object> get props => [requestMap];
+
+  @override
+  String toString() => "Collect category List $requestMap";
 }

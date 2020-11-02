@@ -134,7 +134,7 @@ class _ForgotPassword extends State<ForgotPassword> {
               context,
               MaterialPageRoute(
                   builder: (context) => ResetPassword(
-                      retailerId:
+                      customerId:
                           state.result.verifycustomerresult.customerId)));
         }
       },

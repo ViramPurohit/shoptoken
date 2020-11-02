@@ -8,6 +8,7 @@ import 'package:shoptoken/utils/dialog.dart';
 import 'package:shoptoken/utils/util_page.dart';
 
 import 'package:shoptoken/views/category/ui/category_screen.dart';
+import 'package:shoptoken/views/home/ui/home_screen.dart';
 import 'package:shoptoken/views/login/bloc/login.dart';
 import 'package:shoptoken/views/userlocation/ui/user_location.dart';
 
@@ -256,7 +257,7 @@ class _SignupPageState extends State<SignupPage> {
               state.result.customerregisterResult.fullName);
           Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
           Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => CategoryScreen()),
+              MaterialPageRoute(builder: (context) => HomeScreen()),
               (Route<dynamic> route) => false);
         }
       },
