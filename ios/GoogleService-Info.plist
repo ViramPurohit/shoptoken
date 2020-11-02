@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>382541024998-6dk5al39pt4nsa31ekabborf38hkc77i.apps.googleusercontent.com</string>
+	<string>605210016023-mmjrng0jatjali1f0is91hftrautm3ps.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.382541024998-6dk5al39pt4nsa31ekabborf38hkc77i</string>
+	<string>com.googleusercontent.apps.605210016023-mmjrng0jatjali1f0is91hftrautm3ps</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>382541024998-sa1v8l0fapfprdbr2bnkaoc7g1r1cn0b.apps.googleusercontent.com</string>
+	<string>605210016023-qqgcpmajl6ve6m01s435ai74obqrc9g8.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyB3M3G-24GBBzpjHrYGAHHWNWb38Wqp01w</string>
+	<string>AIzaSyCqnFHgVCF4BH4p_9QZV01TBD_DGlckAO8</string>
 	<key>GCM_SENDER_ID</key>
-	<string>382541024998</string>
+	<string>605210016023</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.example.shoptoken</string>
 	<key>PROJECT_ID</key>
-	<string>najmpublic</string>
+	<string>android-e98dd</string>
 	<key>STORAGE_BUCKET</key>
-	<string>najmpublic.appspot.com</string>
+	<string>android-e98dd.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:382541024998:ios:5b0cecb2f54d8821413527</string>
+	<string>1:605210016023:ios:5857e952f4532229409f52</string>
 	<key>DATABASE_URL</key>
-	<string>https://najmpublic.firebaseio.com</string>
+	<string>https://android-e98dd.firebaseio.com</string>
 </dict>
 </plist>

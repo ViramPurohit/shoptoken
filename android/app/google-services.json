@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "382541024998",
-    "firebase_url": "https://najmpublic.firebaseio.com",
-    "project_id": "najmpublic",
-    "storage_bucket": "najmpublic.appspot.com"
+    "project_number": "605210016023",
+    "firebase_url": "https://android-e98dd.firebaseio.com",
+    "project_id": "android-e98dd",
+    "storage_bucket": "android-e98dd.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:382541024998:android:4937aba92d758674413527",
+        "mobilesdk_app_id": "1:605210016023:android:df2a43e83071907c409f52",
         "android_client_info": {
-          "package_name": "com.clarion.firebasedatabase"
+          "package_name": "com.example.shoptoken"
         }
       },
       "oauth_client": [
         {
-          "client_id": "382541024998-n6j2lcc644n0lepfmble2s9n7i4ggila.apps.googleusercontent.com",
+          "client_id": "605210016023-hr6b8sgqq3mm0l48frelpnjcie9c285k.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyArrkUK8YOu5DpG-MD2pjTl55zbA4_WW6A"
+          "current_key": "AIzaSyB0SDSiXb5aZAmMckjeWgMTIRX16Sn_XOg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "382541024998-n6j2lcc644n0lepfmble2s9n7i4ggila.apps.googleusercontent.com",
+              "client_id": "605210016023-hr6b8sgqq3mm0l48frelpnjcie9c285k.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "382541024998-6dk5al39pt4nsa31ekabborf38hkc77i.apps.googleusercontent.com",
+              "client_id": "605210016023-83rv2v4vbkbil2rm66rq5e7fflitbhc5.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.shoptoken"
+                "bundle_id": "com.viram.retailertoken"
               }
             }
           ]
@@ -44,34 +44,78 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:382541024998:android:b20779d14be2a264413527",
+        "mobilesdk_app_id": "1:605210016023:android:678991c8ea61104b",
         "android_client_info": {
-          "package_name": "com.example.shoptoken"
+          "package_name": "com.inline.stickers"
         }
       },
       "oauth_client": [
         {
-          "client_id": "382541024998-n6j2lcc644n0lepfmble2s9n7i4ggila.apps.googleusercontent.com",
+          "client_id": "605210016023-qqgcpmajl6ve6m01s435ai74obqrc9g8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inline.stickers",
+            "certificate_hash": "9e6f901023f70fdec44772da42ad99a00fdf1f8f"
+          }
+        },
+        {
+          "client_id": "605210016023-hr6b8sgqq3mm0l48frelpnjcie9c285k.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyArrkUK8YOu5DpG-MD2pjTl55zbA4_WW6A"
+          "current_key": "AIzaSyB0SDSiXb5aZAmMckjeWgMTIRX16Sn_XOg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "382541024998-n6j2lcc644n0lepfmble2s9n7i4ggila.apps.googleusercontent.com",
+              "client_id": "605210016023-hr6b8sgqq3mm0l48frelpnjcie9c285k.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "382541024998-6dk5al39pt4nsa31ekabborf38hkc77i.apps.googleusercontent.com",
+              "client_id": "605210016023-83rv2v4vbkbil2rm66rq5e7fflitbhc5.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.shoptoken"
+                "bundle_id": "com.viram.retailertoken"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:605210016023:android:b4dac2dd9c105ec7409f52",
+        "android_client_info": {
+          "package_name": "com.viram.retailertoken"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "605210016023-hr6b8sgqq3mm0l48frelpnjcie9c285k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0SDSiXb5aZAmMckjeWgMTIRX16Sn_XOg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "605210016023-hr6b8sgqq3mm0l48frelpnjcie9c285k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "605210016023-83rv2v4vbkbil2rm66rq5e7fflitbhc5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.viram.retailertoken"
               }
             }
           ]
