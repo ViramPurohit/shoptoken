@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shoptoken/routes/pageRoutes.dart';
 import 'package:shoptoken/utils/apppreferences.dart';
-import 'package:shoptoken/views/booktickets/ui/book_confirm.dart';
 import 'package:shoptoken/views/mybookings/ui/user_booking.dart';
 import 'package:shoptoken/views/login/ui/login_page.dart';
 

@@ -15,14 +15,12 @@ import 'package:shoptoken/views/category/bloc/category_bloc.dart';
 import 'package:shoptoken/views/home/ui/home_screen.dart';
 
 import 'package:shoptoken/views/login/bloc/login.dart';
+import 'package:shoptoken/views/myfavourite/bloc/favourite_bloc.dart';
+import 'package:shoptoken/views/myfavourite/ui/myfavoutine.dart';
 import 'package:shoptoken/views/stores/bloc/neareststore_bloc.dart';
-import 'package:shoptoken/views/stores/ui/storelist.dart';
-import 'package:shoptoken/views/userlocation/ui/user_location.dart';
-
 import 'views/mybookings/bloc/mybooking_bloc.dart';
 import 'views/mybookings/ui/user_booking.dart';
 import 'views/login/ui/login_page.dart';
-import 'views/stores/ui/users_fav_store.dart';
 import 'views/userprofile/bloc/userprofile_bloc.dart';
 import 'views/userprofile/ui/user_profile.dart';
 
@@ -60,6 +58,9 @@ class MyApp extends StatelessWidget {
           BlocProvider<MyBookTicketBloc>(
             create: (context) =>
                 MyBookTicketBloc(apireporsitory: apirepository),
+          ),
+          BlocProvider<FavouriteBloc>(
+            create: (context) => FavouriteBloc(apireporsitory: apirepository),
           )
         ],
         child: MaterialApp(
@@ -87,7 +88,7 @@ class MyApp extends StatelessWidget {
             PageRoutes.mybookings: (context) => UserBooking(),
             // ignore: missing_required_param
             PageRoutes.bookconfirmscreen: (context) => BookConfirmScreen(),
-            PageRoutes.userfavstores: (context) => UserFavStores(),
+            PageRoutes.userfavstores: (context) => MyFavourite(),
             PageRoutes.userProfile: (context) => UserProfile()
           },
         ));

@@ -7,9 +7,12 @@ class UserBooking extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: MyBookingList(),
-      ),
+      body: Container(
+          child: SingleChildScrollView(
+              child: Container(
+                  child: Column(
+        children: <Widget>[MyBookingList()],
+      )))),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(context,

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:shoptoken/models/customerbookingresponse.dart';
 import 'package:shoptoken/models/getfavoriteresponse.dart';
-
 import 'package:shoptoken/widgets/button.dart';
 import 'package:shoptoken/widgets/text_style.dart';
 
 class MyFavouriteListResult extends StatelessWidget {
+  final Function(int) callback;
   final List<FavoriteData> favList;
 
-  const MyFavouriteListResult({Key key, @required this.favList})
+  const MyFavouriteListResult(
+      {Key key, @required this.favList, @required this.callback})
       : super(key: key);
 
   @override
@@ -20,19 +20,27 @@ class MyFavouriteListResult extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return _FavResultItem(
             favoriteData: favList[index],
+            callback: callback,
           );
         });
   }
 }
 
-class _FavResultItem extends StatelessWidget {
+class _FavResultItem extends StatefulWidget {
+  final Function(int) callback;
   final FavoriteData favoriteData;
 
-  const _FavResultItem({Key key, this.favoriteData}) : super(key: key);
+  const _FavResultItem({Key key, this.favoriteData, this.callback})
+      : super(key: key);
 
   @override
+  State<StatefulWidget> createState() => _FavResultItemState();
+}
+
+class _FavResultItemState extends State<_FavResultItem> {
+  @override
   Widget build(BuildContext context) {
-    return favoriteData != null
+    return widget.favoriteData != null
         ? _getTimeSlotLayout(context)
         : Text('No Favourite Shop yet!');
   }
@@ -46,7 +54,7 @@ class _FavResultItem extends StatelessWidget {
           child: new Row(children: <Widget>[
             Container(
               child: Flexible(
-                child: SizedBox(
+                child: Container(
                     width: MediaQuery.of(context).size.width * 0.60,
                     child: Padding(
                         padding: EdgeInsets.all(10.0),
@@ -66,7 +74,8 @@ class _FavResultItem extends StatelessWidget {
                                         child: new Icon(
                                             Icons.supervised_user_circle)),
                                     Flexible(
-                                      child: new Text(favoriteData.shopName,
+                                      child: new Text(
+                                          widget.favoriteData.shopName,
                                           textAlign: TextAlign.start,
                                           style: getTextStyle().copyWith(
                                               fontWeight: FontWeight.bold)),
@@ -86,39 +95,42 @@ class _FavResultItem extends StatelessWidget {
                                         margin:
                                             const EdgeInsets.only(right: 10.0),
                                         child: new Icon(Icons.phone)),
-                                    new Text(favoriteData.address,
-                                        textAlign: TextAlign.start,
-                                        style: getTextStyle().copyWith(
-                                            fontWeight: FontWeight.bold)),
+                                    Flexible(
+                                      child: new Text(
+                                          widget.favoriteData.address,
+                                          textAlign: TextAlign.start,
+                                          style: getTextStyle().copyWith(
+                                              fontWeight: FontWeight.bold)),
+                                    ),
                                   ],
                                 ),
                               ),
                             ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Container(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 10.0),
-                                  child: Row(
-                                    children: [
-                                      Flexible(
-                                        child: Container(
-                                            margin: const EdgeInsets.only(
-                                                right: 10.0),
-                                            child: new Icon(Icons.watch_later)),
-                                      ),
-                                      Flexible(
-                                        child: new Text(
-                                          favoriteData.isBooked,
-                                          style: getTextStyle().copyWith(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            )
+                            // Align(
+                            //   alignment: Alignment.centerLeft,
+                            //   child: Container(
+                            //     child: Padding(
+                            //       padding: const EdgeInsets.only(top: 10.0),
+                            //       child: Row(
+                            //         children: [
+                            //           Flexible(
+                            //             child: Container(
+                            //                 margin: const EdgeInsets.only(
+                            //                     right: 10.0),
+                            //                 child: new Icon(Icons.watch_later)),
+                            //           ),
+                            //           Flexible(
+                            //             child: new Text(
+                            //               favoriteData.isBooked,
+                            //               style: getTextStyle().copyWith(
+                            //                   fontWeight: FontWeight.bold),
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //     ),
+                            //   ),
+                            // )
                           ],
                         ))),
               ),
@@ -129,27 +141,16 @@ class _FavResultItem extends StatelessWidget {
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Text("Ticket Number",
-                              textAlign: TextAlign.start,
-                              style: getTextStyle()
-                                  .copyWith(fontWeight: FontWeight.bold)),
-                          Align(
-                            alignment: Alignment.topCenter,
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  new Text("bookings.ticketNumber.toString()",
-                                      textScaleFactor: 1.8,
-                                      textAlign: TextAlign.start,
-                                      style: getTextStyle().copyWith(
-                                          fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                            ),
-                          ),
+                          Container(
+                            padding: EdgeInsets.all(20.0),
+                            child: getBaseButton(
+                                onPressed: () {
+                                  callback:
+                                  widget
+                                      .callback(widget.favoriteData.retailerId);
+                                },
+                                text: 'Book'),
+                          )
                         ])))
           ]),
         ),

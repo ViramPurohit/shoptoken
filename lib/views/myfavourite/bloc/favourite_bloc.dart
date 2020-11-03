@@ -9,9 +9,6 @@ class FavouriteBloc extends Bloc<FavouriteEvent, FavouriteState> {
 
   FavouriteBloc({@required this.apireporsitory}) : super(FavouriteInitial());
 
-  // @override
-  // BookTicketState get initialState => BookTicketInitial();
-
   @override
   Stream<FavouriteState> mapEventToState(FavouriteEvent event) async* {
     print("event --- $event");

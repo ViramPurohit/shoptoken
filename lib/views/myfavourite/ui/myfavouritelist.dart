@@ -4,9 +4,10 @@ import 'package:shoptoken/models/getfavoriteresponse.dart';
 import 'package:shoptoken/utils/apppreferences.dart';
 import 'package:shoptoken/utils/dialog.dart';
 import 'package:shoptoken/utils/util_page.dart';
+import 'package:shoptoken/views/category/ui/category_screen.dart';
 import 'package:shoptoken/views/myfavourite/bloc/favourite.dart';
 
-import 'bookingList_result.dart';
+import 'myfavourite_result.dart';
 
 class MyFavouriteList extends StatefulWidget {
   MyFavouriteList({Key key}) : super(key: key);
@@ -58,7 +59,6 @@ class _MyFavouriteListState extends State<MyFavouriteList> {
         }
       },
       child: BlocBuilder<FavouriteBloc, FavouriteState>(
-        // bloc: BlocProvider.of<BookTicketBloc>(context),
         builder: (BuildContext context, FavouriteState state) {
           return Container(
             child: Center(
@@ -81,7 +81,7 @@ class _MyFavouriteListState extends State<MyFavouriteList> {
                                           Text('Collecting Favourite stores'))
                                   : MyFavouriteListResult(
                                       favList: favListList,
-                                    )),
+                                      callback: callback)),
                         ],
                       ),
                     ),
@@ -91,5 +91,13 @@ class _MyFavouriteListState extends State<MyFavouriteList> {
         },
       ),
     );
+  }
+
+  callback(retailerId) {
+    setState(() {
+      print('Booking date $retailerId ');
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => CategoryScreen()));
+    });
   }
 }
