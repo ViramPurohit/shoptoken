@@ -129,11 +129,21 @@ class _SelectTimeSlotState extends State<SelectTimeSlotScreen> {
     );
   }
 
-  callback(bookStartTime, bookEndTime) {
+  callback(bookStartTime, bookEndTime, isSelected) {
     setState(() {
       _bookstarttime = bookStartTime;
       _bookendtime = bookEndTime;
       print('Booking date $_bookstarttime   $_bookendtime');
+      print('Booking isSelected $isSelected');
+      for (var i = 0; i < slotsList.length; i++) {
+        var slot = slotsList[i];
+        if (slot.startTime == bookStartTime) {
+          slot.isSelect = isSelected;
+        } else {
+          slot.isSelect = false;
+        }
+        slotsList[i] = slot;
+      }
     });
   }
 

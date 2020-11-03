@@ -3,7 +3,7 @@ import 'package:shoptoken/models/getallslots.dart';
 
 class BookTicketResult extends StatefulWidget {
   final List<SlotData> slotsList;
-  final Function(String, String) callback;
+  final Function(String, String, bool) callback;
   const BookTicketResult(
       {Key key, @required this.slotsList, @required this.callback})
       : super(key: key);
@@ -34,7 +34,7 @@ class BookTicketResultState extends State<BookTicketResult> {
 }
 
 class _BookTicketResultItem extends StatefulWidget {
-  final Function(String, String) callback;
+  final Function(String, String, bool) callback;
 
   final SlotData slots;
   const _BookTicketResultItem({Key key, this.slots, @required this.callback})
@@ -109,7 +109,8 @@ class _BookTicketResultItemState extends State<_BookTicketResultItem> {
             // isSelected(isSelected);
             widget.slots.isSelect = isSelected;
           });
-          widget.callback(widget.slots.startTime, widget.slots.endTime);
+          widget.callback(
+              widget.slots.startTime, widget.slots.endTime, isSelected);
         },
       ),
     );
