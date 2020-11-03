@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
 
 TextStyle getTextSmallStyle() {
-  return TextStyle(fontFamily: 'Montserrat', fontSize: 13.0);
+  return TextStyle(fontFamily: 'Montserrat', fontSize: 10.0);
 }
 
 TextStyle getTextStyle() {
-  return TextStyle(fontFamily: 'Montserrat', fontSize: 15.0);
+  return TextStyle(fontFamily: 'Montserrat', fontSize: 12.0);
 }
 
 TextStyle getTextLargeStyle() {

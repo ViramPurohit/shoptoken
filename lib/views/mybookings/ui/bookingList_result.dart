@@ -73,8 +73,7 @@ class _BookTicketResultItem extends StatelessWidget {
                                     Flexible(
                                       child: new Text(bookings.fullName,
                                           textAlign: TextAlign.start,
-                                          style: getTextStyle().copyWith(
-                                              fontWeight: FontWeight.bold)),
+                                          style: getTextStyle()),
                                     ),
                                   ],
                                 ),
@@ -93,8 +92,7 @@ class _BookTicketResultItem extends StatelessWidget {
                                         child: new Icon(Icons.phone)),
                                     new Text(bookings.mobileNo,
                                         textAlign: TextAlign.start,
-                                        style: getTextStyle().copyWith(
-                                            fontWeight: FontWeight.bold)),
+                                        style: getTextStyle()),
                                   ],
                                 ),
                               ),
@@ -115,8 +113,7 @@ class _BookTicketResultItem extends StatelessWidget {
                                       Flexible(
                                         child: new Text(
                                           'Time slot ${bookings.bookStartTime} To ${bookings.bookEndTime}',
-                                          style: getTextStyle().copyWith(
-                                              fontWeight: FontWeight.bold),
+                                          style: getTextStyle(),
                                         ),
                                       ),
                                     ],
@@ -136,8 +133,7 @@ class _BookTicketResultItem extends StatelessWidget {
                         children: <Widget>[
                           Text("Ticket Number",
                               textAlign: TextAlign.start,
-                              style: getTextStyle()
-                                  .copyWith(fontWeight: FontWeight.bold)),
+                              style: getTextStyle()),
                           Align(
                             alignment: Alignment.topCenter,
                             child: Padding(
@@ -149,8 +145,7 @@ class _BookTicketResultItem extends StatelessWidget {
                                   new Text(bookings.ticketNumber.toString(),
                                       textScaleFactor: 1.8,
                                       textAlign: TextAlign.start,
-                                      style: getTextStyle().copyWith(
-                                          fontWeight: FontWeight.bold)),
+                                      style: getTextStyle()),
                                 ],
                               ),
                             ),

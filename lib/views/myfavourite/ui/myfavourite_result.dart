@@ -94,13 +94,12 @@ class _FavResultItemState extends State<_FavResultItem> {
                                     Container(
                                         margin:
                                             const EdgeInsets.only(right: 10.0),
-                                        child: new Icon(Icons.phone)),
+                                        child: new Icon(Icons.pin_drop)),
                                     Flexible(
                                       child: new Text(
                                           widget.favoriteData.address,
                                           textAlign: TextAlign.start,
-                                          style: getTextStyle().copyWith(
-                                              fontWeight: FontWeight.bold)),
+                                          style: getTextStyle()),
                                     ),
                                   ],
                                 ),
