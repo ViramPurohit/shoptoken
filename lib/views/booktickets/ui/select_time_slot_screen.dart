@@ -144,6 +144,10 @@ class _SelectTimeSlotState extends State<SelectTimeSlotScreen> {
         }
         slotsList[i] = slot;
       }
+      if (!isSelected) {
+        _bookstarttime = null;
+        _bookendtime = null;
+      }
     });
   }
 
