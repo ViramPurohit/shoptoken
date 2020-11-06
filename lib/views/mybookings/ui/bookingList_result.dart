@@ -131,7 +131,29 @@ class _BookTicketResultItem extends StatelessWidget {
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Text("Ticket Number",
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text("Ticket Number",
+                                textAlign: TextAlign.start,
+                                style: getTextStyle()),
+                          ),
+                          Align(
+                            alignment: Alignment.topCenter,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  new Text(bookings.ticketNumber.toString(),
+                                      textScaleFactor: 1.8,
+                                      textAlign: TextAlign.start,
+                                      style: getTextStyle()),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Text("Confirm Code",
                               textAlign: TextAlign.start,
                               style: getTextStyle()),
                           Align(
@@ -142,7 +164,7 @@ class _BookTicketResultItem extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
-                                  new Text(bookings.ticketNumber.toString(),
+                                  new Text(bookings.confirmCode.toString(),
                                       textScaleFactor: 1.8,
                                       textAlign: TextAlign.start,
                                       style: getTextStyle()),

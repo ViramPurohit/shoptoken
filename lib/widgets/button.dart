@@ -59,7 +59,7 @@ Material getFavButton({String text, Color colors, VoidCallback onPressed}) {
     color: colors,
     child: MaterialButton(
       minWidth: double.infinity,
-      padding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
+      padding: EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 5.0),
       onPressed: onPressed,
       child: Text(text,
           textAlign: TextAlign.center,
