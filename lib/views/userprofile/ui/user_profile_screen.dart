@@ -96,16 +96,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: new Text(
-                              retailer[0].shopLicense,
-                              style: getTextStyle()
-                                  .copyWith(fontWeight: FontWeight.bold),
-                            ),
-                          )),
-                      Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: new Text(
                               retailer[0].startAt + " TO " + retailer[0].endAt,
                               style: getTextStyle()
                                   .copyWith(fontWeight: FontWeight.bold),

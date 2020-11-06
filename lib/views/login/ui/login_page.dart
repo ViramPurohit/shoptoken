@@ -39,12 +39,13 @@ class _LoginPageState extends State<LoginPage> {
   bool _validate = false;
   String mobile, password;
   LoginBloc _loginBloc;
-
+  bool _passwordVisible;
   @override
   void initState() {
     super.initState();
     new NotificationHandler().initializeFcmNotification();
     _loginBloc = BlocProvider.of<LoginBloc>(context);
+    _passwordVisible = false;
   }
 
   @override
@@ -103,11 +104,23 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     final passwordField = TextFormField(
-      obscureText: true,
+      obscureText: !_passwordVisible,
       style: getTextStyle(),
       decoration: InputDecoration(
         contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
         labelText: "Enter Password",
+        suffixIcon: IconButton(
+            icon: Icon(
+              // Based on passwordVisible state choose the icon
+              _passwordVisible ? Icons.visibility : Icons.visibility_off,
+              color: Theme.of(context).primaryColorDark,
+            ),
+            onPressed: () {
+              // Update the state i.e. toogle the state of passwordVisible variable
+              setState(() {
+                _passwordVisible = !_passwordVisible;
+              });
+            }),
         fillColor: Colors.white,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
         enabledBorder: OutlineInputBorder(
@@ -185,6 +198,7 @@ class _LoginPageState extends State<LoginPage> {
           Dialogs().dismissLoadingDialog(_keyLoader.currentContext);
           Apppreferences().addUserLogin(state.result.retailerloginresult.id,
               state.result.retailerloginresult.shopName);
+          Apppreferences().addLogin();
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => HomeScreen()),
               (Route<dynamic> route) => false);
