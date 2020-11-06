@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
   BuildContext scaffoldContext;
 
   GlobalKey<FormState> _formKey = new GlobalKey();
-  bool _validate = false;
+  // bool _validate = false;
   String mobile, password;
   LoginBloc _loginBloc;
   bool _passwordVisible;
@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
         // validation error
         setState(() {
           visible = false;
-          _validate = true;
+          // _validate = true;
         });
       }
     }
@@ -218,7 +218,7 @@ class _LoginPageState extends State<LoginPage> {
                       color: Colors.white,
                       child: Form(
                         key: _formKey,
-                        autovalidate: _validate,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Column(
