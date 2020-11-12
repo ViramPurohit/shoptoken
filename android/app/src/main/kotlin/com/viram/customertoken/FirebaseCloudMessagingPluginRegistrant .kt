@@ -1,4 +1,4 @@
-package com.example.shoptoken
+package com.viram.customertoken
 
 import io.flutter.plugin.common.PluginRegistry
 import io.flutter.plugins.firebasemessaging.FirebaseMessagingPlugin

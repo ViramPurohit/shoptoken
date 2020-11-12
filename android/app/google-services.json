@@ -8,42 +8,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:605210016023:android:df2a43e83071907c409f52",
-        "android_client_info": {
-          "package_name": "com.example.shoptoken"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "605210016023-hr6b8sgqq3mm0l48frelpnjcie9c285k.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyB0SDSiXb5aZAmMckjeWgMTIRX16Sn_XOg"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "605210016023-hr6b8sgqq3mm0l48frelpnjcie9c285k.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "605210016023-83rv2v4vbkbil2rm66rq5e7fflitbhc5.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.viram.retailertoken"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:605210016023:android:678991c8ea61104b",
         "android_client_info": {
           "package_name": "com.inline.stickers"
@@ -76,10 +40,46 @@
               "client_type": 3
             },
             {
-              "client_id": "605210016023-83rv2v4vbkbil2rm66rq5e7fflitbhc5.apps.googleusercontent.com",
+              "client_id": "605210016023-mmjrng0jatjali1f0is91hftrautm3ps.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.viram.retailertoken"
+                "bundle_id": "com.example.shoptoken"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:605210016023:android:640fd0a70541dea3409f52",
+        "android_client_info": {
+          "package_name": "com.viram.customertoken"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "605210016023-hr6b8sgqq3mm0l48frelpnjcie9c285k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0SDSiXb5aZAmMckjeWgMTIRX16Sn_XOg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "605210016023-hr6b8sgqq3mm0l48frelpnjcie9c285k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "605210016023-mmjrng0jatjali1f0is91hftrautm3ps.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.shoptoken"
               }
             }
           ]
@@ -112,10 +112,10 @@
               "client_type": 3
             },
             {
-              "client_id": "605210016023-83rv2v4vbkbil2rm66rq5e7fflitbhc5.apps.googleusercontent.com",
+              "client_id": "605210016023-mmjrng0jatjali1f0is91hftrautm3ps.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.viram.retailertoken"
+                "bundle_id": "com.example.shoptoken"
               }
             }
           ]

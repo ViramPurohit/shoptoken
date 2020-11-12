@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>605210016023-mmjrng0jatjali1f0is91hftrautm3ps.apps.googleusercontent.com</string>
+	<string>605210016023-f3jieqs8t7khokhpd6soqp7vrv89s463.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.605210016023-mmjrng0jatjali1f0is91hftrautm3ps</string>
+	<string>com.googleusercontent.apps.605210016023-f3jieqs8t7khokhpd6soqp7vrv89s463</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>605210016023-qqgcpmajl6ve6m01s435ai74obqrc9g8.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.shoptoken</string>
+	<string>com.viram.customertoken</string>
 	<key>PROJECT_ID</key>
 	<string>android-e98dd</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,7 +31,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:605210016023:ios:5857e952f4532229409f52</string>
+	<string>1:605210016023:ios:497f1c0b292fe50c409f52</string>
 	<key>DATABASE_URL</key>
 	<string>https://android-e98dd.firebaseio.com</string>
 </dict>
